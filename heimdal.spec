@@ -1,7 +1,7 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.5
+Version:	0.5.2 
 Release:	1
 License:	Free
 Group:		Networking
@@ -16,13 +16,16 @@ Source7:	%{name}-telnetd.inetd
 Source8:	%{name}-kadmind.inetd
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-info.patch
-Patch2:		%{name}-am_fixes.patch
+Patch2:		%{name}-am_man_fixes.patch
 URL:		http://www.pdc.kth.se/heimdal/
+BuildRequires:	XFree86-devel
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	db3-devel
 BuildRequires:	flex
+BuildRequires:	libtool
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
-BuildRequires:	XFree86-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Conflicts:	krb5-lib
 Prereq:		rc-scripts
@@ -261,6 +264,11 @@ Biblioteki statyczne heimdal.
 %patch2 -p1
 
 %build
+rm -f missing
+%{__libtoolize}
+%{__aclocal} -I cf
+%{__autoconf}
+%{__automake}
 %configure \
 	--enable-shared \
 	--enable-static \
@@ -408,14 +416,15 @@ fi
 
 %{_mandir}/man8/hprop.8*
 %{_mandir}/man8/hpropd.8*
+%{_mandir}/man8/kadmin.8*
+%{_mandir}/man8/kadmind.8*
 %{_mandir}/man8/kdc.8*
-%{_mandir}/man8/ktutil.8*
-%{_mandir}/man8/kstash.8*
 %{_mandir}/man8/kpasswdd.8*
+%{_mandir}/man8/kstash.8*
+%{_mandir}/man8/ktutil.8*
 
 %files libs
 %defattr(644,root,root,755)
-
 %dir %{_sysconfdir}
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/krb5.conf
 %attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
@@ -424,6 +433,7 @@ fi
 
 %{_infodir}/heimdal.info*
 %{_mandir}/man5/krb5.conf.5*
+%{_mandir}/man8/kerberos.8*
 
 %files login
 %defattr(644,root,root,755)
@@ -437,6 +447,8 @@ fi
 %files rsh
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/rsh
+%attr(755,root,root) %{_bindir}/rcp
+%{_mandir}/man1/rsh.1*
 
 %files telnet
 %defattr(644,root,root,755)
@@ -454,6 +466,7 @@ fi
 %defattr(644,root,root,755)
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/rshd
 %attr(755,root,root) %{_sbindir}/rshd
+%{_mandir}/man8/rshd.8*
 
 %files telnetd
 %defattr(644,root,root,755)
@@ -481,13 +494,18 @@ fi
 %attr(755,root,root) %{_bindir}/xnlock
 
 %attr(4755,root,root) %{_bindir}/otp
+%attr(4755,root,root) %{_bindir}/su
 %attr(4755,root,root) %{_bindir}/ksu
 
+%{_mandir}/man1/kauth.1*
 %{_mandir}/man1/kdestroy.1*
 %{_mandir}/man1/kgetcred.1*
 %{_mandir}/man1/kinit.1*
 %{_mandir}/man1/klist.1*
 %{_mandir}/man1/kpasswd.1*
+%{_mandir}/man1/otp.1*
+%{_mandir}/man1/otpprint.1*
+%{_mandir}/man8/verify_krb5_conf.8*
 
 %files daemons
 %defattr(644,root,root,755)
@@ -495,9 +513,11 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/lib*.la
+%attr(755,root,root) %{_bindir}/krb5-config
+%attr(755,root,root) %{_libdir}/lib*.la
 %attr(755,root,root) %{_libdir}/lib*.so
-%{_includedir}/*.h
+%{_includedir}/*
+%{_mandir}/man1/krb5-config.1*
 %{_mandir}/man3/*
 
 %files static
