@@ -167,6 +167,7 @@ Summary(pl):	Klient us³ugi telnet
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}
 Obsoletes:	telnet
+Provides:	telnet
 Conflicts:	heimdal-clients
 
 %description telnet
