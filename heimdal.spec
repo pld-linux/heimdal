@@ -305,8 +305,6 @@ chmod +r $RPM_BUILD_ROOT%{_bindir}/otp   # qrde dlaczego to ma chmod 0
 
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
-gzip -9nf NEWS TODO
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -384,7 +382,7 @@ fi
 
 %files server
 %defattr(644,root,root,755)
-%doc NEWS.gz TODO.gz
+%doc NEWS TODO
 
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
 %attr(640,root,root) /etc/logrotate.d/*
