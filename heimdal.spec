@@ -454,7 +454,7 @@ fi
 %doc NEWS TODO
 
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
-%attr(640,root,root) /etc/logrotate.d/*
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/*
 %attr(640,root,root) /etc/sysconfig/heimdal
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/kadmind
 
