@@ -9,6 +9,7 @@ Source4:	inetd.conf.secure
 Source5:	heimdal.logrotate
 Source6:	heimdal.sysconfig
 Patch0:		heimdal-paths.patch
+Patch1:		heimdal-0.1g-recvfrom.patch
 Group:		Networking
 Group(pl):	Sieciowe
 Copyright:	Free
@@ -134,6 +135,7 @@ Biblioteki statyczne Kerberosa.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %define _prefix		/usr/heimdal
 %define _mandir		/usr/share/man
