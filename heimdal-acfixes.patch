@@ -1,14 +1,3 @@
---- heimdal-0.6/cf/check-compile-et.m4.orig	2003-03-12 17:48:52.000000000 +0100
-+++ heimdal-0.6/cf/check-compile-et.m4	2003-10-15 22:56:10.702331776 +0200
-@@ -42,7 +42,7 @@
-   AC_EGREP_CPP(initialize_error_table_r,[#include "conftest_et.c"],
-      [krb_cv_com_err_need_r="initialize_error_table_r(0,0,0,0);"
-       CPPFLAGS="$save2_CPPFLAGS"],
--     [CPPFLAGS="${save_CPPFLAGS}"])
-+     [CPPFLAGS="${save2_CPPFLAGS}"])
-   if test X"$krb_cv_com_err_need_r" = X ; then
-     AC_MSG_RESULT(no)
-   else
 --- heimdal-0.6/cf/roken-frag.m4.orig	2002-12-18 18:34:25.000000000 +0100
 +++ heimdal-0.6/cf/roken-frag.m4	2003-10-15 23:28:09.774588448 +0200
 @@ -53,6 +53,7 @@

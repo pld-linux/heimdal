@@ -1,17 +1,15 @@
---- heimdal-0.6/lib/roken/Makefile.am.orig	2003-07-26 03:39:57.000000000 +0200
-+++ heimdal-0.6/lib/roken/Makefile.am	2003-07-26 09:48:39.000000000 +0200
-@@ -84,7 +84,7 @@
+--- heimdal-0.6.1/lib/roken/Makefile.am.orig	2004-04-02 19:20:10.251527512 +0200
++++ heimdal-0.6.1/lib/roken/Makefile.am	2004-04-02 19:50:37.948675312 +0200
+@@ -84,13 +84,13 @@
  	write_pid.c		\
  	xdbm.h
  
 -EXTRA_libroken_la_SOURCES =	\
 +EXTRA_libroken_SOURCES =	\
- 	chown.c			\
- 	copyhostent.c		\
- 	daemon.c		\
-@@ -160,7 +160,7 @@
- 	warnx.c			\
- 	writev.c
+ 	err.hin			\
+ 	glob.hin		\
+ 	ifaddrs.hin		\
+ 	vis.hin	
  
 -EXTRA_DIST = roken.awk roken.h.in
 +EXTRA_DIST = roken.awk roken.h.in $(EXTRA_libroken_SOURCES)
