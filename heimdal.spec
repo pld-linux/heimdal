@@ -2,7 +2,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.6
-Release:	5
+Release:	6
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
@@ -25,6 +25,8 @@ Patch6:		%{name}-dbpaths.patch
 Patch7:		%{name}-system-comm_err.patch
 Patch8:		%{name}-config-section.patch
 Patch9:		%{name}-acfixes.patch
+Patch10:	%{name}-sasl-external.patch
+# Patch10-URL: http://www.stacken.kth.se/lists/heimdal-discuss/2003-05/msg00040.html
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -36,6 +38,7 @@ BuildRequires:	libcom_err-devel >= 1.34-5
 BuildRequires:	libtool
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
+BuildRequires:	openldap-devel
 BuildRequires:	openssl-devel
 BuildRequires:	readline-devel
 Requires:	%{name}-libs = %{version}
@@ -276,6 +279,7 @@ Biblioteki statyczne heimdal.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 %{__libtoolize}
@@ -287,6 +291,7 @@ autoupdate
 	--enable-shared \
 	--enable-static \
 	--enable-new-des3-code \
+	--with-openldap=/usr \
 	--with-readline=/usr \
 	--with-x \
 	--with-ipv6
