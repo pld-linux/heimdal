@@ -25,6 +25,7 @@ Patch2:		%{name}-am_man_fixes.patch
 Patch3:		%{name}-amfix.patch
 Patch4:		%{name}-gcc33.patch
 Patch5:		%{name}-db41.patch
+Patch6:		%{name}-dbpaths.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -266,6 +267,7 @@ Biblioteki statyczne heimdal.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 rm -f missing
@@ -310,7 +312,7 @@ install %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
-rm -rf	$RPM_BUILD_ROOT%{_libdir}/lib{com_err,ss}.* \
+rm -rf	$RPM_BUILD_ROOT%{_libdir}/lib{com_err,ss}.so \
 	$RPM_BUILD_ROOT%{_includedir}/glob.h
 
 chmod +r $RPM_BUILD_ROOT%{_bindir}/otp   # qrde dlaczego to ma chmod 0
