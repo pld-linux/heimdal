@@ -32,14 +32,14 @@ URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
-BuildRequires:	db-devel
+BuildRequires:	db3-devel
 BuildRequires:	flex
-BuildRequires:	libcom_err-devel >= 1.34-5
+# BuildRequires:	libcom_err-devel >= 1.34-5
 BuildRequires:	libtool
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	openldap-devel
-BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	openssl-devel >= 0.9.6m
 BuildRequires:	readline-devel
 Requires:	%{name}-libs = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -245,8 +245,8 @@ Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	db-devel
-Requires:	libcom_err-devel >= 1.34-5
+Requires:	db3-devel
+# Requires:	libcom_err-devel >= 1.34-5
 Requires:	openssl-devel
 
 %description devel
