@@ -2,7 +2,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.4e
-Release:	2
+Release:	3
 License:	Free
 Group:		Networking
 Group(de):	Netzwerkwesen
@@ -296,7 +296,7 @@ Group(pl):	Programowanie/Biblioteki
 Group(pt_BR):	Desenvolvimento/Bibliotecas
 Group(ru):	Разработка/Библиотеки
 Group(uk):	Розробка/Б╕бл╕отеки
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-devel = %{version}
 
 %description static
 Satatic heimdal libraries.
