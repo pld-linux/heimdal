@@ -218,6 +218,7 @@ Group(de):	Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Requires:	%{name}-libs = %{version}
+Requires:	e2fsprogs-devel
 
 %description devel
 contains files needed to compile and link software using the kerberos
