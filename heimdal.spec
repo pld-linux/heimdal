@@ -241,7 +241,9 @@ Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}
+Requires:	db-devel
 Requires:	libcom_err-devel >= 1.34-5
+Requires:	openssl-devel
 
 %description devel
 contains files needed to compile and link software using the kerberos
