@@ -6,7 +6,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.6.1
-Release:	2
+Release:	3
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
@@ -32,14 +32,14 @@ URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
-BuildRequires:	db-devel
+BuildRequires:	db3-devel
 BuildRequires:	flex
-BuildRequires:	libcom_err-devel >= 1.34-5
+# BuildRequires:	libcom_err-devel >= 1.34-5
 BuildRequires:	libtool
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	openldap-devel
-BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	openssl-devel >= 0.9.6d
 BuildRequires:	readline-devel
 Requires:	%{name}-libs = %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
