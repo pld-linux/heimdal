@@ -284,7 +284,7 @@ install %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
-rm -rf $RPM_BUILD_ROOT%{_libdir}/libcom_err.*
+rm -rf $RPM_BUILD_ROOT%{_libdir}/lib{com_err,ss}.*
 
 chmod +r $RPM_BUILD_ROOT%{_bindir}/otp   # qrde dlaczego to ma chmod 0
 
@@ -484,7 +484,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/lib*.la
 %attr(755,root,root) %{_libdir}/lib*.so
-%{_includedir}/*
+%{_includedir}/*.h
 %{_mandir}/man3/*
 
 %files static
