@@ -2,7 +2,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.1g
-Release:	1
+Release:	2
 Source0:	%{name}-%{version}.tar.gz
 Source3:	heimdal.init
 Source4:	inetd.conf.secure
@@ -210,9 +210,9 @@ if [ "$1" = "0" ]; then
         /etc/rc.d/init.d/heimdal stop >&2
         /sbin/chkconfig --del heimdal >&2
 fi
-/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun lib -p /sbin/ldconfig
+/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %files server
 %defattr(644,root,root,755)
