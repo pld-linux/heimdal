@@ -1,0 +1,34 @@
+--- heimdal-0.6.3/include/parse_units.h.orig	2005-03-18 20:11:45.090843760 +0100
++++ heimdal-0.6.3/include/parse_units.h	2005-03-18 20:12:18.811717408 +0100
+@@ -39,10 +39,14 @@
+ #include <stdio.h>
+ #include <stddef.h>
+ 
++
++#ifndef __STRUCT_UNITS__
++#define __STRUCT_UNITS__
+ struct units {
+     const char *name;
+     unsigned mult;
+ };
++#endif
+ 
+ int
+ parse_units (const char *s, const struct units *units,
+--- heimdal-0.6.3/lib/asn1/krb5_asn1.h.orig	2005-03-18 18:13:54.619718752 +0100
++++ heimdal-0.6.3/lib/asn1/krb5_asn1.h	2005-03-18 20:13:55.124075704 +0100
+@@ -44,6 +44,14 @@
+ NAME-TYPE ::= INTEGER
+ */
+ 
++#ifndef __STRUCT_UNITS__
++#define __STRUCT_UNITS__
++struct units {
++	    const char *name;
++	        unsigned mult;
++};
++#endif
++
+ typedef enum NAME_TYPE {
+   KRB5_NT_UNKNOWN = 0,
+   KRB5_NT_PRINCIPAL = 1,
