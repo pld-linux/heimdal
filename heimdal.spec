@@ -4,14 +4,11 @@ Name:		heimdal
 Version:	0.1g
 Release:	1
 Source0:	%{name}-%{version}.tar.gz
-Source3:	kerberos.init
+Source3:	heimdal.init
 Source4:	inetd.conf.secure
-Source5:	kerberos.logrotate
-Source6:	kerberos.sysconfig
-Source7:	kerberos.sh
-Source8:	kerberos.csh
+Source5:	heimdal.logrotate
+Source6:	heimdal.sysconfig
 Patch0:		heimdal-paths.patch
-Patch1:		heimdal-kx.patch
 Group:		Networking
 Group(pl):	Sieciowe
 Copyright:	Free
@@ -137,10 +134,10 @@ Biblioteki statyczne Kerberosa.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-#%patch2 -p1
-#%patch3 -p1
-#%patch4 -p1
+
+%define _prefix		/usr/heimdal
+%define _mandir		/usr/share/man
+%define _infodir	/usr/share/info
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
@@ -154,9 +151,11 @@ CFLAGS="$RPM_OPT_FLAGS" \
 	--enable-new-des3-code \
 	--with-readline \
 	--with-x \
-	--enable-netinfo \
 	--localstatedir=/var %{_target_platform}
 
+# --enable-netinfo - czo to takiego ?
+# mo¿na u¿ywaæ albo krb5.conf albo netinfo
+# 
 #       --enable-osfc2 \
 #    setluid(epw->ufld->fd_uid);
 #    if(getluid() != epw->ufld->fd_uid) {
@@ -168,20 +167,16 @@ make
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/{etc/rc.d/init.d,var/heimdal}
-install -d $RPM_BUILD_ROOT/etc/{heimdal,sysconfig,profile.d}
+install -d $RPM_BUILD_ROOT/etc/{heimdal,sysconfig,profile.d,logrotate.d}
 
 make install DESTDIR=$RPM_BUILD_ROOT
 install appl/su/.libs/su $RPM_BUILD_ROOT%{_bindir}/ksu
 install krb5.conf        $RPM_BUILD_ROOT/etc/heimdal
 
-#install %{SOURCE8} $RPM_BUILD_ROOT/etc/heimdal
-#install %{SOURCE9} $RPM_BUILD_ROOT/var/krb5kdc
-
-install -d $RPM_BUILD_ROOT/etc/logrotate.d
-install %{SOURCE5}			$RPM_BUILD_ROOT/etc/logrotate.d/kerberos
-install %{SOURCE3}			$RPM_BUILD_ROOT/etc/rc.d/init.d/kerberos
-install %{SOURCE6}			$RPM_BUILD_ROOT/etc/sysconfig/kerberos
-install %{SOURCE7}	%{SOURCE8}	$RPM_BUILD_ROOT/etc/profile.d
+install %{SOURCE5}			$RPM_BUILD_ROOT/etc/logrotate.d/heimdal
+install %{SOURCE3}			$RPM_BUILD_ROOT/etc/rc.d/init.d/heimdal
+install %{SOURCE6}			$RPM_BUILD_ROOT/etc/sysconfig/heimdal
+#install %{SOURCE7}	%{SOURCE8}	$RPM_BUILD_ROOT/etc/profile.d
 
 strip $RPM_BUILD_ROOT{%{_bindir}/*,%{_sbindir}/*} || :
 strip --strip-debug $RPM_BUILD_ROOT%{_libdir}/*.so.*
@@ -192,28 +187,27 @@ touch $RPM_BUILD_ROOT/var/heimdal/kadmind.acl
 gzip -9fn $RPM_BUILD_ROOT{%{_mandir}/man[1358]/*,%{_infodir}/*} \
 	doc/* NEWS TODO 
 
-cd $RPM_BUILD_ROOT%{_bindir}
-for prog in ftp login rsh telnet; do
-	mv $prog $prog.krb5
-done
-
-cd $RPM_BUILD_ROOT%{_sbindir}
-for prog in ftpd popper rshd telnetd; do
-	mv $prog $prog.krb5
-done
-
 chmod a+rw $RPM_BUILD_ROOT%{_bindir}/otp
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post lib
-echo Dorzucic instalowanie info
-
+if [ "$1" = "0" ]; then
+        /sbin/install-info --delete %{_infodir}/%{name}.info.gz \
+                /etc/info-dir >&2
+        /etc/rc.d/init.d/heimdal stop >&2
+        /sbin/chkconfig --del heimdal >&2
+fi
 /sbin/ldconfig
 
 %preun lib
-echo Dorzucic odinstalowywanie info
+if [ "$1" = "0" ]; then
+        /sbin/install-info --delete %{_infodir}/%{name}.info.gz \
+                /etc/info-dir >&2
+        /etc/rc.d/init.d/heimdal stop >&2
+        /sbin/chkconfig --del heimdal >&2
+fi
 
 %postun lib -p /sbin/ldconfig
 
@@ -221,7 +215,7 @@ echo Dorzucic odinstalowywanie info
 %defattr(644,root,root,755)
 %doc NEWS.gz TODO.gz
 
-%attr(754,root,root) /etc/rc.d/init.d/kerberos
+%attr(754,root,root) /etc/rc.d/init.d/heimdal
 %attr(640,root,root) /etc/logrotate.d/*
 %attr(640,root,root) /etc/sysconfig/*
 
@@ -251,11 +245,11 @@ echo Dorzucic odinstalowywanie info
 
 %files clients
 %defattr(644,root,root,755)
-%attr(755,root,root) /etc/profile.d/kerberos.* 
+#%attr(755,root,root) /etc/profile.d/kerberos.* 
 
 %attr(755,root,root) %{_bindir}/compile_et
 %attr(755,root,root) %{_bindir}/des
-%attr(755,root,root) %{_bindir}/ftp.krb5
+%attr(755,root,root) %{_bindir}/ftp
 %attr(755,root,root) %{_bindir}/kauth
 %attr(755,root,root) %{_bindir}/kdestroy
 %attr(755,root,root) %{_bindir}/kgetcred
@@ -264,11 +258,11 @@ echo Dorzucic odinstalowywanie info
 %attr(755,root,root) %{_bindir}/kpasswd
 %attr(755,root,root) %{_bindir}/kx
 %attr(755,root,root) %{_bindir}/pfrom
-%attr(755,root,root) %{_bindir}/rsh.krb5
+%attr(755,root,root) %{_bindir}/rsh
 %attr(755,root,root) %{_bindir}/rxtelnet
 %attr(755,root,root) %{_bindir}/rxterm
 %attr(755,root,root) %{_bindir}/string2key
-%attr(755,root,root) %{_bindir}/telnet.krb5
+%attr(755,root,root) %{_bindir}/telnet
 %attr(755,root,root) %{_bindir}/tenletxr
 %attr(755,root,root) %{_bindir}/otpprint
 %attr(000,root,root) %{_bindir}/otp
@@ -283,10 +277,10 @@ echo Dorzucic odinstalowywanie info
 %files daemons
 %defattr(644,root,root,755)
 
-%attr(755,root,root) %{_sbindir}/ftpd.krb5
-%attr(755,root,root) %{_sbindir}/telnetd.krb5
-%attr(755,root,root) %{_sbindir}/rshd.krb5
-%attr(755,root,root) %{_sbindir}/popper.krb5
+%attr(755,root,root) %{_sbindir}/ftpd
+%attr(755,root,root) %{_sbindir}/telnetd
+%attr(755,root,root) %{_sbindir}/rshd
+%attr(755,root,root) %{_sbindir}/popper
 
 %files lib
 %defattr(644,root,root,755)
@@ -298,7 +292,7 @@ echo Dorzucic odinstalowywanie info
 
 %attr(755,root,root) %{_libdir}/*.so.*
 %attr(755,root,root) %{_libdir}/*.so
-%attr(755,root,root) %{_bindir}/login.krb5
+%attr(755,root,root) %{_bindir}/login
 
 %{_mandir}/man5/krb5.conf.5.gz
 
