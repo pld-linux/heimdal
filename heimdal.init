@@ -32,7 +32,16 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/heimdal ]; then
 		show Starting Kerberos KDC
-		daemon /usr/heimdal/sbin/kdc
+		busy
+		kdc &
+	        sleep 1
+	        if ps ax | grep -v grep | grep -q kdc; then
+		    deltext
+		    ok
+	        else
+		    deltext
+		    fail
+	        fi
 	else
 		echo "Kerberos KDC already is running"
 	fi
@@ -48,7 +57,7 @@ restart|reload)
 	$0 start
 	;;
 status)
-	status	kdc
+	status kdc
 	;;
   *)
 	echo "Usage: $0 {start|stop|status|restart|reload}"
