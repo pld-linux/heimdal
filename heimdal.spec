@@ -22,7 +22,6 @@ Patch3:		%{name}-amfix.patch
 Patch4:		%{name}-gcc33.patch
 Patch5:		%{name}-db41.patch
 Patch6:		%{name}-dbpaths.patch
-Patch7:		%{name}-et-fix.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -266,7 +265,6 @@ Biblioteki statyczne heimdal.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 
 %build
 rm -f missing
