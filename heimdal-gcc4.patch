@@ -1,34 +1,90 @@
---- heimdal-0.6.3/include/parse_units.h.orig	2005-03-18 20:11:45.090843760 +0100
-+++ heimdal-0.6.3/include/parse_units.h	2005-03-18 20:12:18.811717408 +0100
-@@ -39,10 +39,14 @@
- #include <stdio.h>
- #include <stddef.h>
+--- heimdal-0.6.3/lib/asn1/gen.c.orig	2005-03-19 22:43:42.241146312 +0000
++++ heimdal-0.6.3/lib/asn1/gen.c	2005-03-19 22:46:28.356892880 +0000
+@@ -434,8 +434,9 @@
+ 	     "#include <stdlib.h>\n"
+ 	     "#include <time.h>\n"
+ 	     "#include <string.h>\n"
+-	     "#include <errno.h>\n",
+-	     orig_filename);
++	     "#include <errno.h>\n\n"
++		 "#include <parse_units.h>\n",
++		 orig_filename);
  
-+
-+#ifndef __STRUCT_UNITS__
-+#define __STRUCT_UNITS__
- struct units {
-     const char *name;
-     unsigned mult;
- };
-+#endif
+     for (i = imports; i != NULL; i = i->next)
+ 	fprintf (codefile,
+@@ -446,8 +447,7 @@
+ 	     headerbase);
+     fprintf (codefile,
+ 	     "#include <asn1_err.h>\n"
+-	     "#include <der.h>\n"
+-	     "#include <parse_units.h>\n\n");
++	     "#include <der.h>\n\n");
+     generate_type_header (s);
+     generate_type_encode (s);
+     generate_type_decode (s);
+--- heimdal-0.6.3/lib/krb5/krb5_locl.h~	2002-09-10 20:10:45.000000000 +0000
++++ heimdal-0.6.3/lib/krb5/krb5_locl.h	2005-03-19 22:57:54.271617992 +0000
+@@ -115,6 +115,7 @@
+ 
+ #include "crypto-headers.h"
+ 
++#include <parse_units.h>
+ #include <krb5_asn1.h>
+ #include <der.h>
+ 
+--- heimdal-0.6.3/lib/krb5/krb5.h~	2004-06-21 08:32:00.000000000 +0000
++++ heimdal-0.6.3/lib/krb5/krb5.h	2005-03-19 23:18:24.890535480 +0000
+@@ -44,6 +44,7 @@
+ #include <heim_err.h>
+ #include <k524_err.h>
+ 
++#include <parse_units.h>
+ #include <krb5_asn1.h>
+ 
+ /* name confusion with MIT */
+--- heimdal-0.6.3/appl/ftp/ftpd/ls.c~	2005-03-19 23:39:40.687584848 +0000
++++ heimdal-0.6.3/appl/ftp/ftpd/ls.c	2005-03-19 23:41:36.309007720 +0000
+@@ -51,7 +51,7 @@
+ #define sec_fprintf2 fprintf
+ #define sec_fflush fflush
+ static void list_files(FILE *out, const char **files, int n_files, int flags);
+-static int parse_flags(const char *options);
++static int f_parse_flags(const char *options);
  
  int
- parse_units (const char *s, const struct units *units,
---- heimdal-0.6.3/lib/asn1/krb5_asn1.h.orig	2005-03-18 18:13:54.619718752 +0100
-+++ heimdal-0.6.3/lib/asn1/krb5_asn1.h	2005-03-18 20:13:55.124075704 +0100
-@@ -44,6 +44,14 @@
- NAME-TYPE ::= INTEGER
- */
+ main(int argc, char **argv)
+@@ -59,10 +59,10 @@
+     int i = 1;
+     int flags;
+     if(argc > 1 && argv[1][0] == '-') {
+-	flags = parse_flags(argv[1]);
++	flags = f_parse_flags(argv[1]);
+ 	i = 2;
+     } else
+-	flags = parse_flags(NULL);
++	flags = f_parse_flags(NULL);
  
-+#ifndef __STRUCT_UNITS__
-+#define __STRUCT_UNITS__
-+struct units {
-+	    const char *name;
-+	        unsigned mult;
-+};
-+#endif
-+
- typedef enum NAME_TYPE {
-   KRB5_NT_UNKNOWN = 0,
-   KRB5_NT_PRINCIPAL = 1,
+     list_files(stdout, (const char **)argv + i, argc - i, flags);
+     return 0;
+@@ -762,7 +762,7 @@
+ }
+ 
+ static int
+-parse_flags(const char *options)
++f_parse_flags(const char *options)
+ {
+ #ifdef TEST
+     int flags = LS_SORT_NAME | LS_IGNORE_DOT | LS_DISP_COLUMN;
+@@ -844,10 +844,10 @@
+     int ret;
+ 
+     if(*file == '-') {
+-	flags = parse_flags(file);
++	flags = f_parse_flags(file);
+ 	file = ".";
+     } else
+-	flags = parse_flags("");
++	flags = f_parse_flags("");
+ 
+     ret = list_files(out, &file, 1, flags);
+     sec_fflush(out);
