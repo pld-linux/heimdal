@@ -2,8 +2,8 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.4e
-Release:	1
-Copyright:	Free
+Release:	2
+License:	Free
 Group:		Networking
 Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
@@ -62,16 +62,17 @@ Group:		Networking
 Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
 Requires:	%{name}-libs = %{version}
+Prereq:		/sbin/chkconfig
 
 %description server
 Master KDC.
 
-%description -l pl server
+%description server -l pl
 G³ówne centrum dystrybucji kluczy (KDC).
 
 %package libs
 Summary:	Heimdal shared libraries
-Summary(pl):	Biblioteki dzielone dla heimdal
+Summary(pl):	Biblioteki wspó³dzielone dla heimdal
 Group:		Libraries
 Group(de):	Libraries
 Group(fr):	Librairies
@@ -81,11 +82,12 @@ Group(pl):	Biblioteki
 Package contains shared libraries required by several of the other
 heimdal packages.
 
-%description -l pl libs
+%description libs -l pl
 Pakiet zawiera biblioteki wspó³dzielone dla heimdal.
 
 %package login
 Summary:	login is used when signing onto a system
+Summary(pl):	Narzêdzie do logowania w systemie
 Group:		Applications/Networking
 Group(de):	Applikationen/Netzwerkwesen
 Group(pl):	Aplikacje/Sieciowe
@@ -99,8 +101,15 @@ switch from one user to another at any time (most modern shells have
 support for this feature built into them, however). This package
 contain kerberized version login program.
 
+%description login -l pl
+login jest u¿ywany przy logowaniu do systemu. Mo¿e byæ tak¿e u¿yty do
+prze³±czenia z jednego u¿ytkownika na innego w dowolnej chwili
+(wiêkszo¶æ wspó³czesnych shelli ma wbudowan± obs³ugê tego). Ten pakiet
+zawiera skerberyzowan± wersjê programu login.
+
 %package ftp
 Summary:	The standard UNIX FTP (file transfer protocol) client
+Summary(pl):	Klient protoko³u FTP
 Group:		Applications/Networking
 Group(de):	Applikationen/Netzwerkwesen
 Group(pl):	Aplikacje/Sieciowe
@@ -112,8 +121,14 @@ with kerberos authentication support. FTP is the file transfer
 protocol, which is a widely used Internet protocol for transferring
 files and for archiving files.
 
+%description ftp -l pl
+Ten pakiet dostarcza standardowego klienta ftp z wbudowan± obs³ug±
+kerberosa. FTP jest protoko³em do przesy³ania plików szeroko
+rozpowszechnionym w Internecie.
+
 %package rsh
 Summary:	Clients for remote access commands (rsh, rlogin, rcp)
+Summary(pl):	Klient zdalnego dostêpu (rsh, rlogin, rcp)
 Group:		Applications/Networking
 Group(de):	Applikationen/Netzwerkwesen
 Group(pl):	Aplikacje/Sieciowe
@@ -122,13 +137,19 @@ Obsoletes:	rsh
 
 %description rsh
 The rsh package contains a set of programs which allow users to run
-commmands on remote machines, login to other machines and copy files
+commands on remote machines, login to other machines and copy files
 between machines (rsh, rlogin and rcp). All three of these commands
 use rhosts style authentication. This package contains the clients
 needed for all of these services.
 
+%description rsh -l pl
+Ten pakiet zawiera zestaw narzêdzi pozwalaj±cych na wykonywanie
+poleceñ na zdalnych maszynach, logowanie na inne maszyny oraz
+kopiowanie plików pomiêdzy maszynami (rsh, rlogin, rcp).
+
 %package telnet
 Summary:	Client for the telnet remote login
+Summary(pl):	Klient us³ugi telnet
 Group:		Applications/Networking
 Group(de):	Applikationen/Netzwerkwesen
 Group(pl):	Aplikacje/Sieciowe
@@ -139,8 +160,13 @@ Obsoletes:	telnet
 Telnet is a popular protocol for remote logins across the Internet.
 This package provides a command line telnet client.
 
+%description telnet -l pl
+Telnet jest popularnym protoko³em zdalnego logowania. Ten pakiet
+zawiera klienta tej us³ugi.
+
 %package ftpd
 Summary:	The standard UNIX FTP (file transfer protocol) server
+Summary(pl):	Serwer FTP
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
@@ -152,8 +178,13 @@ Obsoletes:	ftpd
 FTP is the file transfer protocol, which is a widely used Internet
 protocol for transferring files and for archiving files.
 
+%description ftpd -l pl
+FTP jest protoko³em trasmisji plików szeroko rozpowszechnionym
+w Internecie.
+
 %package rshd
 Summary:	Server for remote access commands (rsh, rlogin, rcp)
+Summary(pl):	Serwer zdalnego dostêpu (rsh, rlogin, rcp)
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
@@ -168,8 +199,14 @@ between machines (rsh, rlogin and rcp). All three of these commands
 use rhosts style authentication. This package contains servers needed
 for all of these services.
 
+%description rshd -l pl
+Ten pakiet zawiera zestaw serwerów pozwalaj±cych na wykonywanie
+poleceñ na zdalnych maszynach, logowanie na inne maszyny oraz
+kopiowanie plików pomiêdzy maszynami (rsh, rlogin, rcp).
+
 %package telnetd
 Summary:	Server for the telnet remote login
+Summary(pl):	Serwer protoko³u telnet
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
@@ -181,6 +218,11 @@ Obsoletes:	telnetd
 Telnet is a popular protocol for remote logins across the Internet.
 This package provides a telnet daemon which allows remote logins into
 the machine it is running on.
+
+%description telnetd -l pl
+Telnet jest popularnym protoko³em zdalnego logowania. Ten pakiet
+zawiera serwer pozwalaj±cy na zdalne logowanie siê klientów na maszynê
+na której dzia³a.
 
 %package clients
 Summary:	Kerberos programs for use on workstations
@@ -208,15 +250,12 @@ Requires:	%{name}-libs = %{version}
 Kerberos Daemons.
 
 %description -l pl daemons
-Daemony korzystaj±ce z systemu Kerberos do autoryzacji dostêpu.
+Demony korzystaj±ce z systemu Kerberos do autoryzacji dostêpu.
 
 %package devel
 Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
-Group:		Libraries
-Group(de):	Libraries
-Group(fr):	Librairies
-Group(pl):	Biblioteki
+Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}
 Requires:	e2fsprogs-devel
 
@@ -224,22 +263,19 @@ Requires:	e2fsprogs-devel
 contains files needed to compile and link software using the kerberos
 libraries.
 
-%description -l pl devel
+%description devel -l pl
 Pliki nag³ówkowe i dokumentacja do bibliotek heimdal.
 
 %package static
 Summary:	Static heimdal libraries
 Summary(pl):	Biblioteki statyczne heimdal
-Group:		Libraries
-Group(de):	Libraries
-Group(fr):	Librairies
-Group(pl):	Biblioteki
+Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}
 
 %description static
 Satatic heimdal libraries.
 
-%description -l pl static
+%description static -l pl
 Biblioteki statyczne heimdal.
 
 %prep
@@ -293,6 +329,9 @@ chmod +r $RPM_BUILD_ROOT%{_bindir}/otp   # qrde dlaczego to ma chmod 0
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
 gzip -9nf NEWS TODO 
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %post server
 /sbin/chkconfig --add heimdal
@@ -365,9 +404,6 @@ fi
 %postun libs 
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files server
 %defattr(644,root,root,755)
