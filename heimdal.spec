@@ -1,7 +1,7 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.2r
+Version:	0.2t
 Release:	1
 Copyright:	Free
 Group:		Networking
@@ -30,26 +30,26 @@ Requires:	rc-scripts
 
 %description
 Heimdal is a free implementation of Kerberos 5. The goals are to:
-   * have an implementation that can be freely used by anyone
-   * be protocol compatible with existing implementations and, if not in
+   - have an implementation that can be freely used by anyone
+   - be protocol compatible with existing implementations and, if not in
      conflict, with RFC 1510 (and any future updated RFC)
-   * be reasonably compatible with the M.I.T Kerberos V5 API
-   * have support for Kerberos V5 over GSS-API (RFC1964)
-   * include the most important and useful application programs (rsh,
+   - be reasonably compatible with the M.I.T Kerberos V5 API
+   - have support for Kerberos V5 over GSS-API (RFC1964)
+   - include the most important and useful application programs (rsh,
      telnet, popper, etc.)
-   * include enough backwards compatibility with Kerberos V4
-   * IPv6 support
+   - include enough backwards compatibility with Kerberos V4
+   - IPv6 support
 
 %description -l pl
 Heimdal jest darmow± implementacj± Kerberosa 5. G³ówne zalety to:
-   * implementacja, która mo¿e byæ u¿ywana przez ka¿dego
-   * kompatybilno¶æ na poziomie protoko³u z istniej±cymi implementacjami
-   * racjonalna kompatybilno¶æ z M.I.T Kerberos V5 API
-   * wsparcie dla Kerberosa 5 poprzez GSS-API (RFC1964)
-   * zawiera wiêkszo¶æ istotnych i u¿ytecznych aplikacji (rsh,
-     telnet, popper, etc.)
-   * zawiera wystarczaj±c± kompatybilno¶æ z Kerberos V4
-   * wsparcie dla IPv6
+   - implementacja, która mo¿e byæ u¿ywana przez ka¿dego
+   - kompatybilno¶æ na poziomie protoko³u z istniej±cymi implementacjami
+   - racjonalna kompatybilno¶æ z M.I.T Kerberos V5 API
+   - wsparcie dla Kerberosa 5 poprzez GSS-API (RFC1964)
+   - zawiera wiêkszo¶æ istotnych i u¿ytecznych aplikacji (rsh, telnet,
+     popper, etc.)
+   - zawiera wystarczaj±c± kompatybilno¶æ z Kerberos V4
+   - wsparcie dla IPv6
 
 %package server
 Summary:	Kerberos Server 
@@ -68,11 +68,12 @@ G³ówne centrum dystrybucji kluczy (KDC).
 Summary:	Heimdal shared libraries
 Summary(pl):	Biblioteki dzielone dla heimdal
 Group:		Libraries
+Group(fr):	Librairies
 Group(pl):	Biblioteki
 
 %description libs
-Package contains shared libraries required by several of the other heimdal
-packages.
+Package contains shared libraries required by several of the other
+heimdal packages.
 
 %description -l pl libs
 Pakiet zawiera biblioteki wspó³dzielone dla heimdal.
@@ -85,10 +86,10 @@ Requires:	%{name}-libs = %{version}
 Obsoletes:	login
 
 %description login
-login is used when signing onto a system. It can also be used to switch from
-one user to another at any time (most modern shells have support for this
-feature built into them, however). This package contain kerberized version
-login program.
+login is used when signing onto a system. It can also be used to
+switch from one user to another at any time (most modern shells have
+support for this feature built into them, however). This package
+contain kerberized version login program.
 
 %package ftp
 Summary:	The standard UNIX FTP (file transfer protocol) client
@@ -97,10 +98,10 @@ Group(pl):	Aplikacje/Sieciowe
 Requires:	%{name}-libs = %{version}
 
 %description ftp
-The ftp package provides the standard UNIX command-line FTP client with
-kerberos authentication support. FTP is the file transfer protocol, which is
-a widely used Internet protocol for transferring files and for archiving
-files.
+The ftp package provides the standard UNIX command-line FTP client
+with kerberos authentication support. FTP is the file transfer
+protocol, which is a widely used Internet protocol for transferring
+files and for archiving files.
 
 %package rsh
 Summary:	Clients for remote access commands (rsh, rlogin, rcp)
@@ -112,8 +113,8 @@ Obsoletes:	rsh
 %description rsh
 The rsh package contains a set of programs which allow users to run
 commmands on remote machines, login to other machines and copy files
-between machines (rsh, rlogin and rcp).  All three of these commands
-use rhosts style authentication.  This package contains the clients
+between machines (rsh, rlogin and rcp). All three of these commands
+use rhosts style authentication. This package contains the clients
 needed for all of these services.
 
 %package telnet
@@ -124,8 +125,8 @@ Requires:	%{name}-libs = %{version}
 Obsoletes:	telnet
 
 %description telnet
-Telnet is a popular protocol for remote logins across the Internet. This
-package provides a command line telnet client.
+Telnet is a popular protocol for remote logins across the Internet.
+This package provides a command line telnet client.
 
 %package ftpd
 Summary:	The standard UNIX FTP (file transfer protocol) server
@@ -136,7 +137,7 @@ Requires:	%{name}-libs = %{version}
 Obsoletes:	ftpd
 
 %description ftpd
-FTP is the file transfer protocol, which is a widely used Internet 
+FTP is the file transfer protocol, which is a widely used Internet
 protocol for transferring files and for archiving files.
 
 %package rshd
@@ -151,7 +152,7 @@ Obsoletes:	rshd
 The rsh package contains a set of programs which allow users to run
 commmands on remote machines, login to other machines and copy files
 between machines (rsh, rlogin and rcp). All three of these commands
-use rhosts style authentication.  This package contains servers needed
+use rhosts style authentication. This package contains servers needed
 for all of these services.
 
 %package telnetd
@@ -163,9 +164,9 @@ Requires:	%{name}-libs = %{version}
 Obsoletes:	telnetd
 
 %description telnetd
-Telnet is a popular protocol for remote logins across the Internet. This
-package provides a telnet daemon which allows remote logins into the 
-machine it is running on.
+Telnet is a popular protocol for remote logins across the Internet.
+This package provides a telnet daemon which allows remote logins into
+the machine it is running on.
 
 %package clients
 Summary:	Kerberos programs for use on workstations
@@ -197,6 +198,7 @@ Daemony korzystaj±ce z systemu Kerberos do autoryzacji dostêpu.
 Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Libraries
+Group(fr):	Librairies
 Group(pl):	Biblioteki
 Requires:	%{name}-libs = %{version}
 
@@ -211,6 +213,7 @@ Pliki nag³ówkowe i dokumentacja do bibliotek heimdal.
 Summary:	Static heimdal libraries
 Summary(pl):	Biblioteki statyczne heimdal
 Group:		Libraries
+Group(fr):	Librairies
 Group(pl):	Biblioteki
 Requires:	%{name}-libs = %{version}
 
@@ -230,6 +233,9 @@ LDFLAGS="-s"; export LDFLAGS
 	--enable-shared \
 	--enable-static \
 	--enable-new-des3-code \
+	--with-openldap=/usr \
+	--with-openldap-lib=/usr/lib \
+	--with-openldap-include=/usr/include \
 	--with-readline \
 	--with-x \
 	--with-ipv6
@@ -272,7 +278,7 @@ chmod +r $RPM_BUILD_ROOT%{_bindir}/otp   # qrde dlaczego to ma chmod 0
 
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
-gzip -9fn $RPM_BUILD_ROOT{%{_mandir}/man[1358]/*,%{_infodir}/*} \
+gzip -9nf $RPM_BUILD_ROOT{%{_mandir}/man[1358]/*,%{_infodir}/*} \
 	NEWS TODO 
 
 %post server
@@ -341,11 +347,11 @@ fi
 
 %post libs
 /sbin/ldconfig
-[ -x /usr/sbin/fix-info-dir ] && /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+[ -x %{_sbindir}/fix-info-dir ] && %{_sbindir}/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun libs 
 /sbin/ldconfig
-[ -x /usr/sbin/fix-info-dir ] && /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+[ -x %{_sbindir}/fix-info-dir ] && %{_sbindir}/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -396,35 +402,43 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man5/krb5.conf.5*
 
 %files login
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/login
 
 %files ftp
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/ftp
-%attr(644,root,root) %{_mandir}/man1/ftp.1*
+%{_mandir}/man1/ftp.1*
 
 %files rsh
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/rsh
 
 %files telnet
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/telnet
-%attr(644,root,root) %{_mandir}/man1/telnet.1*
+%{_mandir}/man1/telnet.1*
 
 %files ftpd
+%defattr(644,root,root,755)
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/ftpd
 %attr(755,root,root) %{_sbindir}/ftpd
-%attr(644,root,root) %{_mandir}/man5/ftpusers.5*
-%attr(644,root,root) %{_mandir}/man8/ftpd.8*
+%{_mandir}/man5/ftpusers.5*
+%{_mandir}/man8/ftpd.8*
 
 %files rshd
+%defattr(644,root,root,755)
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/rshd
 %attr(755,root,root) %{_sbindir}/rshd
 
 %files telnetd
+%defattr(644,root,root,755)
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/telnetd
 %attr(755,root,root) %{_sbindir}/telnetd
-%attr(644,root,root) %{_mandir}/man8/telnetd.8*
+%{_mandir}/man8/telnetd.8*
 
 %files
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/compile_et
 %attr(755,root,root) %{_bindir}/des
 %attr(755,root,root) %{_bindir}/kauth
@@ -464,4 +478,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %files static
-%attr(644,root,root) %{_libdir}/lib*.a
+%defattr(644,root,root,755)
+%{_libdir}/lib*.a
