@@ -1,26 +1,38 @@
 #!/bin/sh
 #
-# chkconfig: 2345 41 41
-# description: Heimdal Kerberos V server daemons
+# heimdal	Heimdal Kerberos V server daemons
 #
-# processname: kdc
-# config: /etc/heimdal/krb5.conf
+# chkconfig:	2345 41 41
+#
+# description:	Heimdal Kerberos V server daemons
+#
+# processname:	kdc
+# config:	/etc/heimdal/krb5.conf
 
-# Source function library.
+
+# Source function library
 . /etc/rc.d/init.d/functions
 
-# Kerberos config
-if [ -f /etc/sysconfig/heimdal ]; then
-    . /etc/sysconfig/heimdal
-fi
-# Check that networking is up...
-[ "${NETWORKING}" == "no" ] && exit 0
+# Get network config
+. /etc/sysconfig/network
+
+# Get service config
+[ -f /etc/sysconfig/heimdal ] && . /etc/sysconfig/heimdal
+
+# Check that networking is up.
+[ "${NETWORKING}" = "no" ] && echo "Error: Networking is down"; exit 0
+
 
 # See how we were called.
 case "$1" in
   start)
-	show Starting Kerberos KDC
-	if (/usr/heimdal/sbin/kdc&); then deltext; ok; else deltext; fail; fi
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/heimdal ]; then
+		show Starting Kerberos KDC
+		daemon /usr/heimdal/sbin/kdc
+	else
+		echo "Kerberos KDC already is running"
+	fi
 	touch /var/lock/subsys/heimdal
 	;;
   stop)
@@ -28,7 +40,7 @@ case "$1" in
 	killproc kdc
 	rm -f /var/lock/subsys/heimdal
 	;;
-restart)
+restart|reload)
 	$0 stop
 	$0 start
 	;;
@@ -36,7 +48,7 @@ status)
 	status	kdc
 	;;
   *)
-	echo "Usage: $0 {start|stop|status|restart}"
+	echo "Usage: $0 {start|stop|status|restart|reload}"
 	exit 1
 esac
 
