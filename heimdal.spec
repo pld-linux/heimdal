@@ -54,7 +54,7 @@ Heimdal jest darmow± implementacj± Kerberosa 5. G³ówne zalety to:
    - wsparcie dla IPv6
 
 %package server
-Summary:	Kerberos Server 
+Summary:	Kerberos Server
 Summary(pl):	Serwer Kerberosa
 Group:		Networking
 Requires:	%{name}-libs = %{version}
@@ -212,7 +212,7 @@ Requires:	%{name}-libs = %{version}
 %description clients
 Kerberos 5 Clients.
 
-%description -l pl clients
+%description clients -l pl
 Oprogramowanie klienckie do korzystania z us³ug systemu Kerberos 5.
 
 %package daemons
@@ -224,7 +224,7 @@ Requires:	%{name}-libs = %{version}
 %description daemons
 Kerberos Daemons.
 
-%description -l pl daemons
+%description daemons -l pl
 Demony korzystaj±ce z systemu Kerberos do autoryzacji dostêpu.
 
 %package devel
@@ -269,7 +269,7 @@ Biblioteki statyczne heimdal.
 
 # --enable-netinfo - czo to takiego ?
 # mo¿na u¿ywaæ albo krb5.conf albo netinfo
-# 
+#
 #       --enable-osfc2 \
 #    setluid(epw->ufld->fd_uid);
 #    if(getluid() != epw->ufld->fd_uid) {
@@ -303,7 +303,7 @@ chmod +r $RPM_BUILD_ROOT%{_bindir}/otp   # qrde dlaczego to ma chmod 0
 
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
-gzip -9nf NEWS TODO 
+gzip -9nf NEWS TODO
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -335,7 +335,7 @@ if [ -f /var/lock/subsys/rc-inetd ]; then
 else
 	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
 fi
-	    
+
 %post ftpd
 if [ -f /var/lock/subsys/rc-inetd ]; then
 	/etc/rc.d/init.d/rc-inetd reload 1>&2
@@ -376,7 +376,7 @@ fi
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%postun libs 
+%postun libs
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
@@ -403,7 +403,7 @@ fi
 %attr(755,root,root) %{_sbindir}/ipropd-slave
 %attr(755,root,root) %{_sbindir}/kadmind
 %attr(755,root,root) %{_sbindir}/kdc
-%attr(755,root,root) %{_sbindir}/kxd 
+%attr(755,root,root) %{_sbindir}/kxd
 %attr(755,root,root) %{_sbindir}/kpasswdd
 
 %{_mandir}/man8/hprop.8*
