@@ -317,6 +317,8 @@ install %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
+mv $RPM_BUILD_ROOT%{_mandir}/man1/login.1 $RPM_BUILD_ROOT%{_mandir}/man1/login.1h
+
 # other implementation exists in e2fsprogs (conflict with e2fsprogs-devel)
 rm -f $RPM_BUILD_ROOT{%{_libdir}/libss.so,%{_includedir}/ss/ss.h}
 # this is created because glibc's <glob.h> has no GLOB_LIMIT and GLOB_QUOTE
