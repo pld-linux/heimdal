@@ -1,17 +1,19 @@
---- heimdal-0.4c/appl/ftp/ftpd/pathnames.h~	Wed Jan  5 14:46:38 2000
-+++ heimdal-0.4c/appl/ftp/ftpd/pathnames.h	Fri Jul 20 03:36:17 2001
+--- heimdal-0.5/appl/ftp/ftpd/pathnames.h.orig	Mon Aug 12 17:09:14 2002
++++ heimdal-0.5/appl/ftp/ftpd/pathnames.h	Thu Sep 19 00:27:35 2002
 @@ -49,10 +49,10 @@
  #define _PATH_BSHELL "/bin/sh"
  #endif
  
--#define	_PATH_FTPUSERS		"/etc/ftpusers"
--#define	_PATH_FTPCHROOT		"/etc/ftpchroot"
--#define	_PATH_FTPWELCOME	"/etc/ftpwelcome"
--#define	_PATH_FTPLOGINMESG	"/etc/motd"
+-#define	_PATH_FTPUSERS		SYSCONFDIR "/ftpusers"
+-#define	_PATH_FTPCHROOT		SYSCONFDIR "/ftpchroot"
+-#define	_PATH_FTPWELCOME	SYSCONFDIR "/ftpwelcome"
+-#define	_PATH_FTPLOGINMESG	SYSCONFDIR "/motd"
 +#define	_PATH_FTPUSERS		"/etc/ftpd/ftpusers"
 +#define	_PATH_FTPCHROOT		"/etc/ftpd/ftpchroot"
 +#define	_PATH_FTPWELCOME	"/etc/ftpd/ftpwelcome"
 +#define	_PATH_FTPLOGINMESG	"/etc/ftpd/motd"
  
- #define _PATH_ISSUE		"/etc/issue"
- #define _PATH_ISSUE_NET		"/etc/issue.net"
+-#define _PATH_ISSUE		SYSCONFDIR "/issue"
+-#define _PATH_ISSUE_NET		SYSCONFDIR "/issue.net"
++#define _PATH_ISSUE		"/etc/ftpd/issue"
++#define _PATH_ISSUE_NET		"/etc/ftpd/issue.net"
