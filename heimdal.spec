@@ -238,7 +238,7 @@ Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}
-Requires:	e2fsprogs-devel
+Requires:	e2fsprogs-devel >= 1.34
 
 %description devel
 contains files needed to compile and link software using the kerberos
@@ -313,7 +313,7 @@ install %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
 rm -rf	$RPM_BUILD_ROOT%{_libdir}/lib{com_err,ss}.so \
-	$RPM_BUILD_ROOT%{_includedir}/glob.h
+	$RPM_BUILD_ROOT%{_includedir}/{glob,ss}.h
 
 chmod +r $RPM_BUILD_ROOT%{_bindir}/otp   # qrde dlaczego to ma chmod 0
 
@@ -397,7 +397,6 @@ fi
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/afslog
-%attr(755,root,root) %{_bindir}/compile_et
 %attr(755,root,root) %{_bindir}/kauth
 %attr(755,root,root) %{_bindir}/kdestroy
 %attr(755,root,root) %{_bindir}/kf
