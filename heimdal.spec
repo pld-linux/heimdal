@@ -41,7 +41,7 @@ BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	openldap-devel
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-libs = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Conflicts:	krb5-lib
 
@@ -78,7 +78,7 @@ Summary(pl):	Serwer Kerberosa
 Group:		Networking
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-libs = %{version}-%{release}
 
 %description server
 Master KDC.
@@ -103,7 +103,7 @@ Pakiet zawiera biblioteki wspó³dzielone dla heimdal.
 Summary:	login is used when signing onto a system
 Summary(pl):	Narzêdzie do logowania w systemie
 Group:		Applications/Networking
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-libs = %{version}-%{release}
 #Provides:	login
 #Obsoletes:	login
 
@@ -123,7 +123,7 @@ zawiera skerberyzowan± wersjê programu login.
 Summary:	The standard UNIX FTP (file transfer protocol) client
 Summary(pl):	Klient protoko³u FTP
 Group:		Applications/Networking
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-libs = %{version}-%{release}
 Conflicts:	heimdal-clients
 
 %description ftp
@@ -141,7 +141,7 @@ rozpowszechnionym w Internecie.
 Summary:	Clients for remote access commands (rsh, rlogin, rcp)
 Summary(pl):	Klient zdalnego dostêpu (rsh, rlogin, rcp)
 Group:		Applications/Networking
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	rsh
 Conflicts:	heimdal-clients
 
@@ -161,7 +161,7 @@ kopiowanie plików pomiêdzy maszynami (rsh, rlogin, rcp).
 Summary:	Client for the telnet remote login
 Summary(pl):	Klient us³ugi telnet
 Group:		Applications/Networking
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	telnet
 Provides:	telnet
 Conflicts:	heimdal-clients
@@ -179,7 +179,7 @@ Summary:	The standard UNIX FTP (file transfer protocol) server
 Summary(pl):	Serwer FTP
 Group:		Networking/Daemons
 PreReq:		rc-inetd >= 0.8.1
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	ftpd
 
 %description ftpd
@@ -195,7 +195,7 @@ Summary:	Server for remote access commands (rsh, rlogin, rcp)
 Summary(pl):	Serwer zdalnego dostêpu (rsh, rlogin, rcp)
 Group:		Networking/Daemons
 PreReq:		rc-inetd >= 0.8.1
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	rshd
 
 %description rshd
@@ -215,7 +215,7 @@ Summary:	Server for the telnet remote login
 Summary(pl):	Serwer protoko³u telnet
 Group:		Networking/Daemons
 PreReq:		rc-inetd >= 0.8.1
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	telnetd
 
 %description telnetd
@@ -232,7 +232,7 @@ na której dzia³a.
 Summary:	Kerberos daemons programs for use on servers
 Summary(pl):	Serwery popularnych us³ug, autoryzuj±ce przy pomocy kerberosa
 Group:		Networking
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-libs = %{version}-%{release}
 
 %description daemons
 Kerberos Daemons.
@@ -244,7 +244,7 @@ Demony korzystaj±ce z systemu Kerberos do autoryzacji dostêpu.
 Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	db-devel
 Requires:	libcom_err-devel >= 1.34-5
 Requires:	openssl-devel
@@ -260,7 +260,7 @@ Pliki nag³ówkowe i dokumentacja do bibliotek heimdal.
 Summary:	Static heimdal libraries
 Summary(pl):	Biblioteki statyczne heimdal
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Satatic heimdal libraries.
