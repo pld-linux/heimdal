@@ -20,7 +20,7 @@ URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	flex
 BuildRequires:	mawk
 BuildRequires:	XFree86-devel
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Conflicts:	krb5-lib
 Requires:	rc-scripts
 
@@ -64,7 +64,6 @@ Master KDC.
 %description -l pl server
 G³ówne centrum dystrybucji kluczy (KDC).
 
-
 %package libs
 Summary:	Heimdal shared libraries
 Summary(pl):	Biblioteki dzielone dla heimdal
@@ -78,7 +77,6 @@ packages.
 
 %description -l pl libs
 Pakiet zawiera biblioteki wspó³dzielone dla heimdal.
-
 
 %package login
 Summary:	login is used when signing onto a system
@@ -105,7 +103,6 @@ kerberos authentication support. FTP is the file transfer protocol, which is
 a widely used Internet protocol for transferring files and for archiving
 files.
 
-
 %package rsh
 Summary:	Clients for remote access commands (rsh, rlogin, rcp)
 Group:		Applications/Networking
@@ -120,7 +117,6 @@ between machines (rsh, rlogin and rcp).  All three of these commands
 use rhosts style authentication.  This package contains the clients
 needed for all of these services.
 
-
 %package telnet
 Summary:	Client for the telnet remote login
 Group:		Applications/Networking
@@ -131,7 +127,6 @@ Obsoletes:	telnet
 %description telnet
 Telnet is a popular protocol for remote logins across the Internet. This
 package provides a command line telnet client.
-
 
 %package ftpd
 Summary:	The standard UNIX FTP (file transfer protocol) server
@@ -144,7 +139,6 @@ Obsoletes:	ftpd
 %description ftpd
 FTP is the file transfer protocol, which is a widely used Internet 
 protocol for transferring files and for archiving files.
-
 
 %package rshd
 Summary:	Server for remote access commands (rsh, rlogin, rcp)
@@ -161,7 +155,6 @@ between machines (rsh, rlogin and rcp). All three of these commands
 use rhosts style authentication.  This package contains servers needed
 for all of these services.
 
-
 %package telnetd
 Summary:	Server for the telnet remote login
 Group:		Networking/Daemons
@@ -174,7 +167,6 @@ Obsoletes:	telnetd
 Telnet is a popular protocol for remote logins across the Internet. This
 package provides a telnet daemon which allows remote logins into the 
 machine it is running on.
-
 
 %package clients
 Summary:	Kerberos programs for use on workstations
@@ -189,7 +181,6 @@ Kerberos 5 Clients.
 %description -l pl clients
 Oprogramowanie klienckie do korzystania z us³ug systemu Kerberos 5.
 
-
 %package daemons
 Summary:	Kerberos daemons programs for use on servers
 Summary(pl):	Serwery popularnych us³ug, autoryzuj±ce przy pomocy kerberosa
@@ -202,7 +193,6 @@ Kerberos Daemons.
 
 %description -l pl daemons
 Daemony korzystaj±ce z systemu Kerberos do autoryzacji dostêpu.
-
 
 %package devel
 Summary:	Header files for heimdal
@@ -217,7 +207,6 @@ libraries.
 
 %description -l pl devel
 Pliki nag³ówkowe i dokumentacja do bibliotek heimdal.
-
 
 %package static
 Summary:	Static heimdal libraries
@@ -301,7 +290,6 @@ else
 	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
 fi
 
-    
 %preun server
 if [ "$1" = 0 ]; then
 	if [ -f /var/lock/sybsys/heimadal ]; then
@@ -316,7 +304,6 @@ else
 	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
 fi
 	    
-
 %post ftpd
 if [ -f /var/lock/subsys/rc-inetd ]; then
 	/etc/rc.d/init.d/rc-inetd reload 1>&2
@@ -357,15 +344,12 @@ fi
 /sbin/ldconfig
 /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-
 %postun libs 
 /sbin/ldconfig
 /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-
 %clean
 rm -rf $RPM_BUILD_ROOT
-
 
 %files server
 %defattr(644,root,root,755)
@@ -400,7 +384,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/kstash.8*
 %{_mandir}/man8/kpasswdd.8*
 
-
 %files libs
 %defattr(644,root,root,755)
 
@@ -413,7 +396,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_infodir}/heimdal.info*
 %{_mandir}/man5/krb5.conf.5*
 
-
 %files login
 %attr(755,root,root) %{_bindir}/login
 
@@ -421,15 +403,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ftp
 %attr(644,root,root) %{_mandir}/man1/ftp.1*
 
-
 %files rsh
 %attr(755,root,root) %{_bindir}/rsh
-
 
 %files telnet
 %attr(755,root,root) %{_bindir}/telnet
 %attr(644,root,root) %{_mandir}/man1/telnet.1*
-
 
 %files ftpd
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/ftpd
@@ -437,17 +416,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644,root,root) %{_mandir}/man5/ftpusers.5*
 %attr(644,root,root) %{_mandir}/man8/ftpd.8*
 
-
 %files rshd
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/rshd
 %attr(755,root,root) %{_sbindir}/rshd
-
 
 %files telnetd
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/telnetd
 %attr(755,root,root) %{_sbindir}/telnetd
 %attr(644,root,root) %{_mandir}/man8/telnetd.8*
-
 
 %files
 %attr(755,root,root) %{_bindir}/compile_et
@@ -480,7 +456,6 @@ rm -rf $RPM_BUILD_ROOT
 %files daemons
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/popper
-
 
 %files devel
 %defattr(644,root,root,755)
