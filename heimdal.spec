@@ -34,7 +34,7 @@ URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
-BuildRequires:	db4.3-devel
+BuildRequires:	db-devel
 BuildRequires:	flex
 BuildRequires:	libcom_err-devel >= 1.34-5
 BuildRequires:	libtool
@@ -248,7 +248,7 @@ Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	db4.3-devel
+Requires:	db-devel
 Requires:	libcom_err-devel >= 1.34-5
 Requires:	openssl-devel
 
