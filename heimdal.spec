@@ -285,7 +285,8 @@ install %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
-rm -rf $RPM_BUILD_ROOT%{_libdir}/lib{com_err,ss}.*
+rm -rf	$RPM_BUILD_ROOT%{_libdir}/lib{com_err,ss}.* \
+	RPM_BUILD_ROOT%{_includedir}/glob.h
 
 chmod +r $RPM_BUILD_ROOT%{_bindir}/otp   # qrde dlaczego to ma chmod 0
 
