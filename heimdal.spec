@@ -30,7 +30,7 @@ BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	db-devel
 BuildRequires:	flex
-BuildRequires:	libcomm_err-devel >= 1.34-5
+BuildRequires:	libcom_err-devel >= 1.34-5
 BuildRequires:	libtool
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
@@ -237,7 +237,7 @@ Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}
-Requires:	libcomm_err-devel >= 1.34-5
+Requires:	libcom_err-devel >= 1.34-5
 
 %description devel
 contains files needed to compile and link software using the kerberos
