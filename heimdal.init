@@ -20,48 +20,57 @@
 [ -f /etc/sysconfig/heimdal ] && . /etc/sysconfig/heimdal
 
 # Check that networking is up.
-if [ "${NETWORKING}" = "no" ]; then
-	echo "WARNING: Networking is down. Heimdal service can't be runed."
-	exit 1
+if is_no "${NETWORKING}"; then
+        # nls "ERROR: Networking is down. %s can't be run." <service>
+        msg_Network_Down "Kerberos KDC"
+        exit 1
 fi
-
+			
 
 # See how we were called.
 case "$1" in
   start)
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/heimdal ]; then
-		show Starting Kerberos KDC
+		msg_starting "Kerberos KDC"
 		busy
 		kdc &
 	        sleep 1
-	        if ps ax | grep -v grep | grep -q kdc; then
+	        if ps -C kdc >/dev/null 2>&1; then
 		    deltext
 		    ok
 	        else
 		    deltext
 		    fail
 	        fi
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/heimdal
 	else
-		echo "Kerberos KDC already is running"
+		msg_Already_Running "Kerberos KDC"
+		exit 1
 	fi
-	touch /var/lock/subsys/heimdal
 	;;
   stop)
-	show Stopping Kerberos KDC
-	killproc kdc
-	rm -f /var/lock/subsys/heimdal
+        if [ -f /var/lock/subsys/heimdal ]; then
+	    msg_stopping "Kerberos KDC"
+	    killproc kdc
+	    rm -f /var/lock/subsys/heimdal >/dev/null 2>&1
+	else
+            msg_Not_Running "Kerberos KDC"
+            exit 1
+	fi
 	;;
-restart|reload)
+  restart|reload)
 	$0 stop
 	$0 start
 	;;
-status)
+  status)
 	status kdc
+	exit $?
 	;;
   *)
-	echo "Usage: $0 {start|stop|status|restart|reload}"
+	msg_Usage "$0 {start|stop|status|restart|reload}"
 	exit 1
 esac
 
-exit 0
+exit $RETVAL
