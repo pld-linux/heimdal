@@ -414,6 +414,7 @@ fi
 %attr(755,root,root) %{_bindir}/string2key
 %attr(755,root,root) %{_bindir}/otpprint
 %attr(755,root,root) %{_bindir}/verify_krb5_conf
+%attr(755,root,root) %{_sbindir}/ktutil
 %if %{with x11}
 %attr(755,root,root) %{_bindir}/kx
 %attr(755,root,root) %{_bindir}/tenletxr
@@ -437,6 +438,7 @@ fi
 %{_mandir}/man1/otp.1*
 %{_mandir}/man1/otpprint.1*
 %{_mandir}/man1/pfrom.1*
+%{_mandir}/man8/ktutil.8*
 %{_mandir}/man8/string2key.8*
 %{_mandir}/man8/verify_krb5_conf.8*
 
@@ -464,7 +466,6 @@ fi
 %attr(755,root,root) %{_sbindir}/kadmin
 %attr(755,root,root) %{_sbindir}/kfd
 %attr(755,root,root) %{_sbindir}/kstash
-%attr(755,root,root) %{_sbindir}/ktutil
 %attr(755,root,root) %{_sbindir}/replay_log
 %attr(755,root,root) %{_sbindir}/hprop
 %attr(755,root,root) %{_sbindir}/hpropd
@@ -485,7 +486,6 @@ fi
 %{_mandir}/man8/kfd.8*
 %{_mandir}/man8/kpasswdd.8*
 %{_mandir}/man8/kstash.8*
-%{_mandir}/man8/ktutil.8*
 %{?with_x11:%{_mandir}/man8/kxd.8*}
 %{_mandir}/man8/push.8*
 
