@@ -295,40 +295,76 @@ touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 gzip -9nf NEWS TODO 
 
 %post server
-DESC="heimdal daemon"; %chkconfig_add
-%rc_inetd_post
+/sbin/chkconfig --add heimdal
+if [ -f /var/lock/sybsys/heimdal ]; then
+	/etc/rc.d/init.d/heimdal restart >&2
+else
+	echo "Run \"/etc/rc.d/init.d/heimdal start\" to start heimdal daemon."
+fi
+
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
+else
+	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
+fi
 
 %preun server
-%chkconfig_del
+if [ "$1" = "0" ]; then
+	if [ -f /var/lock/sybsys/heimadal ]; then
+		/etc/rc.d/init.d/heimdal stop >&2
+	fi
+	/sbin/chkconfig --del heimdal
+fi
 
-%postun server
-%rc_inetd_postun
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
+else
+	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
+fi
 	    
 %post ftpd
-%rc_inetd_post
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
+else
+	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
+fi
 
 %postun ftpd
-%rc_inetd_postun
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload
+fi
 
 %post rshd
-%rc_inetd_post
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
+else
+	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
+fi
 
 %postun rshd
-%rc_inetd_postun
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload
+fi
 
 %post telnetd
-%rc_inetd_post
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
+else
+	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
+fi
 
 %postun telnetd
-%rc_inetd_postun
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload
+fi
 
 %post libs
 /sbin/ldconfig
-%fix_info_dir
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun libs 
 /sbin/ldconfig
-%fix_info_dir
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
