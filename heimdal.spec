@@ -5,12 +5,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.6
-Release:	9
+Version:	0.6.1
+Release:	1
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
-# Source0-md5:	e68c260181f2ee58e01215b8d03c35ba
+# Source0-md5:	20ef3dade89afc45eac9d8935a1a9cc0
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.sysconfig
@@ -23,14 +23,10 @@ Patch0:		%{name}-paths.patch
 Patch1:		%{name}-info.patch
 Patch2:		%{name}-am_man_fixes.patch
 Patch3:		%{name}-amfix.patch
-Patch4:		%{name}-gcc33.patch
-Patch5:		%{name}-db41.patch
-Patch6:		%{name}-dbpaths.patch
-Patch7:		%{name}-system-comm_err.patch
-Patch8:		%{name}-config-section.patch
-Patch9:		%{name}-acfixes.patch
-Patch10:	%{name}-sasl-external.patch
-# Patch10-URL: http://www.stacken.kth.se/lists/heimdal-discuss/2003-05/msg00040.html
+Patch4:		%{name}-dbpaths.patch
+Patch5:		%{name}-system-comm_err.patch
+Patch6:		%{name}-acfixes.patch
+Patch7:		%{name}-link.patch
 URL:		http://www.pdc.kth.se/heimdal/
 %{?with_x11:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
@@ -282,9 +278,6 @@ Biblioteki statyczne heimdal.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
 
 %build
 rm -f acinclude.m4
