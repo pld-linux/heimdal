@@ -1,7 +1,3 @@
-# TODO:
-# - contains libcom_err.so.1 and libss.so.0 (removed in install),
-#   which are used to link other libs and apps
-#   but current e2fsprogs contains libcom_err.so.2 and libss.so.2
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
@@ -316,7 +312,8 @@ install %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
 rm -rf	$RPM_BUILD_ROOT%{_libdir}/lib{com_err,ss}.so \
-	$RPM_BUILD_ROOT%{_includedir}/{glob,ss}.h
+	$RPM_BUILD_ROOT%{_includedir}/{glob}.h \
+	$RPM_BUILD_ROOT%{_includedir}/ss/ss.h 
 
 chmod +r $RPM_BUILD_ROOT%{_bindir}/otp   # qrde dlaczego to ma chmod 0
 
