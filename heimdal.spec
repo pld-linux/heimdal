@@ -1,10 +1,11 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.3b
+Version:	0.3c
 Release:	1
 Copyright:	Free
 Group:		Networking
+Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
@@ -57,6 +58,7 @@ Heimdal jest darmow± implementacj± Kerberosa 5. G³ówne zalety to:
 Summary:	Kerberos Server 
 Summary(pl):	Serwer Kerberosa
 Group:		Networking
+Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
 Requires:	%{name}-libs = %{version}
 
@@ -70,6 +72,7 @@ G³ówne centrum dystrybucji kluczy (KDC).
 Summary:	Heimdal shared libraries
 Summary(pl):	Biblioteki dzielone dla heimdal
 Group:		Libraries
+Group(de):	Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 
@@ -83,6 +86,7 @@ Pakiet zawiera biblioteki wspó³dzielone dla heimdal.
 %package login
 Summary:	login is used when signing onto a system
 Group:		Applications/Networking
+Group(de):	Applikationen/Netzwerkwesen
 Group(pl):	Aplikacje/Sieciowe
 Requires:	%{name}-libs = %{version}
 Provides:	login
@@ -97,6 +101,7 @@ contain kerberized version login program.
 %package ftp
 Summary:	The standard UNIX FTP (file transfer protocol) client
 Group:		Applications/Networking
+Group(de):	Applikationen/Netzwerkwesen
 Group(pl):	Aplikacje/Sieciowe
 Requires:	%{name}-libs = %{version}
 
@@ -109,6 +114,7 @@ files and for archiving files.
 %package rsh
 Summary:	Clients for remote access commands (rsh, rlogin, rcp)
 Group:		Applications/Networking
+Group(de):	Applikationen/Netzwerkwesen
 Group(pl):	Aplikacje/Sieciowe
 Requires:	%{name}-libs = %{version}
 Obsoletes:	rsh
@@ -123,6 +129,7 @@ needed for all of these services.
 %package telnet
 Summary:	Client for the telnet remote login
 Group:		Applications/Networking
+Group(de):	Applikationen/Netzwerkwesen
 Group(pl):	Aplikacje/Sieciowe
 Requires:	%{name}-libs = %{version}
 Obsoletes:	telnet
@@ -134,6 +141,7 @@ This package provides a command line telnet client.
 %package ftpd
 Summary:	The standard UNIX FTP (file transfer protocol) server
 Group:		Networking/Daemons
+Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
 Prereq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}
@@ -146,6 +154,7 @@ protocol for transferring files and for archiving files.
 %package rshd
 Summary:	Server for remote access commands (rsh, rlogin, rcp)
 Group:		Networking/Daemons
+Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
 Prereq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}
@@ -161,6 +170,7 @@ for all of these services.
 %package telnetd
 Summary:	Server for the telnet remote login
 Group:		Networking/Daemons
+Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
 Prereq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}
@@ -175,6 +185,7 @@ the machine it is running on.
 Summary:	Kerberos programs for use on workstations
 Summary(pl):	Oprogramowanie klienckie dla stacji roboczej kerberosa
 Group:		Networking
+Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
 Requires:	%{name}-libs = %{version}
 
@@ -188,6 +199,7 @@ Oprogramowanie klienckie do korzystania z us³ug systemu Kerberos 5.
 Summary:	Kerberos daemons programs for use on servers
 Summary(pl):	Serwery popularnych us³ug, autoryzuj±ce przy pomocy kerberosa
 Group:		Networking
+Group(de):	Netzwerkwesen
 Group(pl):	Sieciowe
 Requires:	%{name}-libs = %{version}
 
@@ -201,6 +213,7 @@ Daemony korzystaj±ce z systemu Kerberos do autoryzacji dostêpu.
 Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Libraries
+Group(de):	Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Requires:	%{name}-libs = %{version}
@@ -216,6 +229,7 @@ Pliki nag³ówkowe i dokumentacja do bibliotek heimdal.
 Summary:	Static heimdal libraries
 Summary(pl):	Biblioteki statyczne heimdal
 Group:		Libraries
+Group(de):	Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Requires:	%{name}-libs = %{version}
@@ -271,14 +285,11 @@ install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
 rm -rf $RPM_BUILD_ROOT%{_libdir}/libcom_err.*
 
-strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/*.so.*
-
 chmod +r $RPM_BUILD_ROOT%{_bindir}/otp   # qrde dlaczego to ma chmod 0
 
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
-gzip -9nf $RPM_BUILD_ROOT{%{_mandir}/man[1358]/*,%{_infodir}/*} \
-	NEWS TODO 
+gzip -9nf NEWS TODO 
 
 %post server
 /sbin/chkconfig --add heimdal
@@ -295,7 +306,7 @@ else
 fi
 
 %preun server
-if [ "$1" = 0 ]; then
+if [ "$1" = "0" ]; then
 	if [ -f /var/lock/sybsys/heimadal ]; then
 		/etc/rc.d/init.d/heimdal stop >&2
 	fi
