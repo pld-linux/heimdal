@@ -69,7 +69,6 @@ Summary:	Heimdal shared libraries
 Summary(pl):	Biblioteki dzielone dla heimdal
 Group:		Libraries
 Group(pl):	Biblioteki
-Prereq:		/usr/sbin/fix-info-dir
 
 %description libs
 Package contains shared libraries required by several of the other heimdal
@@ -342,11 +341,11 @@ fi
 
 %post libs
 /sbin/ldconfig
-/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+[ -x /usr/sbin/fix-info-dir ] && /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun libs 
 /sbin/ldconfig
-/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+[ -x /usr/sbin/fix-info-dir ] && /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
