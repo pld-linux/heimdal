@@ -24,6 +24,7 @@ Patch5:		%{name}-db41.patch
 Patch6:		%{name}-dbpaths.patch
 Patch7:		%{name}-system-comm_err.patch
 Patch8:		%{name}-config-section.patch
+Patch9:		%{name}-acfixes.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -270,9 +271,9 @@ Biblioteki statyczne heimdal.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
-rm -f missing
 %{__libtoolize}
 %{__aclocal} -I cf
 autoupdate
@@ -282,17 +283,9 @@ autoupdate
 	--enable-shared \
 	--enable-static \
 	--enable-new-des3-code \
-	--with-readline \
+	--with-readline=/usr \
 	--with-x \
 	--with-ipv6
-
-# --enable-netinfo - czo to takiego ?
-# mo¿na u¿ywaæ albo krb5.conf albo netinfo
-#
-#       --enable-osfc2 \
-#    setluid(epw->ufld->fd_uid);
-#    if(getluid() != epw->ufld->fd_uid) {
-# setluid() && getluid() - sk±d to
 
 %{__make}
 
@@ -316,11 +309,10 @@ install %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
-rm -rf	$RPM_BUILD_ROOT%{_libdir}/lib{com_err,ss}.so \
-	$RPM_BUILD_ROOT%{_includedir}/{glob,fnmatch}.h \
-	$RPM_BUILD_ROOT%{_includedir}/ss/ss.h
-
-chmod +r $RPM_BUILD_ROOT%{_bindir}/otp   # qrde dlaczego to ma chmod 0
+# other implementation exists in e2fsprogs (conflict with e2fsprogs-devel)
+rm -f $RPM_BUILD_ROOT{%{_libdir}/libss.so,%{_includedir}/ss/ss.h}
+# this is created because glibc's <glob.h> has no GLOB_LIMIT and GLOB_QUOTE
+rm -f $RPM_BUILD_ROOT%{_includedir}/glob.h
 
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
