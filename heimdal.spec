@@ -5,10 +5,6 @@ Version:	0.4e
 Release:	3
 License:	Free
 Group:		Networking
-Group(de):	Netzwerkwesen
-Group(es):	Red
-Group(pl):	Sieciowe
-Group(pt_BR):	Rede
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
@@ -61,10 +57,6 @@ Heimdal jest darmow± implementacj± Kerberosa 5. G³ówne zalety to:
 Summary:	Kerberos Server 
 Summary(pl):	Serwer Kerberosa
 Group:		Networking
-Group(de):	Netzwerkwesen
-Group(es):	Red
-Group(pl):	Sieciowe
-Group(pt_BR):	Rede
 Requires:	%{name}-libs = %{version}
 Prereq:		/sbin/chkconfig
 
@@ -78,13 +70,6 @@ G³ówne centrum dystrybucji kluczy (KDC).
 Summary:	Heimdal shared libraries
 Summary(pl):	Biblioteki wspó³dzielone dla heimdal
 Group:		Libraries
-Group(de):	Libraries
-Group(es):	Bibliotecas
-Group(fr):	Librairies
-Group(pl):	Biblioteki
-Group(pt_BR):	Bibliotecas
-Group(ru):	âÉÂÌÉÏÔÅËÉ
-Group(uk):	â¦ÂÌ¦ÏÔÅËÉ
 
 %description libs
 Package contains shared libraries required by several of the other
@@ -97,8 +82,6 @@ Pakiet zawiera biblioteki wspó³dzielone dla heimdal.
 Summary:	login is used when signing onto a system
 Summary(pl):	Narzêdzie do logowania w systemie
 Group:		Applications/Networking
-Group(de):	Applikationen/Netzwerkwesen
-Group(pl):	Aplikacje/Sieciowe
 Requires:	%{name}-libs = %{version}
 Provides:	login
 Obsoletes:	login
@@ -119,8 +102,6 @@ zawiera skerberyzowan± wersjê programu login.
 Summary:	The standard UNIX FTP (file transfer protocol) client
 Summary(pl):	Klient protoko³u FTP
 Group:		Applications/Networking
-Group(de):	Applikationen/Netzwerkwesen
-Group(pl):	Aplikacje/Sieciowe
 Requires:	%{name}-libs = %{version}
 
 %description ftp
@@ -138,8 +119,6 @@ rozpowszechnionym w Internecie.
 Summary:	Clients for remote access commands (rsh, rlogin, rcp)
 Summary(pl):	Klient zdalnego dostêpu (rsh, rlogin, rcp)
 Group:		Applications/Networking
-Group(de):	Applikationen/Netzwerkwesen
-Group(pl):	Aplikacje/Sieciowe
 Requires:	%{name}-libs = %{version}
 Obsoletes:	rsh
 
@@ -159,8 +138,6 @@ kopiowanie plików pomiêdzy maszynami (rsh, rlogin, rcp).
 Summary:	Client for the telnet remote login
 Summary(pl):	Klient us³ugi telnet
 Group:		Applications/Networking
-Group(de):	Applikationen/Netzwerkwesen
-Group(pl):	Aplikacje/Sieciowe
 Requires:	%{name}-libs = %{version}
 Obsoletes:	telnet
 
@@ -176,8 +153,6 @@ zawiera klienta tej us³ugi.
 Summary:	The standard UNIX FTP (file transfer protocol) server
 Summary(pl):	Serwer FTP
 Group:		Networking/Daemons
-Group(de):	Netzwerkwesen/Server
-Group(pl):	Sieciowe/Serwery
 Prereq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}
 Obsoletes:	ftpd
@@ -194,8 +169,6 @@ Internecie.
 Summary:	Server for remote access commands (rsh, rlogin, rcp)
 Summary(pl):	Serwer zdalnego dostêpu (rsh, rlogin, rcp)
 Group:		Networking/Daemons
-Group(de):	Netzwerkwesen/Server
-Group(pl):	Sieciowe/Serwery
 Prereq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}
 Obsoletes:	rshd
@@ -216,8 +189,6 @@ kopiowanie plików pomiêdzy maszynami (rsh, rlogin, rcp).
 Summary:	Server for the telnet remote login
 Summary(pl):	Serwer protoko³u telnet
 Group:		Networking/Daemons
-Group(de):	Netzwerkwesen/Server
-Group(pl):	Sieciowe/Serwery
 Prereq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}
 Obsoletes:	telnetd
@@ -236,10 +207,6 @@ na której dzia³a.
 Summary:	Kerberos programs for use on workstations
 Summary(pl):	Oprogramowanie klienckie dla stacji roboczej kerberosa
 Group:		Networking
-Group(de):	Netzwerkwesen
-Group(es):	Red
-Group(pl):	Sieciowe
-Group(pt_BR):	Rede
 Requires:	%{name}-libs = %{version}
 
 %description clients
@@ -252,10 +219,6 @@ Oprogramowanie klienckie do korzystania z us³ug systemu Kerberos 5.
 Summary:	Kerberos daemons programs for use on servers
 Summary(pl):	Serwery popularnych us³ug, autoryzuj±ce przy pomocy kerberosa
 Group:		Networking
-Group(de):	Netzwerkwesen
-Group(es):	Red
-Group(pl):	Sieciowe
-Group(pt_BR):	Rede
 Requires:	%{name}-libs = %{version}
 
 %description daemons
@@ -268,13 +231,6 @@ Demony korzystaj±ce z systemu Kerberos do autoryzacji dostêpu.
 Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
-Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name}-libs = %{version}
 Requires:	e2fsprogs-devel
 
@@ -289,13 +245,6 @@ Pliki nag³ówkowe i dokumentacja do bibliotek heimdal.
 Summary:	Static heimdal libraries
 Summary(pl):	Biblioteki statyczne heimdal
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
-Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name}-devel = %{version}
 
 %description static
