@@ -84,6 +84,7 @@ Summary:	Kerberos shared libraries
 Summary(pl):	Biblioteki dzielone dla kerberosa
 Group:		Libraries
 Group(pl):	Biblioteki
+Prereq:		/usr/sbin/fix-info-dir
 
 %description lib
 Libraries for Kerberos V5 Server and Client
@@ -197,20 +198,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %post lib
 if [ "$1" = "0" ]; then
-        /sbin/install-info --delete %{_infodir}/%{name}.info.gz \
-                /etc/info-dir >&2
         /etc/rc.d/init.d/heimdal stop >&2
         /sbin/chkconfig --del heimdal >&2
 fi
 /sbin/ldconfig
+/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
 
 %preun lib
 if [ "$1" = "0" ]; then
-        /sbin/install-info --delete %{_infodir}/%{name}.info.gz \
-                /etc/info-dir >&2
         /etc/rc.d/init.d/heimdal stop >&2
         /sbin/chkconfig --del heimdal >&2
 fi
+/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun lib -p /sbin/ldconfig
 
