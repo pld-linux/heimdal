@@ -245,7 +245,7 @@ LDFLAGS="-s"; export LDFLAGS
 #    if(getluid() != epw->ufld->fd_uid) {
 # setluid() && getluid() - sk±d to
 
-make
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
