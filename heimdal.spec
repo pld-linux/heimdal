@@ -15,6 +15,7 @@ Group(pl):	Sieciowe
 Copyright:	Free
 BuildRoot:	/tmp/%{name}-%{version}-root
 Conflicts:	krb5-lib
+Requires:	rc-scripts
 
 %description
 Heimdal is a free implementation of Kerberos 5. The goals are to:
