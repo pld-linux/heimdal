@@ -5,12 +5,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.6
-Release:	9
+Version:	0.6.1
+Release:	3
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
-# Source0-md5:	e68c260181f2ee58e01215b8d03c35ba
+# Source0-md5:	20ef3dade89afc45eac9d8935a1a9cc0
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.sysconfig
@@ -23,27 +23,23 @@ Patch0:		%{name}-paths.patch
 Patch1:		%{name}-info.patch
 Patch2:		%{name}-am_man_fixes.patch
 Patch3:		%{name}-amfix.patch
-Patch4:		%{name}-gcc33.patch
-Patch5:		%{name}-db41.patch
-Patch6:		%{name}-dbpaths.patch
-Patch7:		%{name}-system-comm_err.patch
-Patch8:		%{name}-config-section.patch
-Patch9:		%{name}-acfixes.patch
-Patch10:	%{name}-sasl-external.patch
-# Patch10-URL: http://www.stacken.kth.se/lists/heimdal-discuss/2003-05/msg00040.html
+Patch4:		%{name}-dbpaths.patch
+Patch5:		%{name}-system-comm_err.patch
+Patch6:		%{name}-acfixes.patch
+Patch7:		%{name}-link.patch
 URL:		http://www.pdc.kth.se/heimdal/
 %{?with_x11:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
-BuildRequires:	db-devel
+BuildRequires:	db3-devel
 BuildRequires:	flex
-BuildRequires:	libcom_err-devel >= 1.34-5
+# BuildRequires:	libcom_err-devel >= 1.34-5
 BuildRequires:	libtool
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	openldap-devel
-BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	openssl-devel >= 0.9.6d
 BuildRequires:	readline-devel
 Requires:	%{name}-libs = %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -108,8 +104,8 @@ Summary:	login is used when signing onto a system
 Summary(pl):	Narzêdzie do logowania w systemie
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}
-Provides:	login
-Obsoletes:	login
+#Provides:	login
+#Obsoletes:	login
 
 %description login
 login is used when signing onto a system. It can also be used to
@@ -249,8 +245,8 @@ Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}
-Requires:	db-devel
-Requires:	libcom_err-devel >= 1.34-5
+Requires:	db3-devel
+# Requires:	libcom_err-devel >= 1.34-5
 Requires:	openssl-devel
 
 %description devel
@@ -282,9 +278,6 @@ Biblioteki statyczne heimdal.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
 
 %build
 rm -f acinclude.m4
@@ -421,6 +414,7 @@ fi
 %attr(755,root,root) %{_bindir}/string2key
 %attr(755,root,root) %{_bindir}/otpprint
 %attr(755,root,root) %{_bindir}/verify_krb5_conf
+%attr(755,root,root) %{_sbindir}/ktutil
 %if %{with x11}
 %attr(755,root,root) %{_bindir}/kx
 %attr(755,root,root) %{_bindir}/tenletxr
@@ -444,6 +438,7 @@ fi
 %{_mandir}/man1/otp.1*
 %{_mandir}/man1/otpprint.1*
 %{_mandir}/man1/pfrom.1*
+%{_mandir}/man8/ktutil.8*
 %{_mandir}/man8/string2key.8*
 %{_mandir}/man8/verify_krb5_conf.8*
 
@@ -471,7 +466,6 @@ fi
 %attr(755,root,root) %{_sbindir}/kadmin
 %attr(755,root,root) %{_sbindir}/kfd
 %attr(755,root,root) %{_sbindir}/kstash
-%attr(755,root,root) %{_sbindir}/ktutil
 %attr(755,root,root) %{_sbindir}/replay_log
 %attr(755,root,root) %{_sbindir}/hprop
 %attr(755,root,root) %{_sbindir}/hpropd
@@ -492,7 +486,6 @@ fi
 %{_mandir}/man8/kfd.8*
 %{_mandir}/man8/kpasswdd.8*
 %{_mandir}/man8/kstash.8*
-%{_mandir}/man8/ktutil.8*
 %{?with_x11:%{_mandir}/man8/kxd.8*}
 %{_mandir}/man8/push.8*
 

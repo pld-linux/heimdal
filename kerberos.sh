@@ -1,7 +1,0 @@
-alias	kinit="kinit -l 10m"
-alias	klist="klist -efc"
-alias	kdestroy="kdestroy -q"
-alias	krcp="/usr/bin/rcp -x"
-alias	krlogin="/usr/bin/rlogin -x"
-alias	krsh="/usr/bin/rsh -x"
-alias	ktelnet="/usr/bin/telnet -x"
