@@ -25,7 +25,7 @@ BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	XFree86-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Conflicts:	krb5-lib
-Requires:	rc-scripts
+Prereq:		rc-scripts
 
 %define		_libexecdir	%{_sbindir}
 %define		_localstatedir	/var/%{name}
