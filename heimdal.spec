@@ -11,11 +11,17 @@ Source3:	heimdal.init
 Source4:	inetd.conf.secure
 Source5:	heimdal.logrotate
 Source6:	heimdal.sysconfig
+Source7:	heimdal-ftpd.inetd
+Source8:	heimdal-rshd.inetd
+Source9:	heimdal-telnetd.inetd
 Patch0:		heimdal-paths.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRoot:	/tmp/%{name}-%{version}-root
 Conflicts:	krb5-lib
 Requires:	rc-scripts
+
+%define		_localstatedir	/var
+%define		_libexecdir	%{_sbindir}
 
 %description
 Heimdal is a free implementation of Kerberos 5. The goals are to:
@@ -40,12 +46,84 @@ Heimdal jest darmow± implementacj± Kerberosa 5. G³ówne zalety to:
    * zawiera wystarczaj±c± kompatybilno¶æ z Kerberos V4
    * wsparcie dla IPv6
 
-%package clients 
+%package server
+Summary:	Kerberos Server 
+Summary(pl):	Serwer Kerberosa
+Group:		Networking
+Group(pl):	Sieciowe
+Require:	%{name}-libs = %{version}
+
+%description server
+Master KDC.
+
+%description -l pl server
+G³ówne centrum dystrybucji kluczy (KDC).
+
+%package libs
+Summary:	Heimdal shared libraries
+Summary(pl):	Biblioteki dzielone dla heimdal
+Group:		Libraries
+Group(pl):	Biblioteki
+Prereq:		/usr/sbin/fix-info-dir
+
+%description libs
+Package contains shared libraries required by several of the other heimdal
+packages.
+
+%description -l pl libs
+Pakiet zawiera biblioteki wspó³dzielone dla heimdal.
+
+%package ftp
+Summary:	The standard UNIX FTP (file transfer protocol) client
+Group:		Applications/Networking
+Group(pl):	Aplikacje/Sieciowe
+Require:	%{name}-libs = %{version}
+
+%description ftp
+The ftp package provides the standard UNIX command-line FTP client with
+kerberos authentication support. FTP is the file transfer protocol, which is
+a widely used Internet protocol for transferring files and for archiving
+files.
+
+%package rsh
+Group:		Applications/Networking
+Group(pl):	Aplikacje/Sieciowe
+Require:	%{name}-libs = %{version}
+Obsoletes:	rsh
+
+%package telnet
+Group:		Applications/Networking
+Group(pl):	Aplikacje/Sieciowe
+Require:	%{name}-libs = %{version}
+Obsoletes:	telnet
+
+%package ftpd
+Group:		Networking/Daemons
+Group(pl):	Sieciowe/Serwery
+Prereq:		rc-inetd >= 0.8.1
+Require:	%{name}-libs = %{version}
+Obsoletes:	ftpd
+
+%package rshd
+Group:		Networking/Daemons
+Group(pl):	Sieciowe/Serwery
+Prereq:		rc-inetd >= 0.8.1
+Require:	%{name}-libs = %{version}
+Obsoletes:	rshd
+
+%package telnetd
+Group:		Networking/Daemons
+Group(pl):	Sieciowe/Serwery
+Prereq:		rc-inetd >= 0.8.1
+Require:	%{name}-libs = %{version}
+Obsoletes:	telnetd
+
+%package clients
 Summary:	Kerberos programs for use on workstations
 Summary(pl):	Oprogramowanie klienckie dla stacji roboczej kerberosa
 Group:		Networking
 Group(pl):	Sieciowe
-Requires:	%{name}-lib = %{version}
+Require:	%{name}-libs = %{version}
 
 %description clients
 Kerberos 5 Clients.
@@ -55,10 +133,10 @@ Oprogramowanie klienckie do korzystania z us³ug systemu Kerberos 5.
 
 %package daemons
 Summary:	Kerberos daemons programs for use on servers
-Summary(pl):	Serwery popularnych us³ug, autoryzuj±ce przy pomocy kerberosa.
+Summary(pl):	Serwery popularnych us³ug, autoryzuj±ce przy pomocy kerberosa
 Group:		Networking
 Group(pl):	Sieciowe
-Requires:	%{name}-lib = %{version}
+Require:	%{name}-libs = %{version}
 
 %description daemons
 Kerberos Daemons.
@@ -66,95 +144,46 @@ Kerberos Daemons.
 %description -l pl daemons
 Daemony korzystaj±ce z systemu Kerberos do autoryzacji dostêpu.
 
-%package server
-Summary:	Kerberos Server 
-Summary(pl):	Serwer Kerberosa
-Group:		Networking
-Group(pl):	Sieciowe
-Requires:	%{name}-lib = %{version}
-
-%description server
-Master KDC.
-
-%description -l pl server
-G³ówne centrum dystrybucji kluczy (KDC).
-
-%package lib
-Summary:	Kerberos shared libraries
-Summary(pl):	Biblioteki dzielone dla kerberosa
-Group:		Libraries
-Group(pl):	Biblioteki
-Prereq:		/usr/sbin/fix-info-dir
-
-%description lib
-Libraries for Kerberos V5 Server and Client
-
-%description -l pl lib
-Biblioteki dynamiczne dla systemu kerberos.
-
 %package devel
-Summary:	Header files for Kerberos libraries and documentation
-Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek Kerberosa
+Summary:	Header files for heimdal
+Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Libraries
 Group(pl):	Biblioteki
-Requires:	%{name}-lib = %{version}
+Require:	%{name}-libs = %{version}
 
 %description devel
-Header files for Kerberos libraries and development documentation
+contains files needed to compile and link software using the kerberos
+libraries.
 
 %description -l pl devel
-Pliki nag³ówkowe i dokumentacja do bibliotek Kerberosa
+Pliki nag³ówkowe i dokumentacja do bibliotek heimdal.
 
 %package static
-Summary:	Static Kerberos libraries
-Summary(pl):	Biblioteki statyczne Kerberosa
+Summary:	Static heimdal libraries
+Summary(pl):	Biblioteki statyczne heimdal
 Group:		Libraries
 Group(pl):	Biblioteki
-Requires:	%{name}-lib = %{version}
+Require:	%{name}-libs = %{version}
 
 %description static
-Sattic Kerberos libraries.
+Satatic heimdal libraries.
 
 %description -l pl static
-Biblioteki statyczne Kerberosa.
-
-#%package	pam
-#Summary:	PAM - Kerberos 5 module
-#Summary(pl):	PAM - Kerberos 5 modu³
-#Requires:	pam >= 0.66
-#Group:		Libraries
-#Group:		Libraries
-#Requires:	%{name}-lib = %{version}
-#
-#%description pam
-#This is a PAM - Kerberos 5 module for PLD Linux.
-#It supports authentication, session, and password modules. 
-#
-#%description -l pl pam
-#W pakiecie znajduje siê modu³ PAM wspomagaj±cy autoryzacjê przez
-#Kerberosa V5. 
+Biblioteki statyczne heimdal.
 
 %prep
 %setup -q
 %patch0 -p1
 
-%define _prefix		/usr/heimdal
-%define _mandir		/usr/share/man
-%define _infodir	/usr/share/info
-
 %build
-CFLAGS="$RPM_OPT_FLAGS" \
-./configure \
-	--prefix=%{_prefix} \
-	--mandir=%{_mandir} \
-	--infodir=%{_infodir} \
-	--libexecdir=%{_sbindir} \
+LDFLAGS="-s"; export LDFLAGS
+%configure \
 	--enable-shared \
 	--enable-static \
 	--enable-new-des3-code \
 	--with-readline \
 	--with-x \
-	--localstatedir=/var %{_target_platform}
+	--with-ipv6
 
 # --enable-netinfo - czo to takiego ?
 # mo¿na u¿ywaæ albo krb5.conf albo netinfo
@@ -169,49 +198,69 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/{etc/rc.d/init.d,var/heimdal}
-install -d $RPM_BUILD_ROOT/etc/{heimdal,sysconfig,profile.d,logrotate.d}
+install -d $RPM_BUILD_ROOT/{etc/rc.d/init.d,var/heimdal} \
+	$RPM_BUILD_ROOT/etc/{heimdal,sysconfig,logrotate.d}
 
 make install DESTDIR=$RPM_BUILD_ROOT
-install appl/su/.libs/su $RPM_BUILD_ROOT%{_bindir}/ksu
-install krb5.conf        $RPM_BUILD_ROOT/etc/heimdal
+
+#install appl/su/.libs/su $RPM_BUILD_ROOT%{_bindir}/ksu
+#install krb5.conf        $RPM_BUILD_ROOT/etc/heimdal
 
 install %{SOURCE5}			$RPM_BUILD_ROOT/etc/logrotate.d/heimdal
 install %{SOURCE3}			$RPM_BUILD_ROOT/etc/rc.d/init.d/heimdal
 install %{SOURCE6}			$RPM_BUILD_ROOT/etc/sysconfig/heimdal
-#install %{SOURCE7}	%{SOURCE8}	$RPM_BUILD_ROOT/etc/profile.d
 
-strip $RPM_BUILD_ROOT{%{_bindir}/*,%{_sbindir}/*} || :
-strip --strip-debug $RPM_BUILD_ROOT%{_libdir}/*.so.*
+rm -rf $RPM_BUILD_ROOT%{_libdir}/libcom_err.*
+
+strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/*.so.*
 
 touch $RPM_BUILD_ROOT/etc/heimdal/krb5.keytab
 touch $RPM_BUILD_ROOT/var/heimdal/kadmind.acl
 
 gzip -9fn $RPM_BUILD_ROOT{%{_mandir}/man[1358]/*,%{_infodir}/*} \
-	doc/* NEWS TODO 
+	NEWS TODO 
 
-chmod a+rw $RPM_BUILD_ROOT%{_bindir}/otp
+%post ftpd
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
+else
+	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
+fi
+
+%postun ftpd
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload
+fi
+
+%post rshd
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
+else
+	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
+fi
+
+%postun rshd
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload
+fi
+
+%post telnetd
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
+else
+	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
+fi
+
+%postun telnetd
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload
+fi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post lib
-if [ "$1" = "0" ]; then
-        /etc/rc.d/init.d/heimdal stop >&2
-        /sbin/chkconfig --del heimdal >&2
-fi
-/sbin/ldconfig
-/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
-
-
-%preun lib
-if [ "$1" = "0" ]; then
-        /etc/rc.d/init.d/heimdal stop >&2
-        /sbin/chkconfig --del heimdal >&2
-fi
-
-%postun lib -p /sbin/ldconfig
-/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+%post   libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
 
 %files server
 %defattr(644,root,root,755)
@@ -238,20 +287,53 @@ fi
 %attr(755,root,root) %{_sbindir}/kxd 
 %attr(755,root,root) %{_sbindir}/kpasswdd
 
-%{_mandir}/man8/hprop.8.gz
-%{_mandir}/man8/hpropd.8.gz
-%{_mandir}/man8/kdc.8.gz
-%{_mandir}/man8/ktutil.8.gz
-%{_mandir}/man8/kstash.8.gz
-%{_mandir}/man8/kpasswdd.8.gz
+%{_mandir}/man8/hprop.8*
+%{_mandir}/man8/hpropd.8*
+%{_mandir}/man8/kdc.8*
+%{_mandir}/man8/ktutil.8*
+%{_mandir}/man8/kstash.8*
+%{_mandir}/man8/kpasswdd.8*
 
-%files clients
+%files libs
 %defattr(644,root,root,755)
+
+%dir /etc/heimdal
+%config(noreplace) %verify(not size mtime md5) /etc/heimdal/krb5.conf
+%attr(400,root,root) %ghost /etc/heimdal/krb5.keytab
+
+%attr(755,root,root) %{_libdir}/lib*.so.*.*
+%attr(755,root,root) %{_bindir}/login
+
+%{_infodir}/heimdal.info*
+%{_mandir}/man5/krb5.conf.5*
+
+%files ftp
+%attr(755,root,root) %{_bindir}/ftp
+%attr(644,root,root) %{_mandir}/man1/ftp.1*
+
+%files rsh
+%attr(755,root,root) %{_bindir}/rsh
+
+%files telnet
+%attr(755,root,root) %{_bindir}/telnet
+%attr(644,root,root) %{_mandir}/man1/telnet.1*
+
+%files ftpd
+%attr(755,root,root) %{_sbindir}/ftpd
+%attr(644,root,root) %{_mandir}/man5/ftpusers.5*
+%attr(644,root,root) %{_mandir}/man8/ftpd.8*
+
+%files rshd
+%attr(755,root,root) %{_sbindir}/rshd
+
+%files telnetd
+%attr(755,root,root) %{_sbindir}/telnetd
+%attr(644,root,root) %{_mandir}/man8/telnetd.8*
+
 #%attr(755,root,root) /etc/profile.d/kerberos.* 
 
 %attr(755,root,root) %{_bindir}/compile_et
 %attr(755,root,root) %{_bindir}/des
-%attr(755,root,root) %{_bindir}/ftp
 %attr(755,root,root) %{_bindir}/kauth
 %attr(755,root,root) %{_bindir}/kdestroy
 %attr(755,root,root) %{_bindir}/kgetcred
@@ -260,56 +342,31 @@ fi
 %attr(755,root,root) %{_bindir}/kpasswd
 %attr(755,root,root) %{_bindir}/kx
 %attr(755,root,root) %{_bindir}/pfrom
-%attr(755,root,root) %{_bindir}/rsh
 %attr(755,root,root) %{_bindir}/rxtelnet
 %attr(755,root,root) %{_bindir}/rxterm
 %attr(755,root,root) %{_bindir}/string2key
-%attr(755,root,root) %{_bindir}/telnet
 %attr(755,root,root) %{_bindir}/tenletxr
 %attr(755,root,root) %{_bindir}/otpprint
 %attr(000,root,root) %{_bindir}/otp
-%attr(4711,root,root) %{_bindir}/ksu
+%attr(4755,root,root) %{_bindir}/ksu
 
-%{_mandir}/man1/kdestroy.1.gz
-%{_mandir}/man1/kgetcred.1.gz
-%{_mandir}/man1/kinit.1.gz
-%{_mandir}/man1/klist.1.gz
-%{_mandir}/man1/kpasswd.1.gz
+%{_mandir}/man1/kdestroy.1*
+%{_mandir}/man1/kgetcred.1*
+%{_mandir}/man1/kinit.1*
+%{_mandir}/man1/klist.1*
+%{_mandir}/man1/kpasswd.1*
 
 %files daemons
 %defattr(644,root,root,755)
 
-%attr(755,root,root) %{_sbindir}/ftpd
-%attr(755,root,root) %{_sbindir}/telnetd
-%attr(755,root,root) %{_sbindir}/rshd
 %attr(755,root,root) %{_sbindir}/popper
-
-%files lib
-%defattr(644,root,root,755)
-%attr(644,root,root) %{_infodir}/heimdal.info.gz
-
-%dir /etc/heimdal
-%config(noreplace) %verify(not size mtime md5) /etc/heimdal/krb5.conf
-%attr(400,root,root) %ghost /etc/heimdal/krb5.keytab
-
-%attr(755,root,root) %{_libdir}/*.so.*
-%attr(755,root,root) %{_libdir}/*.so
-%attr(755,root,root) %{_bindir}/login
-
-%{_mandir}/man5/krb5.conf.5.gz
 
 %files devel
 %defattr(644,root,root,755)
-
+%attr(755,root,root) %{_libdir}/lib*.la
+%attr(755,root,root) %{_libdir}/lib*.so
 %{_includedir}/*
+%{_mandir}/man3/*
 
 %files static
-%defattr(644,root,root,755)
-
-%{_libdir}/*.a
-
-#%files pam
-#%defattr(644,root,root,755)
-#%doc ../pam_krb5-1.0-1/README.gz
-
-#%attr(755,root,root) /lib/security/pam_krb5.so
+%attr(644,root,root) %{_libdir}/lib*.a
