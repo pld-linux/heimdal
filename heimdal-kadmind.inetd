@@ -1,8 +1,0 @@
-SERVICE_NAME=kerberos-adm
-SOCK_TYPE=stream
-PROTOCOL=tcp
-PORT=749
-FLAGS=nowait
-USER=root
-SERVER=tcpd
-DAEMON=/usr/sbin/kadmind
