@@ -1,7 +1,7 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.2q
+Version:	0.2r
 Release:	1
 Copyright:	Free
 Group:		Networking
