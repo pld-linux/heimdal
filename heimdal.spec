@@ -1,3 +1,4 @@
+%bcond_without x11
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
@@ -28,7 +29,7 @@ Patch9:		%{name}-acfixes.patch
 Patch10:	%{name}-sasl-external.patch
 # Patch10-URL: http://www.stacken.kth.se/lists/heimdal-discuss/2003-05/msg00040.html
 URL:		http://www.pdc.kth.se/heimdal/
-BuildRequires:	XFree86-devel
+%{?with_x11:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
@@ -293,7 +294,7 @@ autoupdate
 	--enable-new-des3-code \
 	--with-openldap=/usr \
 	--with-readline=/usr \
-	--with-x \
+	%{?with_x11:--with-x} \
 	--with-ipv6
 
 %{__make}
@@ -410,16 +411,18 @@ fi
 %attr(755,root,root) %{_bindir}/kinit
 %attr(755,root,root) %{_bindir}/klist
 %attr(755,root,root) %{_bindir}/kpasswd
-%attr(755,root,root) %{_bindir}/kx
 %attr(755,root,root) %{_bindir}/pagsh
 %attr(755,root,root) %{_bindir}/pfrom
-%attr(755,root,root) %{_bindir}/rxtelnet
-%attr(755,root,root) %{_bindir}/rxterm
 %attr(755,root,root) %{_bindir}/string2key
-%attr(755,root,root) %{_bindir}/tenletxr
 %attr(755,root,root) %{_bindir}/otpprint
 %attr(755,root,root) %{_bindir}/verify_krb5_conf
+%if %{with x11}
+%attr(755,root,root) %{_bindir}/kx
+%attr(755,root,root) %{_bindir}/tenletxr
 %attr(755,root,root) %{_bindir}/xnlock
+%attr(755,root,root) %{_bindir}/rxtelnet
+%attr(755,root,root) %{_bindir}/rxterm
+%endif
 
 %attr(4755,root,root) %{_bindir}/otp
 %attr(4755,root,root) %{_bindir}/su
@@ -433,16 +436,19 @@ fi
 %{_mandir}/man1/kinit.1*
 %{_mandir}/man1/klist.1*
 %{_mandir}/man1/kpasswd.1*
-%{_mandir}/man1/kx.1*
 %{_mandir}/man1/otp.1*
 %{_mandir}/man1/otpprint.1*
 %{_mandir}/man1/pfrom.1*
-%{_mandir}/man1/rxtelnet.1*
-%{_mandir}/man1/rxterm.1*
-%{_mandir}/man1/tenletxr.1*
-%{_mandir}/man1/xnlock.1*
 %{_mandir}/man8/string2key.8*
 %{_mandir}/man8/verify_krb5_conf.8*
+
+%if %{with x11}
+%{_mandir}/man1/kx.1*
+%{_mandir}/man1/tenletxr.1*
+%{_mandir}/man1/xnlock.1*
+%{_mandir}/man1/rxtelnet.1*
+%{_mandir}/man1/rxterm.1*
+%endif
 
 %files server
 %defattr(644,root,root,755)
@@ -468,10 +474,10 @@ fi
 %attr(755,root,root) %{_sbindir}/ipropd-slave
 %attr(755,root,root) %{_sbindir}/kadmind
 %attr(755,root,root) %{_sbindir}/kdc
-%attr(755,root,root) %{_sbindir}/kxd
 %attr(755,root,root) %{_sbindir}/kpasswdd
 %attr(755,root,root) %{_sbindir}/push
 %attr(755,root,root) %{_sbindir}/truncate_log
+%{?with_x11:%attr(755,root,root) %{_sbindir}/kxd}
 
 %{_mandir}/man8/hprop.8*
 %{_mandir}/man8/hpropd.8*
@@ -482,7 +488,7 @@ fi
 %{_mandir}/man8/kpasswdd.8*
 %{_mandir}/man8/kstash.8*
 %{_mandir}/man8/ktutil.8*
-%{_mandir}/man8/kxd.8*
+%{?with_x11:%{_mandir}/man8/kxd.8*}
 %{_mandir}/man8/push.8*
 
 %files libs
