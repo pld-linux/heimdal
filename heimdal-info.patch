@@ -1,11 +1,11 @@
---- heimdal-0.4b/doc/heimdal.texi~	Sat Feb 24 06:09:24 2001
-+++ heimdal-0.4b/doc/heimdal.texi	Fri Jul  6 19:49:52 2001
+--- heimdal-0.4c/doc/heimdal.texi~	Sat Feb 24 06:09:24 2001
++++ heimdal-0.4c/doc/heimdal.texi	Fri Jul 20 03:31:26 2001
 @@ -20,9 +20,9 @@
  @set VERSION 0.3a
  
  @ifinfo
 -@dircategory Heimdal
-+@dircategory Heimdal:
++@dircategory Miscellaneous:
  @direntry
 -* Heimdal: (heimdal).           The Kerberos 5 distribution from KTH
 +* Heimdal: (heimdal).			The Kerberos 5 distribution from KTH
