@@ -2,7 +2,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.6
-Release:	3
+Release:	4
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
@@ -23,6 +23,7 @@ Patch4:		%{name}-gcc33.patch
 Patch5:		%{name}-db41.patch
 Patch6:		%{name}-dbpaths.patch
 Patch7:		%{name}-system-comm_err.patch
+Patch8:		%{name}-config-section.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -268,11 +269,13 @@ Biblioteki statyczne heimdal.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 rm -f missing
 %{__libtoolize}
 %{__aclocal} -I cf
+autoupdate
 %{__autoconf}
 %{__automake}
 %configure \

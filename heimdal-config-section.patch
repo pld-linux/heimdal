@@ -1,0 +1,15 @@
+diff -urN heimdal-0.6.org/lib/krb5/config_file.c heimdal-0.6/lib/krb5/config_file.c
+--- heimdal-0.6.org/lib/krb5/config_file.c	2003-10-13 10:40:26.000000000 +0200
++++ heimdal-0.6/lib/krb5/config_file.c	2003-10-13 16:03:13.000000000 +0200
+@@ -250,6 +250,11 @@
+ 	    ret = EINVAL;	/* XXX */
+ 	    goto out;
+ 	} else if(*p != '\0') {
++	    if (s == NULL) {
++		*error_message = "binding before section";
++		ret = EINVAL;
++		goto out;
++	    }
+ 	    ret = parse_binding(f, lineno, p, &b, &s->u.list, error_message);
+ 	    if (ret)
+ 		goto out;
