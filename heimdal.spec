@@ -6,7 +6,9 @@ Release:	2
 License:	Free
 Group:		Networking
 Group(de):	Netzwerkwesen
+Group(es):	Red
 Group(pl):	Sieciowe
+Group(pt_BR):	Rede
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
@@ -60,7 +62,9 @@ Summary:	Kerberos Server
 Summary(pl):	Serwer Kerberosa
 Group:		Networking
 Group(de):	Netzwerkwesen
+Group(es):	Red
 Group(pl):	Sieciowe
+Group(pt_BR):	Rede
 Requires:	%{name}-libs = %{version}
 Prereq:		/sbin/chkconfig
 
@@ -75,8 +79,12 @@ Summary:	Heimdal shared libraries
 Summary(pl):	Biblioteki wspÛ≥dzielone dla heimdal
 Group:		Libraries
 Group(de):	Libraries
+Group(es):	Bibliotecas
 Group(fr):	Librairies
 Group(pl):	Biblioteki
+Group(pt_BR):	Bibliotecas
+Group(ru):	‚…¬Ã…œ‘≈À…
+Group(uk):	‚¶¬Ã¶œ‘≈À…
 
 %description libs
 Package contains shared libraries required by several of the other
@@ -179,8 +187,8 @@ FTP is the file transfer protocol, which is a widely used Internet
 protocol for transferring files and for archiving files.
 
 %description ftpd -l pl
-FTP jest protoko≥em trasmisji plikÛw szeroko rozpowszechnionym
-w Internecie.
+FTP jest protoko≥em trasmisji plikÛw szeroko rozpowszechnionym w
+Internecie.
 
 %package rshd
 Summary:	Server for remote access commands (rsh, rlogin, rcp)
@@ -229,7 +237,9 @@ Summary:	Kerberos programs for use on workstations
 Summary(pl):	Oprogramowanie klienckie dla stacji roboczej kerberosa
 Group:		Networking
 Group(de):	Netzwerkwesen
+Group(es):	Red
 Group(pl):	Sieciowe
+Group(pt_BR):	Rede
 Requires:	%{name}-libs = %{version}
 
 %description clients
@@ -243,7 +253,9 @@ Summary:	Kerberos daemons programs for use on servers
 Summary(pl):	Serwery popularnych us≥ug, autoryzuj±ce przy pomocy kerberosa
 Group:		Networking
 Group(de):	Netzwerkwesen
+Group(es):	Red
 Group(pl):	Sieciowe
+Group(pt_BR):	Rede
 Requires:	%{name}-libs = %{version}
 
 %description daemons
@@ -256,6 +268,13 @@ Demony korzystaj±ce z systemu Kerberos do autoryzacji dostÍpu.
 Summary:	Header files for heimdal
 Summary(pl):	Pliki nag≥Ûwkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	Ú¡⁄“¡¬œ‘À¡/‚…¬Ã…œ‘≈À…
+Group(uk):	Úœ⁄“œ¬À¡/‚¶¬Ã¶œ‘≈À…
 Requires:	%{name}-libs = %{version}
 Requires:	e2fsprogs-devel
 
@@ -270,6 +289,13 @@ Pliki nag≥Ûwkowe i dokumentacja do bibliotek heimdal.
 Summary:	Static heimdal libraries
 Summary(pl):	Biblioteki statyczne heimdal
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	Ú¡⁄“¡¬œ‘À¡/‚…¬Ã…œ‘≈À…
+Group(uk):	Úœ⁄“œ¬À¡/‚¶¬Ã¶œ‘≈À…
 Requires:	%{name}-libs = %{version}
 
 %description static
