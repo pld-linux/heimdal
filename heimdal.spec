@@ -187,7 +187,7 @@ FTP is the file transfer protocol, which is a widely used Internet
 protocol for transferring files and for archiving files.
 
 %description ftpd -l pl
-FTP jest protoko³em trasmisji plików szeroko rozpowszechnionym w
+FTP jest protoko³em transmisji plików szeroko rozpowszechnionym w
 Internecie.
 
 %package rshd
