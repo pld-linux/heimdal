@@ -1,12 +1,16 @@
+# TODO:
+# - contains libcom_err.so.1 and libss.so.0 (removed in install),
+#   which are used to link other libs and apps
+#   but current e2fsprogs contains libcom_err.so.2 and libss.so.2
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.5.2 
+Version:	0.6
 Release:	1
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
-# Source0-md5:	fd99ddec8012467e0a00d2fabfff31a0
+# Source0-md5:	e68c260181f2ee58e01215b8d03c35ba
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.sysconfig
@@ -18,21 +22,24 @@ Source8:	%{name}-kadmind.inetd
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-info.patch
 Patch2:		%{name}-am_man_fixes.patch
+Patch3:		%{name}-amfix.patch
+Patch4:		%{name}-gcc33.patch
+Patch5:		%{name}-db41.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	db3-devel
+BuildRequires:	db-devel
 BuildRequires:	flex
 BuildRequires:	libtool
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
+BuildRequires:	openssl-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Conflicts:	krb5-lib
-Prereq:		rc-scripts
 
 %define		_libexecdir	%{_sbindir}
-%define		_localstatedir	/var/%{name}
+%define		_localstatedir	/var/lib/%{name}
 %define		_sysconfdir	/etc/%{name}
 
 %description
@@ -62,8 +69,9 @@ Heimdal jest darmow± implementacj± Kerberosa 5. G³ówne zalety to:
 Summary:	Kerberos Server
 Summary(pl):	Serwer Kerberosa
 Group:		Networking
+PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}
-Prereq:		/sbin/chkconfig
 
 %description server
 Master KDC.
@@ -75,6 +83,7 @@ G³ówne centrum dystrybucji kluczy (KDC).
 Summary:	Heimdal shared libraries
 Summary(pl):	Biblioteki wspó³dzielone dla heimdal
 Group:		Libraries
+Requires(post,postun):	/sbin/ldconfig
 
 %description libs
 Package contains shared libraries required by several of the other
@@ -108,6 +117,7 @@ Summary:	The standard UNIX FTP (file transfer protocol) client
 Summary(pl):	Klient protoko³u FTP
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}
+Conflicts:	heimdal-clients
 
 %description ftp
 The ftp package provides the standard UNIX command-line FTP client
@@ -126,6 +136,7 @@ Summary(pl):	Klient zdalnego dostêpu (rsh, rlogin, rcp)
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}
 Obsoletes:	rsh
+Conflicts:	heimdal-clients
 
 %description rsh
 The rsh package contains a set of programs which allow users to run
@@ -145,6 +156,7 @@ Summary(pl):	Klient us³ugi telnet
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}
 Obsoletes:	telnet
+Conflicts:	heimdal-clients
 
 %description telnet
 Telnet is a popular protocol for remote logins across the Internet.
@@ -158,7 +170,7 @@ zawiera klienta tej us³ugi.
 Summary:	The standard UNIX FTP (file transfer protocol) server
 Summary(pl):	Serwer FTP
 Group:		Networking/Daemons
-Prereq:		rc-inetd >= 0.8.1
+PreReq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}
 Obsoletes:	ftpd
 
@@ -174,7 +186,7 @@ Internecie.
 Summary:	Server for remote access commands (rsh, rlogin, rcp)
 Summary(pl):	Serwer zdalnego dostêpu (rsh, rlogin, rcp)
 Group:		Networking/Daemons
-Prereq:		rc-inetd >= 0.8.1
+PreReq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}
 Obsoletes:	rshd
 
@@ -194,7 +206,7 @@ kopiowanie plików pomiêdzy maszynami (rsh, rlogin, rcp).
 Summary:	Server for the telnet remote login
 Summary(pl):	Serwer protoko³u telnet
 Group:		Networking/Daemons
-Prereq:		rc-inetd >= 0.8.1
+PreReq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}
 Obsoletes:	telnetd
 
@@ -207,18 +219,6 @@ the machine it is running on.
 Telnet jest popularnym protoko³em zdalnego logowania. Ten pakiet
 zawiera serwer pozwalaj±cy na zdalne logowanie siê klientów na maszynê
 na której dzia³a.
-
-%package clients
-Summary:	Kerberos programs for use on workstations
-Summary(pl):	Oprogramowanie klienckie dla stacji roboczej kerberosa
-Group:		Networking
-Requires:	%{name}-libs = %{version}
-
-%description clients
-Kerberos 5 Clients.
-
-%description clients -l pl
-Oprogramowanie klienckie do korzystania z us³ug systemu Kerberos 5.
 
 %package daemons
 Summary:	Kerberos daemons programs for use on servers
@@ -263,6 +263,9 @@ Biblioteki statyczne heimdal.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 rm -f missing
@@ -389,6 +392,51 @@ fi
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
+%files
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/afslog
+%attr(755,root,root) %{_bindir}/compile_et
+%attr(755,root,root) %{_bindir}/kauth
+%attr(755,root,root) %{_bindir}/kdestroy
+%attr(755,root,root) %{_bindir}/kf
+%attr(755,root,root) %{_bindir}/kgetcred
+%attr(755,root,root) %{_bindir}/kinit
+%attr(755,root,root) %{_bindir}/klist
+%attr(755,root,root) %{_bindir}/kpasswd
+%attr(755,root,root) %{_bindir}/kx
+%attr(755,root,root) %{_bindir}/pagsh
+%attr(755,root,root) %{_bindir}/pfrom
+%attr(755,root,root) %{_bindir}/rxtelnet
+%attr(755,root,root) %{_bindir}/rxterm
+%attr(755,root,root) %{_bindir}/string2key
+%attr(755,root,root) %{_bindir}/tenletxr
+%attr(755,root,root) %{_bindir}/otpprint
+%attr(755,root,root) %{_bindir}/verify_krb5_conf
+%attr(755,root,root) %{_bindir}/xnlock
+
+%attr(4755,root,root) %{_bindir}/otp
+%attr(4755,root,root) %{_bindir}/su
+%attr(4755,root,root) %{_bindir}/ksu
+
+%{_mandir}/man1/afslog.1*
+%{_mandir}/man1/kauth.1*
+%{_mandir}/man1/kdestroy.1*
+%{_mandir}/man1/kf.1*
+%{_mandir}/man1/kgetcred.1*
+%{_mandir}/man1/kinit.1*
+%{_mandir}/man1/klist.1*
+%{_mandir}/man1/kpasswd.1*
+%{_mandir}/man1/kx.1*
+%{_mandir}/man1/otp.1*
+%{_mandir}/man1/otpprint.1*
+%{_mandir}/man1/pfrom.1*
+%{_mandir}/man1/rxtelnet.1*
+%{_mandir}/man1/rxterm.1*
+%{_mandir}/man1/tenletxr.1*
+%{_mandir}/man1/xnlock.1*
+%{_mandir}/man8/string2key.8*
+%{_mandir}/man8/verify_krb5_conf.8*
+
 %files server
 %defattr(644,root,root,755)
 %doc NEWS TODO
@@ -403,6 +451,7 @@ fi
 
 %attr(755,root,root) %{_sbindir}/dump_log
 %attr(755,root,root) %{_sbindir}/kadmin
+%attr(755,root,root) %{_sbindir}/kfd
 %attr(755,root,root) %{_sbindir}/kstash
 %attr(755,root,root) %{_sbindir}/ktutil
 %attr(755,root,root) %{_sbindir}/replay_log
@@ -414,22 +463,26 @@ fi
 %attr(755,root,root) %{_sbindir}/kdc
 %attr(755,root,root) %{_sbindir}/kxd
 %attr(755,root,root) %{_sbindir}/kpasswdd
+%attr(755,root,root) %{_sbindir}/push
+%attr(755,root,root) %{_sbindir}/truncate_log
 
 %{_mandir}/man8/hprop.8*
 %{_mandir}/man8/hpropd.8*
 %{_mandir}/man8/kadmin.8*
 %{_mandir}/man8/kadmind.8*
 %{_mandir}/man8/kdc.8*
+%{_mandir}/man8/kfd.8*
 %{_mandir}/man8/kpasswdd.8*
 %{_mandir}/man8/kstash.8*
 %{_mandir}/man8/ktutil.8*
+%{_mandir}/man8/kxd.8*
+%{_mandir}/man8/push.8*
 
 %files libs
 %defattr(644,root,root,755)
 %dir %{_sysconfdir}
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/krb5.conf
 %attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
-
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 
 %{_infodir}/heimdal.info*
@@ -439,6 +492,9 @@ fi
 %files login
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/login
+%{_mandir}/man1/login.1*
+# conflicts with shadow
+#%{_mandir}/man5/login.access.5*
 
 %files ftp
 %defattr(644,root,root,755)
@@ -475,48 +531,18 @@ fi
 %attr(755,root,root) %{_sbindir}/telnetd
 %{_mandir}/man8/telnetd.8*
 
-%files
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/compile_et
-%attr(755,root,root) %{_bindir}/kauth
-%attr(755,root,root) %{_bindir}/kdestroy
-%attr(755,root,root) %{_bindir}/kgetcred
-%attr(755,root,root) %{_bindir}/kinit
-%attr(755,root,root) %{_bindir}/klist
-%attr(755,root,root) %{_bindir}/kpasswd
-%attr(755,root,root) %{_bindir}/kx
-%attr(755,root,root) %{_bindir}/pfrom
-%attr(755,root,root) %{_bindir}/rxtelnet
-%attr(755,root,root) %{_bindir}/rxterm
-%attr(755,root,root) %{_bindir}/string2key
-%attr(755,root,root) %{_bindir}/tenletxr
-%attr(755,root,root) %{_bindir}/otpprint
-%attr(755,root,root) %{_bindir}/verify_krb5_conf
-%attr(755,root,root) %{_bindir}/xnlock
-
-%attr(4755,root,root) %{_bindir}/otp
-%attr(4755,root,root) %{_bindir}/su
-%attr(4755,root,root) %{_bindir}/ksu
-
-%{_mandir}/man1/kauth.1*
-%{_mandir}/man1/kdestroy.1*
-%{_mandir}/man1/kgetcred.1*
-%{_mandir}/man1/kinit.1*
-%{_mandir}/man1/klist.1*
-%{_mandir}/man1/kpasswd.1*
-%{_mandir}/man1/otp.1*
-%{_mandir}/man1/otpprint.1*
-%{_mandir}/man8/verify_krb5_conf.8*
-
 %files daemons
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/popper
+%{_mandir}/man8/popper.8*
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/krb5-config
-%attr(755,root,root) %{_libdir}/lib*.la
+# conflicts with e2fsprogs
+#%attr(755,root,root) %{_bindir}/mk_cmds
 %attr(755,root,root) %{_libdir}/lib*.so
+%{_libdir}/lib*.la
 %{_includedir}/*
 %{_mandir}/man1/krb5-config.1*
 %{_mandir}/man3/*

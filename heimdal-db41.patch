@@ -1,0 +1,51 @@
+--- heimdal-0.6/lib/hdb/db3.c.orig	2001-08-09 10:41:48.000000000 +0200
++++ heimdal-0.6/lib/hdb/db3.c	2003-07-26 11:04:10.000000000 +0200
+@@ -262,6 +262,18 @@
+     }
+     db_create(&d, NULL, 0);
+     db->db = d;
++#if (DB_VERSION_MAJOR == 4) && (DB_VERSION_MINOR >= 1)
++    if ((ret = d->open(db->db, NULL, fn, NULL, DB_BTREE, myflags, mode))) {
++      if(ret == ENOENT)
++	/* try to open without .db extension */
++	if (d->open(db->db, NULL, db->name, NULL, DB_BTREE, myflags, mode)) {
++	  free(fn);
++	  krb5_set_error_string(context, "opening %s: %s",
++				db->name, strerror(ret));
++	  return ret;
++	}
++    }
++#else
+     if ((ret = d->open(db->db, fn, NULL, DB_BTREE, myflags, mode))) {
+       if(ret == ENOENT)
+ 	/* try to open without .db extension */
+@@ -272,6 +284,7 @@
+ 	  return ret;
+ 	}
+     }
++#endif
+     free(fn);
+ 
+     ret = d->cursor(d, NULL, (DBC **)&db->dbc, 0);
+--- heimdal-0.6/lib/roken/ndbm_wrap.c.orig	2002-04-30 18:37:08.000000000 +0200
++++ heimdal-0.6/lib/roken/ndbm_wrap.c	2003-07-26 11:30:24.000000000 +0200
+@@ -165,11 +165,19 @@
+ 	free(fn);
+ 	return NULL;
+     }
++#  if (DB_VERSION_MAJOR == 4) && (DB_VERSION_MINOR >= 1)
++    if(db->open(db, NULL, fn, NULL, DB_BTREE, myflags, mode) != 0) {
++	free(fn);
++	db->close(db, 0);
++	return NULL;
++    }
++#  else
+     if(db->open(db, fn, NULL, DB_BTREE, myflags, mode) != 0) {
+ 	free(fn);
+ 	db->close(db, 0);
+ 	return NULL;
+     }
++#  endif
+ #else
+     db = dbopen(fn, flags, mode, DB_BTREE, NULL);
+ #endif

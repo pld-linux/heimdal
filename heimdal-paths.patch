@@ -1,14 +1,16 @@
---- heimdal-0.5/appl/ftp/ftpd/pathnames.h.orig	Mon Aug 12 17:09:14 2002
-+++ heimdal-0.5/appl/ftp/ftpd/pathnames.h	Thu Sep 19 00:27:35 2002
-@@ -49,10 +49,10 @@
- #define _PATH_BSHELL "/bin/sh"
+--- heimdal-0.6/appl/ftp/ftpd/pathnames.h.orig	2003-03-24 04:33:55.000000000 +0100
++++ heimdal-0.6/appl/ftp/ftpd/pathnames.h	2003-07-26 03:34:41.000000000 +0200
+@@ -50,12 +50,12 @@
  #endif
  
+ #ifndef _PATH_FTPUSERS
 -#define	_PATH_FTPUSERS		SYSCONFDIR "/ftpusers"
++#define	_PATH_FTPUSERS		"/etc/ftpd/ftpusers"
+ #endif
+ 
 -#define	_PATH_FTPCHROOT		SYSCONFDIR "/ftpchroot"
 -#define	_PATH_FTPWELCOME	SYSCONFDIR "/ftpwelcome"
 -#define	_PATH_FTPLOGINMESG	SYSCONFDIR "/motd"
-+#define	_PATH_FTPUSERS		"/etc/ftpd/ftpusers"
 +#define	_PATH_FTPCHROOT		"/etc/ftpd/ftpchroot"
 +#define	_PATH_FTPWELCOME	"/etc/ftpd/ftpwelcome"
 +#define	_PATH_FTPLOGINMESG	"/etc/ftpd/motd"
