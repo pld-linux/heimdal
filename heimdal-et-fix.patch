@@ -1,0 +1,222 @@
+diff -urN heimdal-0.6-orig/include/krb5_err_fix.h heimdal-0.6-fixed/include/krb5_err_fix.h
+--- heimdal-0.6-orig/include/krb5_err_fix.h	1969-12-31 17:00:00.000000000 -0700
++++ heimdal-0.6-fixed/include/krb5_err_fix.h	2003-08-11 20:39:26.000000000 -0600
+@@ -0,0 +1,98 @@
++#define KRB5_ERR_RCSID KRB5_KRB5_ERR_RCSID
++#define KRB5_LIBOS_BADLOCKFLAG KRB5_KRB5_LIBOS_BADLOCKFLAG
++#define KRB5_LIBOS_CANTREADPWD KRB5_KRB5_LIBOS_CANTREADPWD
++#define KRB5_LIBOS_BADPWDMATCH KRB5_KRB5_LIBOS_BADPWDMATCH
++#define KRB5_LIBOS_PWDINTR KRB5_KRB5_LIBOS_PWDINTR
++#define KRB5_PARSE_ILLCHAR KRB5_KRB5_PARSE_ILLCHAR
++#define KRB5_PARSE_MALFORMED KRB5_KRB5_PARSE_MALFORMED
++#define KRB5_CONFIG_CANTOPEN KRB5_KRB5_CONFIG_CANTOPEN
++#define KRB5_CONFIG_BADFORMAT KRB5_KRB5_CONFIG_BADFORMAT
++#define KRB5_CONFIG_NOTENUFSPACE KRB5_KRB5_CONFIG_NOTENUFSPACE
++#define KRB5_BADMSGTYPE KRB5_KRB5_BADMSGTYPE
++#define KRB5_CC_BADNAME KRB5_KRB5_CC_BADNAME
++#define KRB5_CC_UNKNOWN_TYPE KRB5_KRB5_CC_UNKNOWN_TYPE
++#define KRB5_CC_NOTFOUND KRB5_KRB5_CC_NOTFOUND
++#define KRB5_CC_END KRB5_KRB5_CC_END
++#define KRB5_NO_TKT_SUPPLIED KRB5_KRB5_NO_TKT_SUPPLIED
++#define KRB5KRB_AP_WRONG_PRINC KRB5_KRB5KRB_AP_WRONG_PRINC
++#define KRB5KRB_AP_ERR_TKT_INVALID KRB5_KRB5KRB_AP_ERR_TKT_INVALID
++#define KRB5_PRINC_NOMATCH KRB5_KRB5_PRINC_NOMATCH
++#define KRB5_KDCREP_MODIFIED KRB5_KRB5_KDCREP_MODIFIED
++#define KRB5_KDCREP_SKEW KRB5_KRB5_KDCREP_SKEW
++#define KRB5_IN_TKT_REALM_MISMATCH KRB5_KRB5_IN_TKT_REALM_MISMATCH
++#define KRB5_PROG_ETYPE_NOSUPP KRB5_KRB5_PROG_ETYPE_NOSUPP
++#define KRB5_PROG_KEYTYPE_NOSUPP KRB5_KRB5_PROG_KEYTYPE_NOSUPP
++#define KRB5_WRONG_ETYPE KRB5_KRB5_WRONG_ETYPE
++#define KRB5_PROG_SUMTYPE_NOSUPP KRB5_KRB5_PROG_SUMTYPE_NOSUPP
++#define KRB5_REALM_UNKNOWN KRB5_KRB5_REALM_UNKNOWN
++#define KRB5_SERVICE_UNKNOWN KRB5_KRB5_SERVICE_UNKNOWN
++#define KRB5_KDC_UNREACH KRB5_KRB5_KDC_UNREACH
++#define KRB5_NO_LOCALNAME KRB5_KRB5_NO_LOCALNAME
++#define KRB5_MUTUAL_FAILED KRB5_KRB5_MUTUAL_FAILED
++#define KRB5_RC_TYPE_EXISTS KRB5_KRB5_RC_TYPE_EXISTS
++#define KRB5_RC_MALLOC KRB5_KRB5_RC_MALLOC
++#define KRB5_RC_TYPE_NOTFOUND KRB5_KRB5_RC_TYPE_NOTFOUND
++#define KRB5_RC_UNKNOWN KRB5_KRB5_RC_UNKNOWN
++#define KRB5_RC_REPLAY KRB5_KRB5_RC_REPLAY
++#define KRB5_RC_IO KRB5_KRB5_RC_IO
++#define KRB5_RC_NOIO KRB5_KRB5_RC_NOIO
++#define KRB5_RC_PARSE KRB5_KRB5_RC_PARSE
++#define KRB5_RC_IO_EOF KRB5_KRB5_RC_IO_EOF
++#define KRB5_RC_IO_MALLOC KRB5_KRB5_RC_IO_MALLOC
++#define KRB5_RC_IO_PERM KRB5_KRB5_RC_IO_PERM
++#define KRB5_RC_IO_IO KRB5_KRB5_RC_IO_IO
++#define KRB5_RC_IO_UNKNOWN KRB5_KRB5_RC_IO_UNKNOWN
++#define KRB5_RC_IO_SPACE KRB5_KRB5_RC_IO_SPACE
++#define KRB5_TRANS_CANTOPEN KRB5_KRB5_TRANS_CANTOPEN
++#define KRB5_TRANS_BADFORMAT KRB5_KRB5_TRANS_BADFORMAT
++#define KRB5_LNAME_CANTOPEN KRB5_KRB5_LNAME_CANTOPEN
++#define KRB5_LNAME_NOTRANS KRB5_KRB5_LNAME_NOTRANS
++#define KRB5_LNAME_BADFORMAT KRB5_KRB5_LNAME_BADFORMAT
++#define KRB5_CRYPTO_INTERNAL KRB5_KRB5_CRYPTO_INTERNAL
++#define KRB5_KT_BADNAME KRB5_KRB5_KT_BADNAME
++#define KRB5_KT_UNKNOWN_TYPE KRB5_KRB5_KT_UNKNOWN_TYPE
++#define KRB5_KT_NOTFOUND KRB5_KRB5_KT_NOTFOUND
++#define KRB5_KT_END KRB5_KRB5_KT_END
++#define KRB5_KT_NOWRITE KRB5_KRB5_KT_NOWRITE
++#define KRB5_KT_IOERR KRB5_KRB5_KT_IOERR
++#define KRB5_NO_TKT_IN_RLM KRB5_KRB5_NO_TKT_IN_RLM
++#define KRB5DES_BAD_KEYPAR KRB5_KRB5DES_BAD_KEYPAR
++#define KRB5DES_WEAK_KEY KRB5_KRB5DES_WEAK_KEY
++#define KRB5_BAD_ENCTYPE KRB5_KRB5_BAD_ENCTYPE
++#define KRB5_BAD_KEYSIZE KRB5_KRB5_BAD_KEYSIZE
++#define KRB5_BAD_MSIZE KRB5_KRB5_BAD_MSIZE
++#define KRB5_CC_TYPE_EXISTS KRB5_KRB5_CC_TYPE_EXISTS
++#define KRB5_KT_TYPE_EXISTS KRB5_KRB5_KT_TYPE_EXISTS
++#define KRB5_CC_IO KRB5_KRB5_CC_IO
++#define KRB5_FCC_PERM KRB5_KRB5_FCC_PERM
++#define KRB5_FCC_NOFILE KRB5_KRB5_FCC_NOFILE
++#define KRB5_FCC_INTERNAL KRB5_KRB5_FCC_INTERNAL
++#define KRB5_CC_WRITE KRB5_KRB5_CC_WRITE
++#define KRB5_CC_NOMEM KRB5_KRB5_CC_NOMEM
++#define KRB5_CC_FORMAT KRB5_KRB5_CC_FORMAT
++#define KRB5_INVALID_FLAGS KRB5_KRB5_INVALID_FLAGS
++#define KRB5_NO_2ND_TKT KRB5_KRB5_NO_2ND_TKT
++#define KRB5_NOCREDS_SUPPLIED KRB5_KRB5_NOCREDS_SUPPLIED
++#define KRB5_SENDAUTH_BADAUTHVERS KRB5_KRB5_SENDAUTH_BADAUTHVERS
++#define KRB5_SENDAUTH_BADAPPLVERS KRB5_KRB5_SENDAUTH_BADAPPLVERS
++#define KRB5_SENDAUTH_BADRESPONSE KRB5_KRB5_SENDAUTH_BADRESPONSE
++#define KRB5_SENDAUTH_REJECTED KRB5_KRB5_SENDAUTH_REJECTED
++#define KRB5_PREAUTH_BAD_TYPE KRB5_KRB5_PREAUTH_BAD_TYPE
++#define KRB5_PREAUTH_NO_KEY KRB5_KRB5_PREAUTH_NO_KEY
++#define KRB5_PREAUTH_FAILED KRB5_KRB5_PREAUTH_FAILED
++#define KRB5_RCACHE_BADVNO KRB5_KRB5_RCACHE_BADVNO
++#define KRB5_CCACHE_BADVNO KRB5_KRB5_CCACHE_BADVNO
++#define KRB5_KEYTAB_BADVNO KRB5_KRB5_KEYTAB_BADVNO
++#define KRB5_PROG_ATYPE_NOSUPP KRB5_KRB5_PROG_ATYPE_NOSUPP
++#define KRB5_RC_REQUIRED KRB5_KRB5_RC_REQUIRED
++#define KRB5_ERR_BAD_HOSTNAME KRB5_KRB5_ERR_BAD_HOSTNAME
++#define KRB5_ERR_HOST_REALM_UNKNOWN KRB5_KRB5_ERR_HOST_REALM_UNKNOWN
++#define KRB5_SNAME_UNSUPP_NAMETYPE KRB5_KRB5_SNAME_UNSUPP_NAMETYPE
++#define KRB5KRB_AP_ERR_V4_REPLY KRB5_KRB5KRB_AP_ERR_V4_REPLY
++#define KRB5_REALM_CANT_RESOLVE KRB5_KRB5_REALM_CANT_RESOLVE
++#define KRB5_TKT_NOT_FORWARDABLE KRB5_KRB5_TKT_NOT_FORWARDABLE
++#define KRB5_FWD_BAD_PRINCIPAL KRB5_KRB5_FWD_BAD_PRINCIPAL
++#define KRB5_GET_IN_TKT_LOOP KRB5_KRB5_GET_IN_TKT_LOOP
++#define KRB5_CONFIG_NODEFREALM KRB5_KRB5_CONFIG_NODEFREALM
++#define KRB5_SAM_UNSUPPORTED KRB5_KRB5_SAM_UNSUPPORTED
++#define KRB5_KT_NAME_TOOLONG KRB5_KRB5_KT_NAME_TOOLONG
+diff -urN heimdal-0.6-orig/lib/hdb/hdb.c heimdal-0.6-fixed/lib/hdb/hdb.c
+--- heimdal-0.6-orig/lib/hdb/hdb.c	2001-08-09 02:41:48.000000000 -0600
++++ heimdal-0.6-fixed/lib/hdb/hdb.c	2003-08-11 20:51:28.000000000 -0600
+@@ -232,7 +232,7 @@
+ 
+     if(filename == NULL)
+ 	filename = HDB_DEFAULT_DB;
+-    krb5_add_et_list(context, initialize_hdb_error_table_r);
++    krb5_add_et_list(context, initialize_hdb_error_table);
+     h = find_method (filename, &residual);
+     if (h == NULL)
+ 	krb5_errx(context, 1, "No database support! (hdb_create)");
+diff -urN heimdal-0.6-orig/lib/kadm5/context_s.c heimdal-0.6-fixed/lib/kadm5/context_s.c
+--- heimdal-0.6-orig/lib/kadm5/context_s.c	2002-08-26 07:28:36.000000000 -0600
++++ heimdal-0.6-fixed/lib/kadm5/context_s.c	2003-08-11 20:53:28.000000000 -0600
+@@ -182,7 +182,7 @@
+     memset(*ctx, 0, sizeof(**ctx));
+     set_funcs(*ctx);
+     (*ctx)->context = context;
+-    krb5_add_et_list (context, initialize_kadm5_error_table_r);
++    krb5_add_et_list (context, initialize_kadm5_error_table);
+ #define is_set(M) (params && params->mask & KADM5_CONFIG_ ## M)
+     if(is_set(REALM))
+ 	(*ctx)->config.realm = strdup(params->realm);
+diff -urN heimdal-0.6-orig/lib/kadm5/init_c.c heimdal-0.6-fixed/lib/kadm5/init_c.c
+--- heimdal-0.6-orig/lib/kadm5/init_c.c	2003-04-01 08:06:41.000000000 -0700
++++ heimdal-0.6-fixed/lib/kadm5/init_c.c	2003-08-11 20:56:30.000000000 -0600
+@@ -69,7 +69,7 @@
+     if(*ctx == NULL)
+ 	return ENOMEM;
+     memset(*ctx, 0, sizeof(**ctx));
+-    krb5_add_et_list (context, initialize_kadm5_error_table_r);
++    krb5_add_et_list (context, initialize_kadm5_error_table);
+     set_funcs(*ctx);
+     (*ctx)->context = context;
+     if(params->mask & KADM5_CONFIG_REALM)
+diff -urN heimdal-0.6-orig/lib/kadm5/kadm5_err.et heimdal-0.6-fixed/lib/kadm5/kadm5_err.et
+--- heimdal-0.6-orig/lib/kadm5/kadm5_err.et	2001-12-06 10:02:55.000000000 -0700
++++ heimdal-0.6-fixed/lib/kadm5/kadm5_err.et	2003-08-11 20:56:45.000000000 -0600
+@@ -5,7 +5,7 @@
+ #
+ id "$Id$"
+ 
+-error_table ovk kadm5
++error_table kadm5
+ 
+ prefix KADM5
+ error_code FAILURE,		"Operation failed for unspecified reason"
+@@ -45,10 +45,10 @@
+ error_code NEW_STRUCT_VERSION,	"API structure version specified by application is unknown to libraries"
+ error_code BAD_API_VERSION,	"Programmer error!  Bad API version"
+ error_code OLD_LIB_API_VERSION,	"API version specified by application is no longer supported by libraries"
+-error_code OLD_SERVER_API_VERSION,"API version specified by application is no longer supported by server"
++error_code OLD_SERVER_API_VERSION, "API version specified by application is no longer supported by server"
+ error_code NEW_LIB_API_VERSION,	"API version specified by application is unknown to libraries"
+-error_code NEW_SERVER_API_VERSION,"API version specified by application is unknown to server"
+-error_code SECURE_PRINC_MISSING,"Database error! Required principal missing"
++error_code NEW_SERVER_API_VERSION, "API version specified by application is unknown to server"
++error_code SECURE_PRINC_MISSING, "Database error! Required principal missing"
+ error_code NO_RENAME_SALT,	"The salt type of the specified principal does not support renaming"
+ error_code BAD_CLIENT_PARAMS,	"Invalid configuration parameter for remote KADM5 client"
+ error_code BAD_SERVER_PARAMS,	"Invalid configuration parameter for local KADM5 client."
+diff -urN heimdal-0.6-orig/lib/krb5/context.c heimdal-0.6-fixed/lib/krb5/context.c
+--- heimdal-0.6-orig/lib/krb5/context.c	2003-03-09 17:24:13.000000000 -0700
++++ heimdal-0.6-fixed/lib/krb5/context.c	2003-08-11 20:39:05.000000000 -0600
+@@ -422,10 +422,10 @@
+ krb5_init_ets(krb5_context context)
+ {
+     if(context->et_list == NULL){
+-	krb5_add_et_list(context, initialize_krb5_error_table_r);
+-	krb5_add_et_list(context, initialize_asn1_error_table_r);
+-	krb5_add_et_list(context, initialize_heim_error_table_r);
+-	krb5_add_et_list(context, initialize_k524_error_table_r);
++	krb5_add_et_list(context, initialize_krb5_error_table);
++	krb5_add_et_list(context, initialize_asn1_error_table);
++	krb5_add_et_list(context, initialize_heim_error_table);
++	krb5_add_et_list(context, initialize_k524_error_table);
+     }
+ }
+ 
+diff -urN heimdal-0.6-orig/lib/krb5/krb5_err.et heimdal-0.6-fixed/lib/krb5/krb5_err.et
+--- heimdal-0.6-orig/lib/krb5/krb5_err.et	2000-04-05 18:41:37.000000000 -0600
++++ heimdal-0.6-fixed/lib/krb5/krb5_err.et	2003-08-11 20:38:56.000000000 -0600
+@@ -16,7 +16,7 @@
+ error_code S_OLD_MAST_KVNO,	"Server's key is encrypted in an old master key"
+ error_code C_PRINCIPAL_UNKNOWN,	"Client not found in Kerberos database"
+ error_code S_PRINCIPAL_UNKNOWN,	"Server not found in Kerberos database"
+-error_code PRINCIPAL_NOT_UNIQUE,"Principal has multiple entries in Kerberos database"
++error_code PRINCIPAL_NOT_UNIQUE, "Principal has multiple entries in Kerberos database"
+ error_code NULL_KEY,		"Client or server has a null key"
+ error_code CANNOT_POSTDATE,	"Ticket is ineligible for postdating"
+ error_code NEVER_VALID,		"Requested effective lifetime is negative or too short"
+@@ -83,14 +83,14 @@
+ error_code INVALID_CERTIFICATE,	"Invalid certificate"
+ error_code REVOKED_CERTIFICATE,	"Revoked certificate"
+ error_code REVOCATION_STATUS_UNKNOWN,	"Revocation status unknown"
+-error_code REVOCATION_STATUS_UNAVAILABLE,"Revocation status unavailable"
++error_code REVOCATION_STATUS_UNAVAILABLE, "Revocation status unavailable"
+ error_code CLIENT_NAME_MISMATCH,	"Client name mismatch"
+ error_code KDC_NAME_MISMATCH,	"KDC name mismatch"
+ 
+ # 77-127 are reserved
+ 
+ index 128
+-prefix
++prefix KRB5
+ error_code KRB5_ERR_RCSID,	"$Id$"
+ 
+ error_code KRB5_LIBOS_BADLOCKFLAG,	"Invalid flag for file lock mode"
+diff -urN heimdal-0.6-orig/lib/krb5/krb5.h heimdal-0.6-fixed/lib/krb5/krb5.h
+--- heimdal-0.6-orig/lib/krb5/krb5.h	2003-03-16 11:30:02.000000000 -0700
++++ heimdal-0.6-fixed/lib/krb5/krb5.h	2003-08-11 20:40:03.000000000 -0600
+@@ -41,6 +41,7 @@
+ 
+ #include <asn1_err.h>
+ #include <krb5_err.h>
++#include <krb5_err_fix.h>
+ #include <heim_err.h>
+ #include <k524_err.h>
+ 
