@@ -1,18 +1,19 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.1g
-Release:	2
-Source0:	%{name}-%{version}.tar.gz
+Version:	0.2m
+Release:	1
+Copyright:	Free
+Group:		Networking
+Group(pl):	Sieciowe
+Source0:	ftp://kerberos.tele.su.se/pub/kerberos/source/heimdal/%{name}-%{version}.tar.gz
 Source3:	heimdal.init
 Source4:	inetd.conf.secure
 Source5:	heimdal.logrotate
 Source6:	heimdal.sysconfig
 Patch0:		heimdal-paths.patch
 Patch1:		heimdal-0.1g-recvfrom.patch
-Group:		Networking
-Group(pl):	Sieciowe
-Copyright:	Free
+URL:		http://www.pdc.kth.se/heimdal/
 BuildRoot:	/tmp/%{name}-%{version}-root
 Conflicts:	krb5-lib
 Requires:	rc-scripts
@@ -40,7 +41,7 @@ Heimdal jest darmow± implementacj± Kerberosa 5. G³ówne zalety to:
    * zawiera wystarczaj±c± kompatybilno¶æ z Kerberos V4
    * wsparcie dla IPv6
 
-%package	clients 
+%package clients 
 Summary:	Kerberos programs for use on workstations
 Summary(pl):	Oprogramowanie klienckie dla stacji roboczej kerberosa
 Group:		Networking
@@ -53,7 +54,7 @@ Kerberos 5 Clients.
 %description -l pl clients
 Oprogramowanie klienckie do korzystania z us³ug systemu Kerberos 5.
 
-%package	daemons
+%package daemons
 Summary:	Kerberos daemons programs for use on servers
 Summary(pl):	Serwery popularnych us³ug, autoryzuj±ce przy pomocy kerberosa.
 Group:		Networking
@@ -66,7 +67,7 @@ Kerberos Daemons.
 %description -l pl daemons
 Daemony korzystaj±ce z systemu Kerberos do autoryzacji dostêpu.
 
-%package	server
+%package server
 Summary:	Kerberos Server 
 Summary(pl):	Serwer Kerberosa
 Group:		Networking
@@ -79,7 +80,7 @@ Master KDC.
 %description -l pl server
 G³ówne centrum dystrybucji kluczy (KDC).
 
-%package	lib
+%package lib
 Summary:	Kerberos shared libraries
 Summary(pl):	Biblioteki dzielone dla kerberosa
 Group:		Libraries
@@ -92,7 +93,7 @@ Libraries for Kerberos V5 Server and Client
 %description -l pl lib
 Biblioteki dynamiczne dla systemu kerberos.
 
-%package	devel
+%package devel
 Summary:	Header files for Kerberos libraries and documentation
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek Kerberosa
 Group:		Libraries
@@ -105,7 +106,7 @@ Header files for Kerberos libraries and development documentation
 %description -l pl devel
 Pliki nag³ówkowe i dokumentacja do bibliotek Kerberosa
 
-%package	static
+%package static
 Summary:	Static Kerberos libraries
 Summary(pl):	Biblioteki statyczne Kerberosa
 Group:		Libraries
