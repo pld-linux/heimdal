@@ -33,7 +33,7 @@ URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
-BuildRequires:	db-devel
+BuildRequires:	db4.3-devel
 BuildRequires:	flex
 BuildRequires:	libcom_err-devel >= 1.34-5
 BuildRequires:	libtool
