@@ -30,11 +30,11 @@ BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	db-devel
 BuildRequires:	flex
+BuildRequires:	libcomm_err-devel >= 1.34-5
 BuildRequires:	libtool
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	openssl-devel
-BuildRequires:	libcomm_err-devel >= 1.34-5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Conflicts:	krb5-lib
 
@@ -237,7 +237,7 @@ Summary:	Header files for heimdal
 Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}
-Requires:	e2fsprogs-devel >= 1.34
+Requires:	libcomm_err-devel >= 1.34-5
 
 %description devel
 contains files needed to compile and link software using the kerberos
@@ -298,7 +298,8 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir}} \
 	$RPM_BUILD_ROOT/etc/{sysconfig/rc-inetd,logrotate.d,rc.d/init.d}
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 install appl/su/.libs/su $RPM_BUILD_ROOT%{_bindir}/ksu
 install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
