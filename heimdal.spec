@@ -104,8 +104,8 @@ Summary:	login is used when signing onto a system
 Summary(pl):	Narzêdzie do logowania w systemie
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}
-Provides:	login
-Obsoletes:	login
+#Provides:	login
+#Obsoletes:	login
 
 %description login
 login is used when signing onto a system. It can also be used to
