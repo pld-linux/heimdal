@@ -26,6 +26,7 @@ Patch3:		%{name}-amfix.patch
 Patch4:		%{name}-gcc33.patch
 Patch5:		%{name}-db41.patch
 Patch6:		%{name}-dbpaths.patch
+Patch7:		%{name}-et-fix.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -36,6 +37,7 @@ BuildRequires:	libtool
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	openssl-devel
+BuildRequires:	e2fsprogs-devel >= 1.34
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Conflicts:	krb5-lib
 
@@ -268,6 +270,7 @@ Biblioteki statyczne heimdal.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 rm -f missing
