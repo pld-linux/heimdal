@@ -1,7 +1,7 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.3c
+Version:	0.4c
 Release:	1
 Copyright:	Free
 Group:		Networking
@@ -17,6 +17,7 @@ Source6:	%{name}-rshd.inetd
 Source7:	%{name}-telnetd.inetd
 Source8:	%{name}-kadmind.inetd
 Patch0:		%{name}-paths.patch
+Patch1:		%{name}-info.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	db3-devel
 BuildRequires:	flex
@@ -243,6 +244,7 @@ Biblioteki statyczne heimdal.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %configure \
@@ -265,7 +267,6 @@ Biblioteki statyczne heimdal.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir}} \
 	$RPM_BUILD_ROOT/etc/{sysconfig/rc-inetd,logrotate.d,rc.d/init.d}
 
@@ -450,7 +451,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/compile_et
-%attr(755,root,root) %{_bindir}/des
 %attr(755,root,root) %{_bindir}/kauth
 %attr(755,root,root) %{_bindir}/kdestroy
 %attr(755,root,root) %{_bindir}/kgetcred
