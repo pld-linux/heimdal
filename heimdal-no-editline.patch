@@ -1,0 +1,37 @@
+--- heimdal-0.6.3/cf/krb-readline.m4.orig	2004-04-01 09:27:34.000000000 +0200
++++ heimdal-0.6.3/cf/krb-readline.m4	2005-03-10 21:49:10.738191736 +0100
+@@ -22,17 +22,21 @@
+ dnl readline
+ 
+ ac_foo=no
++build_editline=no
+ if test "$with_readline" = yes; then
+ 	:
+ elif test "$ac_cv_func_readline" = yes; then
+ 	:
+ elif test "$ac_cv_func_el_init" = yes; then
+ 	ac_foo=yes
++	build_editline=yes
+ 	LIB_readline="\$(top_builddir)/lib/editline/libel_compat.la \$(LIB_el_init) \$(LIB_tgetent)"
+ else
++	build_editline=yes
+ 	LIB_readline="\$(top_builddir)/lib/editline/libeditline.la \$(LIB_tgetent)"
+ fi
+ AM_CONDITIONAL(el_compat, test "$ac_foo" = yes)
++AM_CONDITIONAL(BUILD_EDITLINE, test "$build_editline" = yes)
+ AC_DEFINE(HAVE_READLINE, 1, 
+ 	[Define if you have a readline compatible library.])dnl
+ 
+--- heimdal-0.6.3/lib/Makefile.am.orig	2001-08-28 20:44:41.000000000 +0200
++++ heimdal-0.6.3/lib/Makefile.am	2005-03-10 21:49:40.690638272 +0100
+@@ -11,6 +11,9 @@
+ if DCE
+ dir_dce = kdfs
+ endif
++if BUILD_EDITLINE
++dir_el = editline
++endif
+ 
+-SUBDIRS = @DIR_roken@ vers editline @DIR_com_err@ sl asn1 @DIR_des@ krb5 \
++SUBDIRS = @DIR_roken@ vers $(dir_el) @DIR_com_err@ sl asn1 @DIR_des@ krb5 \
+ 	kafs hdb kadm5 gssapi auth $(dir_45) $(dir_otp) $(dir_dce)
