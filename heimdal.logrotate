@@ -1,0 +1,10 @@
+/var/log/kadmin {
+    weekly
+    rotate 1
+}
+
+/var/log/kdc.log {
+    weekly
+    rotate 1
+
+}

@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# chkconfig: 2345 41 41
+# description: Heimdal Kerberos V server daemons
+#
+# processname: kdc
+# config: /etc/heimdal/krb5.conf
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Kerberos config
+if [ -f /etc/sysconfig/heimdal ]; then
+    . /etc/sysconfig/heimdal
+fi
+# Check that networking is up...
+[ "${NETWORKING}" == "no" ] && exit 0
+
+# See how we were called.
+case "$1" in
+  start)
+	show Starting Kerberos KDC
+	if (/usr/heimdal/sbin/kdc&); then deltext; ok; else deltext; fail; fi
+	touch /var/lock/subsys/heimdal
+	;;
+  stop)
+	show Stopping Kerberos KDC
+	killproc kdc
+	rm -f /var/lock/subsys/heimdal
+	;;
+restart)
+	$0 stop
+	$0 start
+	;;
+status)
+	status	kdc
+	;;
+  *)
+	echo "Usage: $0 {start|stop|status|restart}"
+	exit 1
+esac
+
+exit 0

@@ -1,0 +1,5 @@
+# Customized setings for Kerberos V5
+
+# Nicelevel for Kerberos KDC Server
+SERVICE_RUN_NICE_LEVEL="+0"
+ 
