@@ -233,9 +233,6 @@ LDFLAGS="-s"; export LDFLAGS
 	--enable-shared \
 	--enable-static \
 	--enable-new-des3-code \
-	--with-openldap=/usr \
-	--with-openldap-lib=/usr/lib \
-	--with-openldap-include=/usr/include \
 	--with-readline \
 	--with-x \
 	--with-ipv6
