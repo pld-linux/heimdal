@@ -1,7 +1,7 @@
-diff -urN heimdal-0.1g.orig/admin/srvconvert.c heimdal-0.1g/admin/srvconvert.c
---- heimdal-0.1g.orig/admin/srvconvert.c	Mon Jul  5 15:49:49 1999
-+++ heimdal-0.1g/admin/srvconvert.c	Mon Jul  5 15:50:25 1999
-@@ -43,7 +43,7 @@
+diff -Nru heimdal-0.3b/admin/srvconvert.c heimdal-0.3b.new/admin/srvconvert.c
+--- heimdal-0.3b/admin/srvconvert.c	Sun Jan  2 04:56:21 2000
++++ heimdal-0.3b.new/admin/srvconvert.c	Wed Sep  6 08:32:54 2000
+@@ -38,7 +38,7 @@
  /* convert a version 4 srvtab to a version 5 keytab */
  
  #ifndef KEYFILE
@@ -10,10 +10,10 @@ diff -urN heimdal-0.1g.orig/admin/srvconvert.c heimdal-0.1g/admin/srvconvert.c
  #endif
  
  static char *srvtab = KEYFILE;
-diff -urN heimdal-0.1g.orig/admin/srvcreate.c heimdal-0.1g/admin/srvcreate.c
---- heimdal-0.1g.orig/admin/srvcreate.c	Mon Jul  5 15:49:49 1999
-+++ heimdal-0.1g/admin/srvcreate.c	Mon Jul  5 15:50:25 1999
-@@ -43,7 +43,7 @@
+diff -Nru heimdal-0.3b/admin/srvcreate.c heimdal-0.3b.new/admin/srvcreate.c
+--- heimdal-0.3b/admin/srvcreate.c	Sat Jun  3 14:24:05 2000
++++ heimdal-0.3b.new/admin/srvcreate.c	Wed Sep  6 08:32:54 2000
+@@ -38,7 +38,7 @@
  /* convert a version 5 keytab to a version 4 srvtab */
  
  #ifndef KEYFILE
@@ -22,10 +22,10 @@ diff -urN heimdal-0.1g.orig/admin/srvcreate.c heimdal-0.1g/admin/srvcreate.c
  #endif
  
  static char *srvtab = KEYFILE;
-diff -urN heimdal-0.1g.orig/appl/ftp/ftpd/logwtmp.c heimdal-0.1g/appl/ftp/ftpd/logwtmp.c
---- heimdal-0.1g.orig/appl/ftp/ftpd/logwtmp.c	Mon Jul  5 15:49:51 1999
-+++ heimdal-0.1g/appl/ftp/ftpd/logwtmp.c	Mon Jul  5 15:50:25 1999
-@@ -69,7 +69,7 @@
+diff -Nru heimdal-0.3b/appl/ftp/ftpd/logwtmp.c heimdal-0.3b.new/appl/ftp/ftpd/logwtmp.c
+--- heimdal-0.3b/appl/ftp/ftpd/logwtmp.c	Thu Dec  2 17:58:31 1999
++++ heimdal-0.3b.new/appl/ftp/ftpd/logwtmp.c	Wed Sep  6 08:32:54 2000
+@@ -64,7 +64,7 @@
  #ifdef _PATH_WTMP
  #define WTMP_FILE _PATH_WTMP
  #else
@@ -34,10 +34,10 @@ diff -urN heimdal-0.1g.orig/appl/ftp/ftpd/logwtmp.c heimdal-0.1g/appl/ftp/ftpd/l
  #endif
  #endif
  
-diff -urN heimdal-0.1g.orig/appl/ftp/ftpd/pathnames.h heimdal-0.1g/appl/ftp/ftpd/pathnames.h
---- heimdal-0.1g.orig/appl/ftp/ftpd/pathnames.h	Mon Jul  5 15:49:51 1999
-+++ heimdal-0.1g/appl/ftp/ftpd/pathnames.h	Mon Jul  5 15:50:25 1999
-@@ -49,7 +49,7 @@
+diff -Nru heimdal-0.3b/appl/ftp/ftpd/pathnames.h heimdal-0.3b.new/appl/ftp/ftpd/pathnames.h
+--- heimdal-0.3b/appl/ftp/ftpd/pathnames.h	Wed Jan  5 14:46:38 2000
++++ heimdal-0.3b.new/appl/ftp/ftpd/pathnames.h	Wed Sep  6 08:32:54 2000
+@@ -49,9 +49,9 @@
  #define _PATH_BSHELL "/bin/sh"
  #endif
  
@@ -48,23 +48,13 @@ diff -urN heimdal-0.1g.orig/appl/ftp/ftpd/pathnames.h heimdal-0.1g/appl/ftp/ftpd
 +#define	_PATH_FTPCHROOT		"/etc/ftpd/ftpchroot"
 +#define	_PATH_FTPWELCOME	"/etc/ftpd/ftpwelcome"
  #define	_PATH_FTPLOGINMESG	"/etc/motd"
-diff -urN heimdal-0.1g.orig/appl/kauth/ksrvtgt.in heimdal-0.1g/appl/kauth/ksrvtgt.in
---- heimdal-0.1g.orig/appl/kauth/ksrvtgt.in	Mon Jul  5 15:49:51 1999
-+++ heimdal-0.1g/appl/kauth/ksrvtgt.in	Mon Jul  5 15:50:25 1999
-@@ -8,7 +8,7 @@
- 	exit 1
- fi
  
--srvtab="${4-${3-/etc/srvtab}}"
-+srvtab="${4-${3-/etc/heimdal/srvtab}}"
- realm="${4+@$3}"
+ #define _PATH_ISSUE		"/etc/issue"
+diff -Nru heimdal-0.3b/kdc/hpropd.c heimdal-0.3b.new/kdc/hpropd.c
+--- heimdal-0.3b/kdc/hpropd.c	Wed Aug  9 22:44:29 2000
++++ heimdal-0.3b.new/kdc/hpropd.c	Wed Sep  6 08:32:55 2000
+@@ -229,7 +229,7 @@
  
- %bindir%/kauth -n "$1.$2$realm" -l 5 -f "$srvtab"
-diff -urN heimdal-0.1g.orig/kdc/hpropd.c heimdal-0.1g/kdc/hpropd.c
---- heimdal-0.1g.orig/kdc/hpropd.c	Mon Jul  5 15:49:53 1999
-+++ heimdal-0.1g/kdc/hpropd.c	Mon Jul  5 15:50:25 1999
-@@ -252,7 +252,7 @@
- 	usage(1);
  #ifdef KRB4
      if (v4dump && database == HDB_DEFAULT_DB)
 -       database = "/var/kerberos/524_dump";
@@ -72,10 +62,10 @@ diff -urN heimdal-0.1g.orig/kdc/hpropd.c heimdal-0.1g/kdc/hpropd.c
  #endif /* KRB4 */
      
      if(help_flag)
-diff -urN heimdal-0.1g.orig/kdc/kdc.8 heimdal-0.1g/kdc/kdc.8
---- heimdal-0.1g.orig/kdc/kdc.8	Mon Jul  5 15:49:53 1999
-+++ heimdal-0.1g/kdc/kdc.8	Mon Jul  5 15:50:25 1999
-@@ -67,9 +67,9 @@
+diff -Nru heimdal-0.3b/kdc/kdc.8 heimdal-0.3b.new/kdc/kdc.8
+--- heimdal-0.3b/kdc/kdc.8	Sat Mar  4 16:55:37 2000
++++ heimdal-0.3b.new/kdc/kdc.8	Wed Sep  6 08:32:55 2000
+@@ -98,9 +98,9 @@
  The configuration file has the same syntax as the 
  .Pa krb5.conf
  file (you can actually put the configuration in
@@ -86,11 +76,11 @@ diff -urN heimdal-0.1g.orig/kdc/kdc.8 heimdal-0.1g/kdc/kdc.8
 +.Fl -config-file= Ns Ar /etc/heimdal/krb5.conf ) .
  All options should be in a section called
  .Dq kdc .
- Options are called the same as the long option name, and takes the
-diff -urN heimdal-0.1g.orig/kdc/log.c heimdal-0.1g/kdc/log.c
---- heimdal-0.1g.orig/kdc/log.c	Mon Jul  5 15:49:53 1999
-+++ heimdal-0.1g/kdc/log.c	Mon Jul  5 15:52:27 1999
-@@ -56,7 +56,7 @@
+ All the command-line options can preferably be added in the
+diff -Nru heimdal-0.3b/kdc/log.c heimdal-0.3b.new/kdc/log.c
+--- heimdal-0.3b/kdc/log.c	Thu Dec  2 18:05:00 1999
++++ heimdal-0.3b.new/kdc/log.c	Wed Sep  6 08:32:55 2000
+@@ -51,7 +51,7 @@
  	    krb5_addlog_dest(context, logf, *p);
  	krb5_config_free_strings(s);
      }else
@@ -99,10 +89,10 @@ diff -urN heimdal-0.1g.orig/kdc/log.c heimdal-0.1g/kdc/log.c
      krb5_set_warn_dest(context, logf);
  }
  
-diff -urN heimdal-0.1g.orig/kuser/kinit.1 heimdal-0.1g/kuser/kinit.1
---- heimdal-0.1g.orig/kuser/kinit.1	Mon Jul  5 15:49:53 1999
-+++ heimdal-0.1g/kuser/kinit.1	Mon Jul  5 15:50:25 1999
-@@ -113,7 +113,7 @@
+diff -Nru heimdal-0.3b/kuser/kinit.1 heimdal-0.3b.new/kuser/kinit.1
+--- heimdal-0.3b/kuser/kinit.1	Sat Mar  4 17:05:32 2000
++++ heimdal-0.3b.new/kuser/kinit.1	Wed Sep  6 08:32:55 2000
+@@ -114,7 +114,7 @@
  The same as
  .Fl -keytab ,
  but with the default keytab name (normally
@@ -111,10 +101,10 @@ diff -urN heimdal-0.1g.orig/kuser/kinit.1 heimdal-0.1g/kuser/kinit.1
  .It Xo
  .Fl v Ns ,
  .Fl -validate
-diff -urN heimdal-0.1g.orig/lib/krb5/config_file.c heimdal-0.1g/lib/krb5/config_file.c
---- heimdal-0.1g.orig/lib/krb5/config_file.c	Mon Jul  5 15:49:55 1999
-+++ heimdal-0.1g/lib/krb5/config_file.c	Mon Jul  5 15:50:25 1999
-@@ -800,7 +800,7 @@
+diff -Nru heimdal-0.3b/lib/krb5/config_file.c heimdal-0.3b.new/lib/krb5/config_file.c
+--- heimdal-0.3b/lib/krb5/config_file.c	Wed Aug 16 09:40:36 2000
++++ heimdal-0.3b.new/lib/krb5/config_file.c	Wed Sep  6 08:32:55 2000
+@@ -757,7 +757,7 @@
  {
      krb5_config_section *c;
  
@@ -123,20 +113,19 @@ diff -urN heimdal-0.1g.orig/lib/krb5/config_file.c heimdal-0.1g/lib/krb5/config_
      print_config (stdout, c);
      printf ("[libdefaults]ticket_lifetime = %s\n",
  	    krb5_config_get_string (context, c,
-diff -urN heimdal-0.1g.orig/lib/krb5/constants.c heimdal-0.1g/lib/krb5/constants.c
---- heimdal-0.1g.orig/lib/krb5/constants.c	Mon Jul  5 15:49:55 1999
-+++ heimdal-0.1g/lib/krb5/constants.c	Mon Jul  5 15:50:25 1999
-@@ -40,5 +40,5 @@
+diff -Nru heimdal-0.3b/lib/krb5/constants.c heimdal-0.3b.new/lib/krb5/constants.c
+--- heimdal-0.3b/lib/krb5/constants.c	Fri Jul 14 23:53:01 2000
++++ heimdal-0.3b.new/lib/krb5/constants.c	Wed Sep  6 08:33:41 2000
+@@ -35,5 +35,5 @@
  
  RCSID("$Id$");
  
 -const char krb5_config_file[] = "/etc/krb5.conf";
--const char krb5_defkeyname[] = "/etc/v5srvtab";
 +const char krb5_config_file[] = "/etc/heimdal/krb5.conf";
-+const char krb5_defkeyname[] = "/etc/heimdal/v5srvtab";
-diff -urN heimdal-0.1g.orig/lib/krb5/krb5.conf.5 heimdal-0.1g/lib/krb5/krb5.conf.5
---- heimdal-0.1g.orig/lib/krb5/krb5.conf.5	Mon Jul  5 15:49:56 1999
-+++ heimdal-0.1g/lib/krb5/krb5.conf.5	Mon Jul  5 15:53:49 1999
+ const char krb5_defkeyname[] = KEYTAB_DEFAULT;
+diff -Nru heimdal-0.3b/lib/krb5/krb5.conf.5 heimdal-0.3b.new/lib/krb5/krb5.conf.5
+--- heimdal-0.3b/lib/krb5/krb5.conf.5	Fri Aug  4 04:41:45 2000
++++ heimdal-0.3b.new/lib/krb5/krb5.conf.5	Wed Sep  6 08:32:55 2000
 @@ -4,7 +4,7 @@
  .Dt KRB5.CONF 5
  .Os HEIMDAL
@@ -146,14 +135,15 @@ diff -urN heimdal-0.1g.orig/lib/krb5/krb5.conf.5 heimdal-0.1g/lib/krb5/krb5.conf
  .Nd
  Configuration file for Kerberos 5
  .Sh DESCRIPTION
-diff -urN heimdal-0.1g.orig/lib/krb5/krb5_locl.h heimdal-0.1g/lib/krb5/krb5_locl.h
---- heimdal-0.1g.orig/lib/krb5/krb5_locl.h	Mon Jul  5 15:49:57 1999
-+++ heimdal-0.1g/lib/krb5/krb5_locl.h	Mon Jul  5 15:50:25 1999
-@@ -131,6 +131,6 @@
+diff -Nru heimdal-0.3b/lib/krb5/krb5_locl.h heimdal-0.3b.new/lib/krb5/krb5_locl.h
+--- heimdal-0.3b/lib/krb5/krb5_locl.h	Thu Dec  2 18:05:11 1999
++++ heimdal-0.3b.new/lib/krb5/krb5_locl.h	Wed Sep  6 08:32:55 2000
+@@ -127,7 +127,7 @@
  #define ALLOC_SEQ(X, N) do { (X)->len = (N); ALLOC((X)->val, (N)); } while(0)
  
  /* should this be public? */
 -#define KEYTAB_DEFAULT "FILE:/etc/krb5.keytab"
 +#define KEYTAB_DEFAULT "FILE:/etc/heimdal/krb5.keytab"
  
- #endif /* __KRB5_LOCL_H__ */
+ #ifndef O_BINARY
+ #define O_BINARY 0
