@@ -1,4 +1,7 @@
-%bcond_without x11
+#
+# Conditional build:
+%bcond_without	x11	# without X11-based utilities
+#
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
