@@ -41,9 +41,10 @@ BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	openldap-devel
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel
+BuildRequires:	texinfo
 Requires:	%{name}-libs = %{version}-%{release}
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Conflicts:	krb5-lib
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_libexecdir	%{_sbindir}
 %define		_localstatedir	/var/lib/%{name}
