@@ -17,6 +17,9 @@ Source7:	%{name}-telnetd.inetd
 Source8:	%{name}-kadmind.inetd
 Patch0:		heimdal-paths.patch
 URL:		http://www.pdc.kth.se/heimdal/
+BuildRequires:	flex
+BuildRequires:	mawk
+BuildRequires:	XFree86-devel
 BuildRoot:	/tmp/%{name}-%{version}-root
 Conflicts:	krb5-lib
 Requires:	rc-scripts
@@ -77,6 +80,19 @@ packages.
 Pakiet zawiera biblioteki wspó³dzielone dla heimdal.
 
 
+%package login
+Summary:	login is used when signing onto a system
+Group:		Applications/Networking
+Group(pl):	Aplikacje/Sieciowe
+Requires:	%{name}-libs = %{version}
+Obsoletes:	login
+
+%description login
+login is used when signing onto a system. It can also be used to switch from
+one user to another at any time (most modern shells have support for this
+feature built into them, however). This package contain kerberized version
+login program.
+
 %package ftp
 Summary:	The standard UNIX FTP (file transfer protocol) client
 Group:		Applications/Networking
@@ -91,7 +107,7 @@ files.
 
 
 %package rsh
-Summary:	Clients for remote access commands (rsh, rlogin, rcp).
+Summary:	Clients for remote access commands (rsh, rlogin, rcp)
 Group:		Applications/Networking
 Group(pl):	Aplikacje/Sieciowe
 Requires:	%{name}-libs = %{version}
@@ -106,7 +122,7 @@ needed for all of these services.
 
 
 %package telnet
-Summary:	Client for the telnet remote login.
+Summary:	Client for the telnet remote login
 Group:		Applications/Networking
 Group(pl):	Aplikacje/Sieciowe
 Requires:	%{name}-libs = %{version}
@@ -131,7 +147,7 @@ protocol for transferring files and for archiving files.
 
 
 %package rshd
-Summary:	Server for remote access commands (rsh, rlogin, rcp).
+Summary:	Server for remote access commands (rsh, rlogin, rcp)
 Group:		Networking/Daemons
 Group(pl):	Sieciowe/Serwery
 Prereq:		rc-inetd >= 0.8.1
@@ -147,7 +163,7 @@ for all of these services.
 
 
 %package telnetd
-Summary:	Server for the telnet remote login.
+Summary:	Server for the telnet remote login
 Group:		Networking/Daemons
 Group(pl):	Sieciowe/Serwery
 Prereq:		rc-inetd >= 0.8.1
@@ -248,17 +264,17 @@ install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir}} \
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
-install appl/su/.libs/su	$RPM_BUILD_ROOT%{_bindir}/ksu
-install %{SOURCE4}		$RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
+install appl/su/.libs/su $RPM_BUILD_ROOT%{_bindir}/ksu
+install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
 
-install %{SOURCE1}		$RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
-install %{SOURCE2}		$RPM_BUILD_ROOT/etc/logrotate.d/%{name}
-install %{SOURCE3}		$RPM_BUILD_ROOT/etc/sysconfig/%{name}
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
 
-install %{SOURCE5}		$RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/ftpd
-install %{SOURCE6}		$RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
-install %{SOURCE7}		$RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
-install %{SOURCE8}		$RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
+install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/ftpd
+install %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
+install %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
+install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
 rm -rf $RPM_BUILD_ROOT%{_libdir}/libcom_err.*
 
@@ -273,9 +289,10 @@ gzip -9fn $RPM_BUILD_ROOT{%{_mandir}/man[1358]/*,%{_infodir}/*} \
 
 %post server
 /sbin/chkconfig --add heimdal
-
 if [ -f /var/lock/sybsys/heimdal ]; then
-    /etc/rc.d/init.d/heimdal restart >&2
+	/etc/rc.d/init.d/heimdal restart >&2
+else
+	echo "Run \"/etc/rc.d/init.d/heimdal start\" to start heimdal daemon."
 fi
 
 if [ -f /var/lock/subsys/rc-inetd ]; then
@@ -286,12 +303,11 @@ fi
 
     
 %preun server
-if [ -f /var/lock/sybsys/heimadal ]; then
-    /etc/rc.d/init.d/heimdal stop >&2
-fi
-
 if [ "$1" = 0 ]; then
-    /sbin/chkconfig --del heimdal
+	if [ -f /var/lock/sybsys/heimadal ]; then
+		/etc/rc.d/init.d/heimdal stop >&2
+	fi
+	/sbin/chkconfig --del heimdal
 fi
 
 if [ -f /var/lock/subsys/rc-inetd ]; then
@@ -393,11 +409,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
 
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
-%attr(755,root,root) %{_bindir}/login
 
 %{_infodir}/heimdal.info*
 %{_mandir}/man5/krb5.conf.5*
 
+
+%files login
+%attr(755,root,root) %{_bindir}/login
 
 %files ftp
 %attr(755,root,root) %{_bindir}/ftp
@@ -447,6 +465,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/string2key
 %attr(755,root,root) %{_bindir}/tenletxr
 %attr(755,root,root) %{_bindir}/otpprint
+%attr(755,root,root) %{_bindir}/verify_krb5_conf
+%attr(755,root,root) %{_bindir}/xnlock
 
 %attr(4755,root,root) %{_bindir}/otp
 %attr(4755,root,root) %{_bindir}/ksu
