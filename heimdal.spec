@@ -17,8 +17,10 @@ Source7:	%{name}-telnetd.inetd
 Source8:	%{name}-kadmind.inetd
 Patch0:		%{name}-paths.patch
 URL:		http://www.pdc.kth.se/heimdal/
+BuildRequires:	db2-devel
 BuildRequires:	flex
 BuildRequires:	mawk
+BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	XFree86-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Conflicts:	krb5-lib
