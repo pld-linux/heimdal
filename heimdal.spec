@@ -253,7 +253,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir}} \
 	$RPM_BUILD_ROOT/etc/{sysconfig/rc-inetd,logrotate.d,rc.d/init.d}
 
-make install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 install appl/su/.libs/su $RPM_BUILD_ROOT%{_bindir}/ksu
 install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
