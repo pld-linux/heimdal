@@ -313,8 +313,3 @@ fi
 #%doc ../pam_krb5-1.0-1/README.gz
 
 #%attr(755,root,root) /lib/security/pam_krb5.so
-
-%changelog
-* Sat Jul 03 1999 Arkadiusz Mi¶kiewicz <misiek@pld.org.pl>
-  [0.1g-1]
-- initial spec release
