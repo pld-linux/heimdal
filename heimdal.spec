@@ -6,7 +6,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.6.4
-Release:	1
+Release:	2
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
@@ -285,6 +285,9 @@ Biblioteki statyczne heimdal.
 %patch9 -p1
 
 %build
+# glibc glob() has no support to GLOB_QUOTE and GLOB_LIMIT/GLOB_MAXPATH
+# rename internal libroken glob/globfree 
+%define specflags -Dglob=heimdal_glob -Dglobfree=heimdal_globfree
 rm -f acinclude.m4
 %{__libtoolize}
 %{__aclocal} -I cf
