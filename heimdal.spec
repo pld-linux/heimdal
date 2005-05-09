@@ -285,15 +285,15 @@ Biblioteki statyczne heimdal.
 %patch9 -p1
 
 %build
-# glibc glob() has no support to GLOB_QUOTE and GLOB_LIMIT/GLOB_MAXPATH
-# rename internal libroken glob/globfree 
-%define specflags -Dglob=heimdal_glob -Dglobfree=heimdal_globfree
 rm -f acinclude.m4
 %{__libtoolize}
 %{__aclocal} -I cf
 autoupdate
 %{__autoconf}
 %{__automake}
+# glibc glob() has no support to GLOB_QUOTE and GLOB_LIMIT/GLOB_MAXPATH
+# rename internal libroken glob/globfree 
+export CPPFLAGS="-Dglob=heimdal_glob -Dglobfree=heimdal_globfree"
 %configure \
 	--enable-shared \
 	--enable-static \
