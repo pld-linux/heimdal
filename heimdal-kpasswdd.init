@@ -1,0 +1,76 @@
+#!/bin/sh
+#
+# kpasswdd	Heimdal Kerberos V password changing server
+#
+# chkconfig:	2345 41 41
+#
+# description:	Heimdal Kerberos V password changing server
+#
+# processname:	kpasswdd
+# config:	/etc/heimdal/krb5.conf
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+# Get network config
+. /etc/sysconfig/network
+
+# Get service config
+[ -f /etc/sysconfig/kpasswdd ] && . /etc/sysconfig/kpasswdd
+
+# Check that networking is up.
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
+		# nls "ERROR: Networking is down. %s can't be run." <service>
+		msg_network_down "Kerberos password changing server"
+		exit 1
+	fi
+else
+	exit 0
+fi
+			
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/kpasswdd ]; then
+		msg_starting "Kerberos password changing server"
+		busy
+		kpasswdd &
+		sleep 1
+		if ps -C kpasswdd >/dev/null 2>&1; then
+			ok
+		else
+			fail
+		fi
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/kpasswdd
+	else
+		msg_already_running "Kerberos password changing server"
+	fi
+	;;
+  stop)
+	if [ -f /var/lock/subsys/kapsswdd ]; then
+		msg_stopping "Kerberos password changing server"
+		killproc kpasswdd
+		rm -f /var/lock/subsys/kpasswdd >/dev/null 2>&1
+	else
+		msg_not_running "Kerberos password changing server"
+	fi
+	;;
+  restart|force-reload)
+	$0 stop
+	$0 start
+	exit $?
+	;;
+  status)
+	status kpasswdd
+	exit $?
+	;;
+  *)
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
+esac
+
+exit $RETVAL
