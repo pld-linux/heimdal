@@ -51,7 +51,7 @@ case "$1" in
 	fi
 	;;
   stop)
-	if [ -f /var/lock/subsys/kapsswdd ]; then
+	if [ -f /var/lock/subsys/kpasswdd ]; then
 		msg_stopping "Kerberos password changing server"
 		killproc kpasswdd
 		rm -f /var/lock/subsys/kpasswdd >/dev/null 2>&1
