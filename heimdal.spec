@@ -128,6 +128,7 @@ Summary(pl):	Klient protoko³u FTP
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 Conflicts:	heimdal-clients
+Obsoletes:	ftp
 
 %description ftp
 The FTP package provides the standard UNIX command-line FTP client
