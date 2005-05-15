@@ -6,7 +6,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.6.4
-Release:	2
+Release:	3
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
@@ -19,6 +19,8 @@ Source5:	%{name}-ftpd.inetd
 Source6:	%{name}-rshd.inetd
 Source7:	%{name}-telnetd.inetd
 Source8:	%{name}-kadmind.inetd
+Source9:	%{name}-kpasswdd.init
+Source10:	%{name}-kpasswdd.sysconfig
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-info.patch
 Patch2:		%{name}-am_man_fixes.patch
@@ -326,6 +328,9 @@ install %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
+install %{SOURCE9} $RPM_BUILD_ROOT/etc/rc.d/init.d/kpasswdd
+install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/kpasswdd
+
 # other implementation exists in e2fsprogs (conflict with e2fsprogs-devel)
 rm -f $RPM_BUILD_ROOT{%{_libdir}/libss.so,%{_includedir}/ss/ss.h}
 # this is created because glibc's <glob.h> has no GLOB_LIMIT and GLOB_QUOTE
@@ -338,10 +343,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %post server
 /sbin/chkconfig --add heimdal
-if [ -f /var/lock/sybsys/heimdal ]; then
+if [ -f /var/lock/subsys/heimdal ]; then
 	/etc/rc.d/init.d/heimdal restart >&2
 else
 	echo "Run \"/etc/rc.d/init.d/heimdal start\" to start heimdal daemon."
+fi
+
+/sbin/chkconfig --add kpasswdd
+if [ -f /var/lock/subsys/kpasswdd ]; then
+	/etc/rc.d/init.d/kpasswdd restart >&2
+else
+	echo "Run \"/etc/rc.d/init.d/kpasswdd start\" to start heimdal password changing daemon."
 fi
 
 if [ -f /var/lock/subsys/rc-inetd ]; then
@@ -352,10 +364,17 @@ fi
 
 %preun server
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/sybsys/heimadal ]; then
+	if [ -f /var/lock/subsys/heimadal ]; then
 		/etc/rc.d/init.d/heimdal stop >&2
 	fi
 	/sbin/chkconfig --del heimdal
+fi
+
+if [ "$1" = "0" ]; then
+	if [ -f /var/lock/subsys/kpasswdd ]; then
+		/etc/rc.d/init.d/kpasswdd stop >&2
+	fi
+	/sbin/chkconfig --del kpasswdd
 fi
 
 if [ -f /var/lock/subsys/rc-inetd ]; then
@@ -463,8 +482,10 @@ fi
 %doc NEWS TODO
 
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
+%attr(754,root,root) /etc/rc.d/init.d/kpasswdd
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/*
 %attr(640,root,root) /etc/sysconfig/heimdal
+%attr(640,root,root) /etc/sysconfig/kpasswdd
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/kadmind
 
 %attr(700,root,root) %dir %{_localstatedir}
