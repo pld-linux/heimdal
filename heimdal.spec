@@ -364,7 +364,7 @@ fi
 
 %preun server
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/heimadal ]; then
+	if [ -f /var/lock/subsys/heimdal ]; then
 		/etc/rc.d/init.d/heimdal stop >&2
 	fi
 	/sbin/chkconfig --del heimdal
