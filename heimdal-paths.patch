@@ -1,6 +1,7 @@
---- heimdal-0.6/appl/ftp/ftpd/pathnames.h.orig	2003-03-24 04:33:55.000000000 +0100
-+++ heimdal-0.6/appl/ftp/ftpd/pathnames.h	2003-07-26 03:34:41.000000000 +0200
-@@ -50,12 +50,12 @@
+diff -urN heimdal-0.7.org/appl/ftp/ftpd/pathnames.h heimdal-0.7/appl/ftp/ftpd/pathnames.h
+--- heimdal-0.7.org/appl/ftp/ftpd/pathnames.h	2005-06-16 18:29:12.000000000 +0200
++++ heimdal-0.7/appl/ftp/ftpd/pathnames.h	2005-07-03 18:55:47.464455864 +0200
+@@ -50,14 +50,14 @@
  #endif
  
  #ifndef _PATH_FTPUSERS
@@ -15,7 +16,9 @@
 +#define	_PATH_FTPWELCOME	"/etc/ftpd/ftpwelcome"
 +#define	_PATH_FTPLOGINMESG	"/etc/ftpd/motd"
  
+ #ifndef _PATH_ISSUE
 -#define _PATH_ISSUE		SYSCONFDIR "/issue"
--#define _PATH_ISSUE_NET		SYSCONFDIR "/issue.net"
 +#define _PATH_ISSUE		"/etc/ftpd/issue"
+ #endif
+-#define _PATH_ISSUE_NET		SYSCONFDIR "/issue.net"
 +#define _PATH_ISSUE_NET		"/etc/ftpd/issue.net"

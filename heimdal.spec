@@ -5,12 +5,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.6.5
+Version:	0.7
 Release:	1
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
-# Source0-md5:	afdfec50ef4dcab8873acdf8d6d385a7
+# Source0-md5:	0a8097a8772d5d2de8c5539d3182b82a
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.sysconfig
@@ -28,9 +28,8 @@ Patch3:		%{name}-amfix.patch
 Patch4:		%{name}-dbpaths.patch
 Patch5:		%{name}-system-comm_err.patch
 Patch6:		%{name}-acfixes.patch
-Patch7:		%{name}-link.patch
-Patch8:		%{name}-no-editline.patch
-Patch9:		%{name}-gcc4.patch
+Patch7:		%{name}-no-editline.patch
+Patch8:		%{name}-gcc4.patch
 URL:		http://www.pdc.kth.se/heimdal/
 %{?with_x11:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
@@ -285,7 +284,6 @@ Biblioteki statyczne heimdal.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
 
 %build
 rm -f acinclude.m4
@@ -316,7 +314,9 @@ install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir}} \
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install appl/su/.libs/su $RPM_BUILD_ROOT%{_bindir}/ksu
+libtool --mode=install install appl/su/su $RPM_BUILD_ROOT%{_bindir}/ksu
+install appl/su/su.1  $RPM_BUILD_ROOT%{_mandir}/man1/ksu.1
+
 install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
@@ -455,15 +455,16 @@ fi
 %attr(4755,root,root) %{_bindir}/ksu
 
 %{_mandir}/man1/afslog.1*
-%{_mandir}/man1/kauth.1*
 %{_mandir}/man1/kdestroy.1*
 %{_mandir}/man1/kf.1*
 %{_mandir}/man1/kgetcred.1*
 %{_mandir}/man1/kinit.1*
 %{_mandir}/man1/klist.1*
 %{_mandir}/man1/kpasswd.1*
+%{_mandir}/man1/ksu.1*
 %{_mandir}/man1/otp.1*
 %{_mandir}/man1/otpprint.1*
+%{_mandir}/man1/pagsh.1*
 %{_mandir}/man1/pfrom.1*
 %{_mandir}/man8/ktutil.8*
 %{_mandir}/man8/string2key.8*
@@ -507,6 +508,7 @@ fi
 %attr(755,root,root) %{_sbindir}/truncate_log
 %{?with_x11:%attr(755,root,root) %{_sbindir}/kxd}
 
+%{_mandir}/man8/iprop.8*
 %{_mandir}/man8/hprop.8*
 %{_mandir}/man8/hpropd.8*
 %{_mandir}/man8/kadmin.8*

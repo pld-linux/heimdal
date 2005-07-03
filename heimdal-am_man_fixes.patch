@@ -1,6 +1,7 @@
---- heimdal-0.5.1/cf/Makefile.am.common~	Tue Mar 18 03:51:25 2003
-+++ heimdal-0.5.1/cf/Makefile.am.common	Tue Mar 18 03:51:25 2003
-@@ -118,80 +118,7 @@
+diff -urNbB heimdal-0.7.org/cf/Makefile.am.common heimdal-0.7/cf/Makefile.am.common
+--- heimdal-0.7.org/cf/Makefile.am.common	2005-06-16 18:28:31.000000000 +0200
++++ heimdal-0.7/cf/Makefile.am.common	2005-07-03 19:11:48.112415176 +0200
+@@ -126,80 +126,7 @@
  .x.c:
  	@cmp -s $< $@ 2> /dev/null || cp $< $@
  
@@ -82,60 +83,4 @@
  
  .et.h:
  	$(COMPILE_ET) $<
---- /dev/null	Tue May  5 22:32:27 1998
-+++ heimdal-0.5.1/kuser/kauth.1	Tue Mar 18 04:09:40 2003
-@@ -0,0 +1 @@
-+.so man1/kinit.1
---- heimdal-0.5.1/kuser/Makefile.am~	Tue Mar 18 04:12:04 2003
-+++ heimdal-0.5.1/kuser/Makefile.am	Tue Mar 18 04:12:04 2003
-@@ -4,7 +4,7 @@
- 
- INCLUDES += $(INCLUDE_krb4)
- 
--man_MANS = kinit.1 klist.1 kdestroy.1 kgetcred.1
-+man_MANS = kinit.1 klist.1 kdestroy.1 kgetcred.1 kauth.1
- 
- bin_PROGRAMS = kinit klist kdestroy kgetcred
- 
---- /dev/null	Tue May  5 22:32:27 1998
-+++ heimdal-0.5.1/lib/roken/arg_printusage.3	Tue Mar 18 05:48:41 2003
-@@ -0,0 +1 @@
-+.so man3/getarg.3
---- heimdal-0.5.1/lib/roken/Makefile.am~	Tue Mar 18 05:50:17 2003
-+++ heimdal-0.5.1/lib/roken/Makefile.am	Tue Mar 18 05:50:17 2003
-@@ -215,7 +215,7 @@
- 
- nodist_include_HEADERS = roken.h
- 
--man_MANS = getarg.3
-+man_MANS = getarg.3 arg_printusage.3
- 
- SUFFIXES += .hin
- .hin.h:
---- heimdal-0.5.1/lib/kafs/Makefile.am~	Tue Mar 18 05:52:47 2003
-+++ heimdal-0.5.1/lib/kafs/Makefile.am	Tue Mar 18 05:52:47 2003
-@@ -81,7 +81,7 @@
- 
- EXTRA_DIST = README.dlfcn afsl.exp afslib.exp
- 
--man_MANS = kafs.3
-+man_MANS = kafs.3 k_hasafs.3 k_pioctl.3 k_setpag.3 k_unlog.3
- 
- # AIX: this almost works with gcc, but somehow it fails to use the
- # correct ld, use ld instead
---- /dev/null	Tue May  5 22:32:27 1998
-+++ heimdal-0.5.1/lib/kafs/k_hasafs.3	Tue Mar 18 05:54:44 2003
-@@ -0,0 +1 @@
-+.so man3/kafs.3
---- /dev/null	Tue May  5 22:32:27 1998
-+++ heimdal-0.5.1/lib/kafs/k_pioctl.3	Tue Mar 18 05:54:44 2003
-@@ -0,0 +1 @@
-+.so man3/kafs.3
---- /dev/null	Tue May  5 22:32:27 1998
-+++ heimdal-0.5.1/lib/kafs/k_setpag.3	Tue Mar 18 05:54:44 2003
-@@ -0,0 +1 @@
-+.so man3/kafs.3
---- /dev/null	Tue May  5 22:32:27 1998
-+++ heimdal-0.5.1/lib/kafs/k_unlog.3	Tue Mar 18 05:54:44 2003
-@@ -0,0 +1 @@
-+.so man3/kafs.3
+
