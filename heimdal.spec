@@ -80,9 +80,9 @@ Heimdal jest darmow± implementacj± Kerberosa 5. G³ówne zalety to:
 Summary:	Kerberos Server
 Summary(pl):	Serwer Kerberosa
 Group:		Networking
-PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	rc-scripts
 
 %description server
 Master KDC.
@@ -183,8 +183,8 @@ zawiera klienta tej us³ugi.
 Summary:	The standard UNIX FTP (file transfer protocol) server
 Summary(pl):	Serwer FTP
 Group:		Networking/Daemons
-PreReq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	rc-inetd >= 0.8.1
 Obsoletes:	ftpd
 
 %description ftpd
@@ -199,8 +199,8 @@ Internecie.
 Summary:	Server for remote access commands (rsh, rlogin, rcp)
 Summary(pl):	Serwer zdalnego dostêpu (rsh, rlogin, rcp)
 Group:		Networking/Daemons
-PreReq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	rc-inetd >= 0.8.1
 Obsoletes:	rshd
 
 %description rshd
@@ -219,8 +219,8 @@ kopiowanie plików pomiêdzy maszynami (rsh, rlogin, rcp).
 Summary:	Server for the telnet remote login
 Summary(pl):	Serwer protoko³u telnet
 Group:		Networking/Daemons
-PreReq:		rc-inetd >= 0.8.1
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	rc-inetd >= 0.8.1
 Obsoletes:	telnetd
 
 %description telnetd
@@ -293,7 +293,7 @@ autoupdate
 %{__autoconf}
 %{__automake}
 # glibc glob() has no support to GLOB_QUOTE and GLOB_LIMIT/GLOB_MAXPATH
-# rename internal libroken glob/globfree 
+# rename internal libroken glob/globfree
 export CPPFLAGS="-Dglob=heimdal_glob -Dglobfree=heimdal_globfree"
 %configure \
 	--enable-shared \
@@ -484,13 +484,13 @@ fi
 
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
 %attr(754,root,root) /etc/rc.d/init.d/kpasswdd
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/*
-%attr(640,root,root) /etc/sysconfig/heimdal
-%attr(640,root,root) /etc/sysconfig/kpasswdd
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/kadmind
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/*
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/heimdal
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/kpasswdd
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/kadmind
 
 %attr(700,root,root) %dir %{_localstatedir}
-%attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_localstatedir}/*
+%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_localstatedir}/*
 
 %attr(755,root,root) %{_sbindir}/dump_log
 %attr(755,root,root) %{_sbindir}/kadmin
@@ -523,7 +523,7 @@ fi
 %files libs
 %defattr(644,root,root,755)
 %dir %{_sysconfdir}
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/krb5.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/krb5.conf
 %attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 
@@ -556,20 +556,20 @@ fi
 
 %files ftpd
 %defattr(644,root,root,755)
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/ftpd
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/ftpd
 %attr(755,root,root) %{_sbindir}/ftpd
 %{_mandir}/man5/ftpusers.5*
 %{_mandir}/man8/ftpd.8*
 
 %files rshd
 %defattr(644,root,root,755)
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/rshd
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/rshd
 %attr(755,root,root) %{_sbindir}/rshd
 %{_mandir}/man8/rshd.8*
 
 %files telnetd
 %defattr(644,root,root,755)
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/telnetd
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/telnetd
 %attr(755,root,root) %{_sbindir}/telnetd
 %{_mandir}/man8/telnetd.8*
 
