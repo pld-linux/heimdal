@@ -301,7 +301,7 @@ export CPPFLAGS="-Dglob=heimdal_glob -Dglobfree=heimdal_globfree"
 	--enable-new-des3-code \
 	--with-openldap=/usr \
 	--with-readline=/usr \
-	%{?with_x11:--with-x} \
+        --with%{!?with_x11:out}-x \
 	--with-ipv6
 
 %{__make}
