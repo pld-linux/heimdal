@@ -1,0 +1,1 @@
+- updated to 0.7.2 (fixes CVE-2006-0582 and telnetd DoS [CVE-2006-0677])
