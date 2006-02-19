@@ -30,8 +30,8 @@ Patch5:		%{name}-system-comm_err.patch
 Patch6:		%{name}-acfixes.patch
 Patch7:		%{name}-no-editline.patch
 Patch8:		%{name}-gcc4.patch
+Patch9:		%{name}-db4.patch
 URL:		http://www.pdc.kth.se/heimdal/
-%{?with_x11:BuildRequires:	xorg-lib-libXt-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
@@ -45,6 +45,7 @@ BuildRequires:	openldap-devel >= 2.3.0
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	texinfo
+%{?with_x11:BuildRequires:	xorg-lib-libXt-devel}
 Requires:	%{name}-libs = %{version}-%{release}
 Conflicts:	krb5-lib
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -284,6 +285,7 @@ Biblioteki statyczne heimdal.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 rm -f acinclude.m4
