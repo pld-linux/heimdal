@@ -291,7 +291,6 @@ Biblioteki statyczne heimdal.
 rm -f acinclude.m4
 %{__libtoolize}
 %{__aclocal} -I cf
-autoupdate
 %{__autoconf}
 %{__automake}
 # glibc glob() has no support to GLOB_QUOTE and GLOB_LIMIT/GLOB_MAXPATH
