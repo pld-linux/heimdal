@@ -6,7 +6,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.7.2
-Release:	1
+Release:	2
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
@@ -55,26 +55,26 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Heimdal is a free implementation of Kerberos 5. The goals are to:
-   - have an implementation that can be freely used by anyone
-   - be protocol compatible with existing implementations and, if not in
-     conflict, with RFC 1510 (and any future updated RFC)
-   - be reasonably compatible with the M.I.T Kerberos V5 API
-   - have support for Kerberos V5 over GSS-API (RFC1964)
-   - include the most important and useful application programs (rsh,
-     telnet, popper, etc.)
-   - include enough backwards compatibility with Kerberos V4
-   - IPv6 support
+- have an implementation that can be freely used by anyone
+- be protocol compatible with existing implementations and, if not in
+  conflict, with RFC 1510 (and any future updated RFC)
+- be reasonably compatible with the M.I.T Kerberos V5 API
+- have support for Kerberos V5 over GSS-API (RFC1964)
+- include the most important and useful application programs (rsh,
+  telnet, popper, etc.)
+- include enough backwards compatibility with Kerberos V4
+- IPv6 support
 
 %description -l pl
 Heimdal jest darmow± implementacj± Kerberosa 5. G³ówne zalety to:
-   - implementacja, która mo¿e byæ u¿ywana przez ka¿dego
-   - kompatybilno¶æ na poziomie protoko³u z istniej±cymi implementacjami
-   - racjonalna kompatybilno¶æ z M.I.T Kerberos V5 API
-   - wsparcie dla Kerberosa 5 poprzez GSS-API (RFC1964)
-   - zawiera wiêkszo¶æ istotnych i u¿ytecznych aplikacji (rsh, telnet,
-     popper, etc.)
-   - zawiera wystarczaj±c± kompatybilno¶æ z Kerberos V4
-   - wsparcie dla IPv6
+- implementacja, która mo¿e byæ u¿ywana przez ka¿dego
+- kompatybilno¶æ na poziomie protoko³u z istniej±cymi implementacjami
+- racjonalna kompatybilno¶æ z M.I.T Kerberos V5 API
+- wsparcie dla Kerberosa 5 poprzez GSS-API (RFC1964)
+- zawiera wiêkszo¶æ istotnych i u¿ytecznych aplikacji (rsh, telnet,
+  popper, etc.)
+- zawiera wystarczaj±c± kompatybilno¶æ z Kerberos V4
+- wsparcie dla IPv6
 
 %package server
 Summary:	Kerberos Server
@@ -128,8 +128,8 @@ Summary:	The standard UNIX FTP (file transfer protocol) client
 Summary(pl):	Klient protoko³u FTP
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
-Conflicts:	heimdal-clients
 Obsoletes:	ftp
+Conflicts:	heimdal-clients
 
 %description ftp
 The FTP package provides the standard UNIX command-line FTP client
@@ -167,8 +167,8 @@ Summary:	Client for the telnet remote login
 Summary(pl):	Klient us³ugi telnet
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
-Obsoletes:	telnet
 Provides:	telnet
+Obsoletes:	telnet
 Conflicts:	heimdal-clients
 
 %description telnet
@@ -284,12 +284,12 @@ Biblioteki statyczne heimdal.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 rm -f acinclude.m4
 %{__libtoolize}
 %{__aclocal} -I cf
-autoupdate
 %{__autoconf}
 %{__automake}
 # glibc glob() has no support to GLOB_QUOTE and GLOB_LIMIT/GLOB_MAXPATH
@@ -343,80 +343,46 @@ rm -rf $RPM_BUILD_ROOT
 
 %post server
 /sbin/chkconfig --add heimdal
-if [ -f /var/lock/subsys/heimdal ]; then
-	/etc/rc.d/init.d/heimdal restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/heimdal start\" to start heimdal daemon."
-fi
+%service heimdal restart "heimdal daemon"
 
 /sbin/chkconfig --add kpasswdd
-if [ -f /var/lock/subsys/kpasswdd ]; then
-	/etc/rc.d/init.d/kpasswdd restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/kpasswdd start\" to start heimdal password changing daemon."
-fi
+%service kpasswdd restart "heimdal password changing daemon"
 
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload 1>&2
-else
-	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
-fi
+%service -q rc-inetd reload
 
 %preun server
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/heimdal ]; then
-		/etc/rc.d/init.d/heimdal stop >&2
-	fi
+	%service heimdal stop
 	/sbin/chkconfig --del heimdal
-fi
 
-if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/kpasswdd ]; then
-		/etc/rc.d/init.d/kpasswdd stop >&2
-	fi
+	%service kpasswdd stop
 	/sbin/chkconfig --del kpasswdd
-fi
 
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload 1>&2
-else
-	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
+	%service -q rc-inetd reload
 fi
 
 %post ftpd
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload 1>&2
-else
-	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
-fi
+%service -q rc-inetd reload
 
 %postun ftpd
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload
+if [ "$1" = "0" ]; then
+	%service -q rc-inetd reload
 fi
 
 %post rshd
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload 1>&2
-else
-	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
-fi
+%service -q rc-inetd reload
 
 %postun rshd
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload
+if [ "$1" = "0" ]; then
+	%service -q rc-inetd reload
 fi
 
 %post telnetd
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload 1>&2
-else
-	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
-fi
+%service -q rc-inetd reload
 
 %postun telnetd
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload
+if [ "$1" = "0" ]; then
+	%service -q rc-inetd reload
 fi
 
 %post libs
