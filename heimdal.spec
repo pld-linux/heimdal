@@ -30,6 +30,7 @@ Patch5:		%{name}-system-comm_err.patch
 Patch6:		%{name}-acfixes.patch
 Patch7:		%{name}-no-editline.patch
 Patch8:		%{name}-gcc4.patch
+Patch9:		%{name}-db4.patch
 URL:		http://www.pdc.kth.se/heimdal/
 %{?with_x11:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
