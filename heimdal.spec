@@ -6,7 +6,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.7.2
-Release:	2
+Release:	4
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
@@ -31,6 +31,8 @@ Patch6:		%{name}-acfixes.patch
 Patch7:		%{name}-no-editline.patch
 Patch8:		%{name}-gcc4.patch
 Patch9:		%{name}-db4.patch
+Patch10:	%{name}-libadd.patch
+Patch11:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-0.7.2-setuid-patch.txt
 URL:		http://www.pdc.kth.se/heimdal/
 %{?with_x11:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
@@ -45,6 +47,7 @@ BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	openldap-devel >= 2.3.0
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 5.0
+BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	texinfo
 Requires:	%{name}-libs = %{version}-%{release}
 Conflicts:	krb5-lib
@@ -286,6 +289,8 @@ Biblioteki statyczne heimdal.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
+%patch11 -p1
 
 %build
 rm -f acinclude.m4
@@ -302,7 +307,7 @@ export CPPFLAGS="-Dglob=heimdal_glob -Dglobfree=heimdal_globfree"
 	--enable-new-des3-code \
 	--with-openldap=/usr \
 	--with-readline=/usr \
-        --with%{!?with_x11:out}-x \
+		--with%{!?with_x11:out}-x \
 	--with-ipv6
 
 %{__make}
