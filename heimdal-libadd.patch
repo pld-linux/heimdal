@@ -1,0 +1,12 @@
+diff -aurN heimdal-0.7.2.orig/lib/roken/Makefile.am heimdal-0.7.2/lib/roken/Makefile.am
+--- heimdal-0.7.2.orig/lib/roken/Makefile.am	2005-05-24 13:39:01.000000000 +0200
++++ heimdal-0.7.2/lib/roken/Makefile.am	2006-08-07 20:25:44.397632181 +0200
+@@ -110,6 +110,8 @@
+ libroken_la_LIBADD += $(DBLIB)
+ endif
+ 
++libroken_la_LIBADD += $(LIB_crypt)
++
+ $(LTLIBOBJS) $(libroken_la_OBJECTS): roken.h $(XHEADERS)
+ 
+ BUILT_SOURCES = make-roken.c roken.h
