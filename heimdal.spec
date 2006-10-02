@@ -32,6 +32,7 @@ Patch7:		%{name}-no-editline.patch
 Patch8:		%{name}-gcc4.patch
 Patch9:		%{name}-db4.patch
 Patch10:	%{name}-libadd.patch
+Patch11:	ftp://ftp.pdc.kth.se/pub/heimdal/src/heimdal-0.7.2-setuid-patch.txt
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -289,6 +290,7 @@ Biblioteki statyczne heimdal.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %build
 rm -f acinclude.m4
