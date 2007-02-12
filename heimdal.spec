@@ -3,7 +3,7 @@
 %bcond_without	x11	# without X11-based utilities
 #
 Summary:	Heimdal implementation of Kerberos V5 system
-Summary(pl):	Implementacja Heimdal systemu Kerberos V5
+Summary(pl.UTF-8):   Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.7.2
 Release:	6
@@ -70,20 +70,20 @@ Heimdal is a free implementation of Kerberos 5. The goals are to:
 - include enough backwards compatibility with Kerberos V4
 - IPv6 support
 
-%description -l pl
-Heimdal jest darmow± implementacj± Kerberosa 5. G³ówne zalety to:
-- implementacja, która mo¿e byæ u¿ywana przez ka¿dego
-- kompatybilno¶æ na poziomie protoko³u z istniej±cymi implementacjami
-- racjonalna kompatybilno¶æ z M.I.T Kerberos V5 API
+%description -l pl.UTF-8
+Heimdal jest darmowÄ… implementacjÄ… Kerberosa 5. GÅ‚Ã³wne zalety to:
+- implementacja, ktÃ³ra moÅ¼e byÄ‡ uÅ¼ywana przez kaÅ¼dego
+- kompatybilnoÅ›Ä‡ na poziomie protokoÅ‚u z istniejÄ…cymi implementacjami
+- racjonalna kompatybilnoÅ›Ä‡ z M.I.T Kerberos V5 API
 - wsparcie dla Kerberosa 5 poprzez GSS-API (RFC1964)
-- zawiera wiêkszo¶æ istotnych i u¿ytecznych aplikacji (rsh, telnet,
+- zawiera wiÄ™kszoÅ›Ä‡ istotnych i uÅ¼ytecznych aplikacji (rsh, telnet,
   popper, etc.)
-- zawiera wystarczaj±c± kompatybilno¶æ z Kerberos V4
+- zawiera wystarczajÄ…cÄ… kompatybilnoÅ›Ä‡ z Kerberos V4
 - wsparcie dla IPv6
 
 %package server
 Summary:	Kerberos Server
-Summary(pl):	Serwer Kerberosa
+Summary(pl.UTF-8):   Serwer Kerberosa
 Group:		Networking
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
@@ -92,12 +92,12 @@ Requires:	rc-scripts
 %description server
 Master KDC.
 
-%description server -l pl
-G³ówne centrum dystrybucji kluczy (KDC).
+%description server -l pl.UTF-8
+GÅ‚Ã³wne centrum dystrybucji kluczy (KDC).
 
 %package libs
 Summary:	Heimdal shared libraries
-Summary(pl):	Biblioteki wspó³dzielone dla heimdal
+Summary(pl.UTF-8):   Biblioteki wspÃ³Å‚dzielone dla heimdal
 Group:		Libraries
 Requires(post,postun):	/sbin/ldconfig
 
@@ -105,12 +105,12 @@ Requires(post,postun):	/sbin/ldconfig
 Package contains shared libraries required by several of the other
 heimdal packages.
 
-%description libs -l pl
-Pakiet zawiera biblioteki wspó³dzielone dla heimdal.
+%description libs -l pl.UTF-8
+Pakiet zawiera biblioteki wspÃ³Å‚dzielone dla heimdal.
 
 %package login
 Summary:	login is used when signing onto a system
-Summary(pl):	Narzêdzie do logowania w systemie
+Summary(pl.UTF-8):   NarzÄ™dzie do logowania w systemie
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 #Provides:	login
@@ -122,15 +122,15 @@ switch from one user to another at any time (most modern shells have
 support for this feature built into them, however). This package
 contain kerberized version login program.
 
-%description login -l pl
-login jest u¿ywany przy logowaniu do systemu. Mo¿e byæ tak¿e u¿yty do
-prze³±czenia z jednego u¿ytkownika na innego w dowolnej chwili
-(wiêkszo¶æ wspó³czesnych shelli ma wbudowan± obs³ugê tego). Ten pakiet
-zawiera skerberyzowan± wersjê programu login.
+%description login -l pl.UTF-8
+login jest uÅ¼ywany przy logowaniu do systemu. MoÅ¼e byÄ‡ takÅ¼e uÅ¼yty do
+przeÅ‚Ä…czenia z jednego uÅ¼ytkownika na innego w dowolnej chwili
+(wiÄ™kszoÅ›Ä‡ wspÃ³Å‚czesnych shelli ma wbudowanÄ… obsÅ‚ugÄ™ tego). Ten pakiet
+zawiera skerberyzowanÄ… wersjÄ™ programu login.
 
 %package ftp
 Summary:	The standard UNIX FTP (file transfer protocol) client
-Summary(pl):	Klient protoko³u FTP
+Summary(pl.UTF-8):   Klient protokoÅ‚u FTP
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	ftp
@@ -142,14 +142,14 @@ with kerberos authentication support. FTP is the file transfer
 protocol, which is a widely used Internet protocol for transferring
 files and for archiving files.
 
-%description ftp -l pl
-Ten pakiet dostarcza standardowego klienta FTP z wbudowan± obs³ug±
-kerberosa. FTP jest protoko³em do przesy³ania plików szeroko
+%description ftp -l pl.UTF-8
+Ten pakiet dostarcza standardowego klienta FTP z wbudowanÄ… obsÅ‚ugÄ…
+kerberosa. FTP jest protokoÅ‚em do przesyÅ‚ania plikÃ³w szeroko
 rozpowszechnionym w Internecie.
 
 %package rsh
 Summary:	Clients for remote access commands (rsh, rlogin, rcp)
-Summary(pl):	Klient zdalnego dostêpu (rsh, rlogin, rcp)
+Summary(pl.UTF-8):   Klient zdalnego dostÄ™pu (rsh, rlogin, rcp)
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	rsh
@@ -162,14 +162,14 @@ between machines (rsh, rlogin and rcp). All three of these commands
 use rhosts style authentication. This package contains the clients
 needed for all of these services.
 
-%description rsh -l pl
-Ten pakiet zawiera zestaw narzêdzi pozwalaj±cych na wykonywanie
-poleceñ na zdalnych maszynach, logowanie na inne maszyny oraz
-kopiowanie plików pomiêdzy maszynami (rsh, rlogin, rcp).
+%description rsh -l pl.UTF-8
+Ten pakiet zawiera zestaw narzÄ™dzi pozwalajÄ…cych na wykonywanie
+poleceÅ„ na zdalnych maszynach, logowanie na inne maszyny oraz
+kopiowanie plikÃ³w pomiÄ™dzy maszynami (rsh, rlogin, rcp).
 
 %package telnet
 Summary:	Client for the telnet remote login
-Summary(pl):	Klient us³ugi telnet
+Summary(pl.UTF-8):   Klient usÅ‚ugi telnet
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 Provides:	telnet
@@ -180,13 +180,13 @@ Conflicts:	heimdal-clients
 Telnet is a popular protocol for remote logins across the Internet.
 This package provides a command line telnet client.
 
-%description telnet -l pl
-Telnet jest popularnym protoko³em zdalnego logowania. Ten pakiet
-zawiera klienta tej us³ugi.
+%description telnet -l pl.UTF-8
+Telnet jest popularnym protokoÅ‚em zdalnego logowania. Ten pakiet
+zawiera klienta tej usÅ‚ugi.
 
 %package ftpd
 Summary:	The standard UNIX FTP (file transfer protocol) server
-Summary(pl):	Serwer FTP
+Summary(pl.UTF-8):   Serwer FTP
 Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
@@ -196,13 +196,13 @@ Obsoletes:	ftpd
 FTP is the file transfer protocol, which is a widely used Internet
 protocol for transferring files and for archiving files.
 
-%description ftpd -l pl
-FTP jest protoko³em transmisji plików szeroko rozpowszechnionym w
+%description ftpd -l pl.UTF-8
+FTP jest protokoÅ‚em transmisji plikÃ³w szeroko rozpowszechnionym w
 Internecie.
 
 %package rshd
 Summary:	Server for remote access commands (rsh, rlogin, rcp)
-Summary(pl):	Serwer zdalnego dostêpu (rsh, rlogin, rcp)
+Summary(pl.UTF-8):   Serwer zdalnego dostÄ™pu (rsh, rlogin, rcp)
 Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
@@ -215,14 +215,14 @@ between machines (rsh, rlogin and rcp). All three of these commands
 use rhosts style authentication. This package contains servers needed
 for all of these services.
 
-%description rshd -l pl
-Ten pakiet zawiera zestaw serwerów pozwalaj±cych na wykonywanie
-poleceñ na zdalnych maszynach, logowanie na inne maszyny oraz
-kopiowanie plików pomiêdzy maszynami (rsh, rlogin, rcp).
+%description rshd -l pl.UTF-8
+Ten pakiet zawiera zestaw serwerÃ³w pozwalajÄ…cych na wykonywanie
+poleceÅ„ na zdalnych maszynach, logowanie na inne maszyny oraz
+kopiowanie plikÃ³w pomiÄ™dzy maszynami (rsh, rlogin, rcp).
 
 %package telnetd
 Summary:	Server for the telnet remote login
-Summary(pl):	Serwer protoko³u telnet
+Summary(pl.UTF-8):   Serwer protokoÅ‚u telnet
 Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
@@ -233,26 +233,26 @@ Telnet is a popular protocol for remote logins across the Internet.
 This package provides a telnet daemon which allows remote logins into
 the machine it is running on.
 
-%description telnetd -l pl
-Telnet jest popularnym protoko³em zdalnego logowania. Ten pakiet
-zawiera serwer pozwalaj±cy na zdalne logowanie siê klientów na maszynê
-na której dzia³a.
+%description telnetd -l pl.UTF-8
+Telnet jest popularnym protokoÅ‚em zdalnego logowania. Ten pakiet
+zawiera serwer pozwalajÄ…cy na zdalne logowanie siÄ™ klientÃ³w na maszynÄ™
+na ktÃ³rej dziaÅ‚a.
 
 %package daemons
 Summary:	Kerberos daemons programs for use on servers
-Summary(pl):	Serwery popularnych us³ug, autoryzuj±ce przy pomocy kerberosa
+Summary(pl.UTF-8):   Serwery popularnych usÅ‚ug, autoryzujÄ…ce przy pomocy kerberosa
 Group:		Networking
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description daemons
 Kerberos Daemons.
 
-%description daemons -l pl
-Demony korzystaj±ce z systemu Kerberos do autoryzacji dostêpu.
+%description daemons -l pl.UTF-8
+Demony korzystajÄ…ce z systemu Kerberos do autoryzacji dostÄ™pu.
 
 %package devel
 Summary:	Header files for heimdal
-Summary(pl):	Pliki nag³ówkowe i dokumentacja do bibliotek heimdal
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	db-devel
@@ -263,19 +263,19 @@ Requires:	openssl-devel
 contains files needed to compile and link software using the kerberos
 libraries.
 
-%description devel -l pl
-Pliki nag³ówkowe i dokumentacja do bibliotek heimdal.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe i dokumentacja do bibliotek heimdal.
 
 %package static
 Summary:	Static heimdal libraries
-Summary(pl):	Biblioteki statyczne heimdal
+Summary(pl.UTF-8):   Biblioteki statyczne heimdal
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Satatic heimdal libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Biblioteki statyczne heimdal.
 
 %prep
