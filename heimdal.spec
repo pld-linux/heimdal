@@ -3,7 +3,7 @@
 %bcond_without	x11	# without X11-based utilities
 #
 Summary:	Heimdal implementation of Kerberos V5 system
-Summary(pl.UTF-8):   Implementacja Heimdal systemu Kerberos V5
+Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.7.2
 Release:	6
@@ -83,7 +83,7 @@ Heimdal jest darmową implementacją Kerberosa 5. Główne zalety to:
 
 %package server
 Summary:	Kerberos Server
-Summary(pl.UTF-8):   Serwer Kerberosa
+Summary(pl.UTF-8):	Serwer Kerberosa
 Group:		Networking
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
@@ -97,7 +97,7 @@ Główne centrum dystrybucji kluczy (KDC).
 
 %package libs
 Summary:	Heimdal shared libraries
-Summary(pl.UTF-8):   Biblioteki współdzielone dla heimdal
+Summary(pl.UTF-8):	Biblioteki współdzielone dla heimdal
 Group:		Libraries
 Requires(post,postun):	/sbin/ldconfig
 
@@ -110,7 +110,7 @@ Pakiet zawiera biblioteki współdzielone dla heimdal.
 
 %package login
 Summary:	login is used when signing onto a system
-Summary(pl.UTF-8):   Narzędzie do logowania w systemie
+Summary(pl.UTF-8):	Narzędzie do logowania w systemie
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 #Provides:	login
@@ -130,7 +130,7 @@ zawiera skerberyzowaną wersję programu login.
 
 %package ftp
 Summary:	The standard UNIX FTP (file transfer protocol) client
-Summary(pl.UTF-8):   Klient protokołu FTP
+Summary(pl.UTF-8):	Klient protokołu FTP
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	ftp
@@ -149,7 +149,7 @@ rozpowszechnionym w Internecie.
 
 %package rsh
 Summary:	Clients for remote access commands (rsh, rlogin, rcp)
-Summary(pl.UTF-8):   Klient zdalnego dostępu (rsh, rlogin, rcp)
+Summary(pl.UTF-8):	Klient zdalnego dostępu (rsh, rlogin, rcp)
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	rsh
@@ -169,7 +169,7 @@ kopiowanie plików pomiędzy maszynami (rsh, rlogin, rcp).
 
 %package telnet
 Summary:	Client for the telnet remote login
-Summary(pl.UTF-8):   Klient usługi telnet
+Summary(pl.UTF-8):	Klient usługi telnet
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 Provides:	telnet
@@ -186,7 +186,7 @@ zawiera klienta tej usługi.
 
 %package ftpd
 Summary:	The standard UNIX FTP (file transfer protocol) server
-Summary(pl.UTF-8):   Serwer FTP
+Summary(pl.UTF-8):	Serwer FTP
 Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
@@ -202,7 +202,7 @@ Internecie.
 
 %package rshd
 Summary:	Server for remote access commands (rsh, rlogin, rcp)
-Summary(pl.UTF-8):   Serwer zdalnego dostępu (rsh, rlogin, rcp)
+Summary(pl.UTF-8):	Serwer zdalnego dostępu (rsh, rlogin, rcp)
 Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
@@ -222,7 +222,7 @@ kopiowanie plików pomiędzy maszynami (rsh, rlogin, rcp).
 
 %package telnetd
 Summary:	Server for the telnet remote login
-Summary(pl.UTF-8):   Serwer protokołu telnet
+Summary(pl.UTF-8):	Serwer protokołu telnet
 Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
@@ -240,7 +240,7 @@ na której działa.
 
 %package daemons
 Summary:	Kerberos daemons programs for use on servers
-Summary(pl.UTF-8):   Serwery popularnych usług, autoryzujące przy pomocy kerberosa
+Summary(pl.UTF-8):	Serwery popularnych usług, autoryzujące przy pomocy kerberosa
 Group:		Networking
 Requires:	%{name}-libs = %{version}-%{release}
 
@@ -252,7 +252,7 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 
 %package devel
 Summary:	Header files for heimdal
-Summary(pl.UTF-8):   Pliki nagłówkowe i dokumentacja do bibliotek heimdal
+Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	db-devel
@@ -268,7 +268,7 @@ Pliki nagłówkowe i dokumentacja do bibliotek heimdal.
 
 %package static
 Summary:	Static heimdal libraries
-Summary(pl.UTF-8):   Biblioteki statyczne heimdal
+Summary(pl.UTF-8):	Biblioteki statyczne heimdal
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
