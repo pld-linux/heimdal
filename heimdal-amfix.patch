@@ -1,6 +1,6 @@
 --- heimdal-0.6.1/lib/roken/Makefile.am.orig	2004-04-02 19:20:10.251527512 +0200
 +++ heimdal-0.6.1/lib/roken/Makefile.am	2004-04-02 19:50:37.948675312 +0200
-@@ -84,13 +84,13 @@
+@@ -84,7 +84,7 @@
  	write_pid.c		\
  	xdbm.h
  
@@ -9,10 +9,9 @@
  	err.hin			\
  	glob.hin		\
  	ifaddrs.hin		\
- 	vis.hin	
+@@ -184,4 +184,4 @@
+ make-roken.c: roken.h.in roken.awk
+ 	$(AWK) -f $(srcdir)/roken.awk $(srcdir)/roken.h.in > make-roken.c
  
--EXTRA_DIST = roken.awk roken.h.in
-+EXTRA_DIST = roken.awk roken.h.in $(EXTRA_libroken_SOURCES)
- 
- libroken_la_LIBADD = @LTLIBOBJS@ $(DBLIB)
- 
+-EXTRA_DIST = roken.awk roken.h.in $(man_MANS) test-mem.h
++EXTRA_DIST = roken.awk roken.h.in $(man_MANS) test-mem.h $(EXTRA_libroken_SOURCES)

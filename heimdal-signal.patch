@@ -20,6 +20,6 @@
 +#undef signal
 +#endif
 +
- static size_t
- print_sl (FILE *stream, int mdoc, int longp, SL_cmd *c)
-     __attribute__ ((unused));
+ static void
+ mandoc_template(SL_cmd *cmds,
+ 		const char *extra_string)

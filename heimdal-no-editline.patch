@@ -24,14 +24,20 @@
  
 --- heimdal-0.6.3/lib/Makefile.am.orig	2001-08-28 20:44:41.000000000 +0200
 +++ heimdal-0.6.3/lib/Makefile.am	2005-03-10 21:49:40.690638272 +0100
-@@ -11,6 +11,9 @@
+@@ -11,12 +11,15 @@
  if DCE
  dir_dce = kdfs
  endif
 +if BUILD_EDITLINE
 +dir_el = editline
 +endif
+ if COM_ERR
+ dir_com_err = com_err
+ endif
+ if !HAVE_OPENSSL
+ dir_des = des
+ endif
  
--SUBDIRS = @DIR_roken@ vers editline @DIR_com_err@ sl asn1 @DIR_des@ krb5 \
-+SUBDIRS = @DIR_roken@ vers $(dir_el) @DIR_com_err@ sl asn1 @DIR_des@ krb5 \
- 	kafs hdb kadm5 gssapi auth $(dir_45) $(dir_otp) $(dir_dce)
+-SUBDIRS = roken vers editline $(dir_com_err) sl asn1 $(dir_des) hx509 \
++SUBDIRS = roken vers $(dir_el) $(dir_com_err) sl asn1 $(dir_des) hx509 \
+ 	krb5 ntlm kafs gssapi hdb kadm5 auth $(dir_45) $(dir_otp) $(dir_dce)

@@ -45,10 +45,10 @@ diff -urbB heimdal-0.7/doc/setup.texi heimdal-0.7.org/doc/setup.texi
  You might need to add @samp{kerberos-adm} to your @file{/etc/services}
  as @samp{749/tcp}.
  
- Access to the administration server is controlled by an ACL file, (default
--@file{/var/heimdal/kadmind.acl}.) The lines in the access file, have the
-+@file{/var/lib/heimdal/kadmind.acl}.) The lines in the access file, have the
- following syntax:
+ Access to the administration server is controlled by an ACL file,
+-(default @file{/var/heimdal/kadmind.acl}.) The file has the following
++(default @file{/var/lib/heimdal/kadmind.acl}.) The file has the following
+ syntax:
  @smallexample
  principal       [priv1,priv2,...]       [glob-pattern]
 @@ -498,7 +498,7 @@
