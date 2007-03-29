@@ -402,7 +402,6 @@ fi
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/afslog
-%attr(755,root,root) %{_bindir}/gss
 %attr(755,root,root) %{_bindir}/hxtool
 %attr(755,root,root) %{_bindir}/kauth
 %attr(755,root,root) %{_bindir}/kdestroy
