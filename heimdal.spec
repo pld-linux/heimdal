@@ -1,16 +1,22 @@
 #
+# TODO:
+#	- package and create init script for kcm
+#	- package hdb_ldap (subpackage?)
+#	- check upnackaged files
+#
 # Conditional build:
 %bcond_without	x11	# without X11-based utilities
 #
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.7.2
-Release:	6
+%define	_rc	rc7
+Version:	0.8
+Release:	0.%{_rc}.1
 License:	Free
 Group:		Networking
-Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
-# Source0-md5:	c937580d6f8b11bf7f0e540530e1dc18
+Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/snapshots/%{name}-%{version}-%{_rc}.tar.gz
+# Source0-md5:	3fe1f1dd187592084bfeabede142d55e
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.sysconfig
@@ -22,18 +28,14 @@ Source8:	%{name}-kadmind.inetd
 Source9:	%{name}-kpasswdd.init
 Source10:	%{name}-kpasswdd.sysconfig
 Patch0:		%{name}-paths.patch
-Patch1:		%{name}-info.patch
-Patch2:		%{name}-am_man_fixes.patch
-Patch3:		%{name}-amfix.patch
-Patch4:		%{name}-dbpaths.patch
-Patch5:		%{name}-system-comm_err.patch
-Patch6:		%{name}-acfixes.patch
-Patch7:		%{name}-no-editline.patch
-Patch8:		%{name}-gcc4.patch
-Patch9:		%{name}-db4.patch
-Patch10:	%{name}-libadd.patch
-Patch11:	ftp://ftp.pdc.kth.se/pub/heimdal/src/heimdal-0.7.2-setuid-patch.txt
-PAtch12:	%{name}-signal.patch
+Patch1:		%{name}-am_man_fixes.patch
+Patch2:		%{name}-amfix.patch
+Patch3:		%{name}-dbpaths.patch
+Patch4:		%{name}-no-editline.patch
+Patch5:		%{name}-gcc4.patch
+Patch6:		%{name}-db4.patch
+Patch7:		%{name}-libadd.patch
+PAtch8:		%{name}-signal.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -279,7 +281,7 @@ Satatic heimdal libraries.
 Biblioteki statyczne heimdal.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-%{_rc}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -289,10 +291,6 @@ Biblioteki statyczne heimdal.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
 
 %build
 rm -f acinclude.m4
@@ -307,6 +305,9 @@ rm -f acinclude.m4
 	--with-openldap=/usr \
 	--with-readline=/usr \
         --with%{!?with_x11:out}-x \
+	--enable-hdb-openldap-module \
+	--enable-pthread-support \
+	--enable-kcm \
 	--with-ipv6
 
 %{__make}
@@ -319,8 +320,8 @@ install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir}} \
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-libtool --mode=install install appl/su/su $RPM_BUILD_ROOT%{_bindir}/ksu
-install appl/su/su.1  $RPM_BUILD_ROOT%{_mandir}/man1/ksu.1
+mv $RPM_BUILD_ROOT%{_bindir}/su $RPM_BUILD_ROOT%{_bindir}/ksu
+mv $RPM_BUILD_ROOT%{_mandir}/man1/su.1  $RPM_BUILD_ROOT%{_mandir}/man1/ksu.1
 
 install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
 
@@ -401,6 +402,8 @@ fi
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/afslog
+%attr(755,root,root) %{_bindir}/gss
+%attr(755,root,root) %{_bindir}/hxtool
 %attr(755,root,root) %{_bindir}/kauth
 %attr(755,root,root) %{_bindir}/kdestroy
 %attr(755,root,root) %{_bindir}/kf
@@ -413,6 +416,7 @@ fi
 %attr(755,root,root) %{_bindir}/string2key
 %attr(755,root,root) %{_bindir}/otpprint
 %attr(755,root,root) %{_bindir}/verify_krb5_conf
+%attr(755,root,root) %{_sbindir}/kimpersonate
 %attr(755,root,root) %{_sbindir}/ktutil
 %if %{with x11}
 %attr(755,root,root) %{_bindir}/kx
@@ -429,6 +433,7 @@ fi
 %{_mandir}/man1/kdestroy.1*
 %{_mandir}/man1/kf.1*
 %{_mandir}/man1/kgetcred.1*
+%{_mandir}/man1/kimpersonate.1*
 %{_mandir}/man1/kinit.1*
 %{_mandir}/man1/klist.1*
 %{_mandir}/man1/kpasswd.1*
@@ -463,23 +468,22 @@ fi
 %attr(700,root,root) %dir %{_localstatedir}
 %attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_localstatedir}/*
 
-%attr(755,root,root) %{_sbindir}/dump_log
 %attr(755,root,root) %{_sbindir}/kadmin
 %attr(755,root,root) %{_sbindir}/kfd
 %attr(755,root,root) %{_sbindir}/kstash
-%attr(755,root,root) %{_sbindir}/replay_log
 %attr(755,root,root) %{_sbindir}/hprop
 %attr(755,root,root) %{_sbindir}/hpropd
+%attr(755,root,root) %{_sbindir}/iprop-log
 %attr(755,root,root) %{_sbindir}/ipropd-master
 %attr(755,root,root) %{_sbindir}/ipropd-slave
 %attr(755,root,root) %{_sbindir}/kadmind
 %attr(755,root,root) %{_sbindir}/kdc
 %attr(755,root,root) %{_sbindir}/kpasswdd
 %attr(755,root,root) %{_sbindir}/push
-%attr(755,root,root) %{_sbindir}/truncate_log
 %{?with_x11:%attr(755,root,root) %{_sbindir}/kxd}
 
 %{_mandir}/man8/iprop.8*
+%{_mandir}/man8/iprop-log.8*
 %{_mandir}/man8/hprop.8*
 %{_mandir}/man8/hpropd.8*
 %{_mandir}/man8/kadmin.8*
@@ -499,6 +503,7 @@ fi
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 
 %{_infodir}/heimdal.info*
+%{_infodir}/hx509.info*
 %{_mandir}/man5/krb5.conf.5*
 %{_mandir}/man8/kerberos.8*
 
