@@ -1,5 +1,6 @@
 #
 # TODO:
+#	- 0.8.1 available at ftp://ftp.pdc.kth.se/pub/heimdal/src/
 #	- package and create init script for kcm
 #	- package hdb_ldap (subpackage?)
 #	- check upnackaged files
@@ -341,6 +342,8 @@ install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/kpasswdd
 rm -rf $RPM_BUILD_ROOT{%{_libdir}/libss.so,%{_includedir}/ss}
 # this is created because glibc's <glob.h> has no GLOB_LIMIT and GLOB_QUOTE
 rm -f $RPM_BUILD_ROOT%{_includedir}/glob.h
+# resolve heimdal-libs/krb5-libs conflict
+mv -f $RPM_BUILD_ROOT%{_mandir}/man5/{krb5.conf.5,krb5.conf.5h}
 
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
