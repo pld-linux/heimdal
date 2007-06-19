@@ -13,7 +13,7 @@ Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 %define	_rc	rc7
 Version:	0.8
-Release:	0.%{_rc}.1
+Release:	0.%{_rc}.2
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/snapshots/%{name}-%{version}-%{_rc}.tar.gz
