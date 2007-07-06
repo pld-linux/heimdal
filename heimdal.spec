@@ -35,6 +35,7 @@ Patch6:		%{name}-db4.patch
 Patch7:		%{name}-libadd.patch
 Patch8:		%{name}-signal.patch
 Patch9:		%{name}-ldap.patch
+Patch10:	%{name}-info.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -316,6 +317,7 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 rm -f acinclude.m4
