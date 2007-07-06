@@ -1,9 +1,7 @@
 #
 # TODO:
-#	- 0.8.1 available at ftp://ftp.pdc.kth.se/pub/heimdal/src/
-#	- package and create init script for kcm
-#	- package hdb_ldap (subpackage?)
-#	- check upnackaged files
+#	- create init script for kcm
+#	- check unpackaged files
 #
 # Conditional build:
 %bcond_without	x11	# without X11-based utilities
@@ -11,13 +9,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-%define	_rc	rc7
-Version:	0.8
-Release:	0.%{_rc}.2
+Version:	0.8.1
+Release:	1
 License:	Free
 Group:		Networking
-Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/snapshots/%{name}-%{version}-%{_rc}.tar.gz
-# Source0-md5:	3fe1f1dd187592084bfeabede142d55e
+Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
+# Source0-md5:	7ff8c4850bce9702d9d3cf9eff05abaa
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.sysconfig
@@ -36,7 +33,8 @@ Patch4:		%{name}-no-editline.patch
 Patch5:		%{name}-gcc4.patch
 Patch6:		%{name}-db4.patch
 Patch7:		%{name}-libadd.patch
-PAtch8:		%{name}-signal.patch
+Patch8:		%{name}-signal.patch
+Patch9:		%{name}-ldap.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -84,6 +82,59 @@ Heimdal jest darmową implementacją Kerberosa 5. Główne zalety to:
 - zawiera wystarczającą kompatybilność z Kerberos V4
 - wsparcie dla IPv6
 
+%package libs
+Summary:	Heimdal shared libraries
+Summary(pl.UTF-8):	Biblioteki współdzielone dla heimdal
+Group:		Libraries
+Requires(post,postun):	/sbin/ldconfig
+
+%description libs
+Package contains shared libraries required by several of the other
+heimdal packages.
+
+%description libs -l pl.UTF-8
+Pakiet zawiera biblioteki współdzielone dla heimdal.
+
+%package ldap
+Summary:	LDAP HDB plugin
+Summary(pl.UTF-8):	Wtyczka HDB LDAP
+Group:		Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description ldap
+LDAP HDB plugin.
+
+%description ldap -l pl.UTF-8
+Wtyczka HDB LDAP.
+
+%package devel
+Summary:	Header files for heimdal
+Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja do bibliotek heimdal
+Group:		Development/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+Requires:	db-devel
+Requires:	libcom_err-devel >= 1.34-5
+Requires:	openssl-devel
+
+%description devel
+contains files needed to compile and link software using the kerberos
+libraries.
+
+%description devel -l pl.UTF-8
+Pliki nagłówkowe i dokumentacja do bibliotek heimdal.
+
+%package static
+Summary:	Static heimdal libraries
+Summary(pl.UTF-8):	Biblioteki statyczne heimdal
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Satatic heimdal libraries.
+
+%description static -l pl.UTF-8
+Biblioteki statyczne heimdal.
+
 %package server
 Summary:	Kerberos Server
 Summary(pl.UTF-8):	Serwer Kerberosa
@@ -98,18 +149,18 @@ Master KDC.
 %description server -l pl.UTF-8
 Główne centrum dystrybucji kluczy (KDC).
 
-%package libs
-Summary:	Heimdal shared libraries
-Summary(pl.UTF-8):	Biblioteki współdzielone dla heimdal
-Group:		Libraries
-Requires(post,postun):	/sbin/ldconfig
+%package kcm
+Summary:	KCM - credencial cache daemon for Kerberos tickets
+Summary(pl.UTF-8):	KCM - demon zapamiętujący dane uwierzytelniające dla biletów Kerberosa
+Group:		Daemons
+Requires:	%{name}-libs = %{version}-%{release}
 
-%description libs
-Package contains shared libraries required by several of the other
-heimdal packages.
+%description kcm
+KCM is a credencial cache daemon for Kerberos tickets.
 
-%description libs -l pl.UTF-8
-Pakiet zawiera biblioteki współdzielone dla heimdal.
+%description kcm -l pl.UTF-8
+KCM to demon zapamiętujący dane uwierzytelniające dla biletów
+Kerberosa.
 
 %package login
 Summary:	login is used when signing onto a system
@@ -253,36 +304,8 @@ Kerberos Daemons.
 %description daemons -l pl.UTF-8
 Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 
-%package devel
-Summary:	Header files for heimdal
-Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja do bibliotek heimdal
-Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
-Requires:	db-devel
-Requires:	libcom_err-devel >= 1.34-5
-Requires:	openssl-devel
-
-%description devel
-contains files needed to compile and link software using the kerberos
-libraries.
-
-%description devel -l pl.UTF-8
-Pliki nagłówkowe i dokumentacja do bibliotek heimdal.
-
-%package static
-Summary:	Static heimdal libraries
-Summary(pl.UTF-8):	Biblioteki statyczne heimdal
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-
-%description static
-Satatic heimdal libraries.
-
-%description static -l pl.UTF-8
-Biblioteki statyczne heimdal.
-
 %prep
-%setup -q -n %{name}-%{version}-%{_rc}
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -292,6 +315,7 @@ Biblioteki statyczne heimdal.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 rm -f acinclude.m4
@@ -338,12 +362,18 @@ install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 install %{SOURCE9} $RPM_BUILD_ROOT/etc/rc.d/init.d/kpasswdd
 install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/kpasswdd
 
+# just a test plugin
+rm -f $RPM_BUILD_ROOT%{_libdir}/windc.*
+# not needed for plugin
+rm -f $RPM_BUILD_ROOT%{_libdir}/hdb_ldap.{la,a}
 # other implementation exists in e2fsprogs (conflict with e2fsprogs-devel)
-rm -rf $RPM_BUILD_ROOT{%{_libdir}/libss.so,%{_includedir}/ss}
+rm -rf $RPM_BUILD_ROOT{%{_libdir}/libss.{so,la,a},%{_includedir}/ss,%{_bindir}/mk_cmds}
 # this is created because glibc's <glob.h> has no GLOB_LIMIT and GLOB_QUOTE
 rm -f $RPM_BUILD_ROOT%{_includedir}/glob.h
 # resolve heimdal-libs/krb5-libs conflict
 mv -f $RPM_BUILD_ROOT%{_mandir}/man5/{krb5.conf.5,krb5.conf.5h}
+# resolve conflict with gss
+mv -f $RPM_BUILD_ROOT%{_bindir}/{gss,gsscmd}
 
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
@@ -404,7 +434,9 @@ fi
 
 %files
 %defattr(644,root,root,755)
+%doc ChangeLog NEWS README TODO
 %attr(755,root,root) %{_bindir}/afslog
+%attr(755,root,root) %{_bindir}/gsscmd
 %attr(755,root,root) %{_bindir}/hxtool
 %attr(755,root,root) %{_bindir}/kauth
 %attr(755,root,root) %{_bindir}/kdestroy
@@ -418,6 +450,7 @@ fi
 %attr(755,root,root) %{_bindir}/string2key
 %attr(755,root,root) %{_bindir}/otpprint
 %attr(755,root,root) %{_bindir}/verify_krb5_conf
+%attr(755,root,root) %{_sbindir}/kdigest
 %attr(755,root,root) %{_sbindir}/kimpersonate
 %attr(755,root,root) %{_sbindir}/ktutil
 %if %{with x11}
@@ -427,10 +460,8 @@ fi
 %attr(755,root,root) %{_bindir}/rxtelnet
 %attr(755,root,root) %{_bindir}/rxterm
 %endif
-
 %attr(4755,root,root) %{_bindir}/otp
 %attr(4755,root,root) %{_bindir}/ksu
-
 %{_mandir}/man1/afslog.1*
 %{_mandir}/man1/kdestroy.1*
 %{_mandir}/man1/kf.1*
@@ -447,7 +478,6 @@ fi
 %{_mandir}/man8/ktutil.8*
 %{_mandir}/man8/string2key.8*
 %{_mandir}/man8/verify_krb5_conf.8*
-
 %if %{with x11}
 %{_mandir}/man1/kx.1*
 %{_mandir}/man1/tenletxr.1*
@@ -456,20 +486,94 @@ fi
 %{_mandir}/man1/rxterm.1*
 %endif
 
+%files libs
+%defattr(644,root,root,755)
+%dir %{_sysconfdir}
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/krb5.conf
+%attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
+%attr(755,root,root) %{_libdir}/libasn1.so.*.*.*
+%attr(755,root,root) %{_libdir}/libgssapi.so.*.*.*
+%attr(755,root,root) %{_libdir}/libhdb.so.*.*.*
+%attr(755,root,root) %{_libdir}/libheimntlm.so.*.*.*
+%attr(755,root,root) %{_libdir}/libhx509.so.*.*.*
+%attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
+%attr(755,root,root) %{_libdir}/libkadm5srv.so.*.*.*
+%attr(755,root,root) %{_libdir}/libkafs.so.*.*.*
+%attr(755,root,root) %{_libdir}/libkdc.so.*.*.*
+%attr(755,root,root) %{_libdir}/libkrb5.so.*.*.*
+%attr(755,root,root) %{_libdir}/libotp.so.*.*.*
+%attr(755,root,root) %{_libdir}/libroken.so.*.*.*
+%attr(755,root,root) %{_libdir}/libsl.so.*.*.*
+%attr(755,root,root) %{_libdir}/libss.so.*.*.*
+%{_infodir}/heimdal.info*
+%{_infodir}/hx509.info*
+%{_mandir}/man5/krb5.conf.5*
+%{_mandir}/man8/kerberos.8*
+
+%files ldap
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/hdb_ldap.so
+
+%files devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/krb5-config
+%attr(755,root,root) %{_libdir}/libasn1.so
+%attr(755,root,root) %{_libdir}/libgssapi.so
+%attr(755,root,root) %{_libdir}/libhdb.so
+%attr(755,root,root) %{_libdir}/libheimntlm.so
+%attr(755,root,root) %{_libdir}/libhx509.so
+%attr(755,root,root) %{_libdir}/libkadm5clnt.so
+%attr(755,root,root) %{_libdir}/libkadm5srv.so
+%attr(755,root,root) %{_libdir}/libkafs.so
+%attr(755,root,root) %{_libdir}/libkdc.so
+%attr(755,root,root) %{_libdir}/libkrb5.so
+%attr(755,root,root) %{_libdir}/libotp.so
+%attr(755,root,root) %{_libdir}/libroken.so
+%attr(755,root,root) %{_libdir}/libsl.so
+%{_libdir}/libasn1.la
+%{_libdir}/libgssapi.la
+%{_libdir}/libhdb.la
+%{_libdir}/libheimntlm.la
+%{_libdir}/libhx509.la
+%{_libdir}/libkadm5clnt.la
+%{_libdir}/libkadm5srv.la
+%{_libdir}/libkafs.la
+%{_libdir}/libkdc.la
+%{_libdir}/libkrb5.la
+%{_libdir}/libotp.la
+%{_libdir}/libroken.la
+%{_libdir}/libsl.la
+%{_includedir}/*.h
+%{_includedir}/gssapi
+%{_includedir}/kadm5
+%{_includedir}/krb5
+%{_includedir}/roken
+%{_mandir}/man1/krb5-config.1*
+%{_mandir}/man3/*
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libasn1.a
+%{_libdir}/libgssapi.a
+%{_libdir}/libhdb.a
+%{_libdir}/libheimntlm.a
+%{_libdir}/libhx509.a
+%{_libdir}/libkadm5clnt.a
+%{_libdir}/libkadm5srv.a
+%{_libdir}/libkafs.a
+%{_libdir}/libkdc.a
+%{_libdir}/libkrb5.a
+%{_libdir}/libotp.a
+%{_libdir}/libroken.a
+%{_libdir}/libsl.a
+
+%files kcm
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_sbindir}/kcm
+%{_mandir}/man8/kcm.8*
+
 %files server
 %defattr(644,root,root,755)
-%doc NEWS TODO
-
-%attr(754,root,root) /etc/rc.d/init.d/%{name}
-%attr(754,root,root) /etc/rc.d/init.d/kpasswdd
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/*
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/heimdal
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/kpasswdd
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/kadmind
-
-%attr(700,root,root) %dir %{_localstatedir}
-%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_localstatedir}/*
-
 %attr(755,root,root) %{_sbindir}/kadmin
 %attr(755,root,root) %{_sbindir}/kfd
 %attr(755,root,root) %{_sbindir}/kstash
@@ -483,7 +587,14 @@ fi
 %attr(755,root,root) %{_sbindir}/kpasswdd
 %attr(755,root,root) %{_sbindir}/push
 %{?with_x11:%attr(755,root,root) %{_sbindir}/kxd}
-
+%attr(754,root,root) /etc/rc.d/init.d/%{name}
+%attr(754,root,root) /etc/rc.d/init.d/kpasswdd
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/*
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/heimdal
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/kpasswdd
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/kadmind
+%attr(700,root,root) %dir %{_localstatedir}
+%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_localstatedir}/*
 %{_mandir}/man8/iprop.8*
 %{_mandir}/man8/iprop-log.8*
 %{_mandir}/man8/hprop.8*
@@ -494,20 +605,8 @@ fi
 %{_mandir}/man8/kfd.8*
 %{_mandir}/man8/kpasswdd.8*
 %{_mandir}/man8/kstash.8*
-%{?with_x11:%{_mandir}/man8/kxd.8*}
 %{_mandir}/man8/push.8*
-
-%files libs
-%defattr(644,root,root,755)
-%dir %{_sysconfdir}
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/krb5.conf
-%attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
-%attr(755,root,root) %{_libdir}/lib*.so.*.*
-
-%{_infodir}/heimdal.info*
-%{_infodir}/hx509.info*
-%{_mandir}/man5/krb5.conf.5*
-%{_mandir}/man8/kerberos.8*
+%{?with_x11:%{_mandir}/man8/kxd.8*}
 
 %files login
 %defattr(644,root,root,755)
@@ -555,18 +654,3 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/popper
 %{_mandir}/man8/popper.8*
-
-%files devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/krb5-config
-# conflicts with e2fsprogs
-#%attr(755,root,root) %{_bindir}/mk_cmds
-%attr(755,root,root) %{_libdir}/lib*.so
-%{_libdir}/lib*.la
-%{_includedir}/*
-%{_mandir}/man1/krb5-config.1*
-%{_mandir}/man3/*
-
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/lib*.a
