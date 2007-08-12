@@ -22,9 +22,9 @@
  AC_DEFINE(HAVE_READLINE, 1, 
  	[Define if you have a readline compatible library.])dnl
  
---- heimdal-0.6.3/lib/Makefile.am.orig	2001-08-28 20:44:41.000000000 +0200
-+++ heimdal-0.6.3/lib/Makefile.am	2005-03-10 21:49:40.690638272 +0100
-@@ -11,12 +11,15 @@
+--- heimdal-1.0.1/lib/Makefile.am.orig	2007-08-09 09:47:21.000000000 +0200
++++ heimdal-1.0.1/lib/Makefile.am	2007-08-12 21:21:25.502963906 +0200
+@@ -11,6 +11,9 @@
  if DCE
  dir_dce = kdfs
  endif
@@ -34,10 +34,10 @@
  if COM_ERR
  dir_com_err = com_err
  endif
- if !HAVE_OPENSSL
- dir_des = des
+@@ -18,5 +21,5 @@
+ dir_hcrypto = hcrypto
  endif
  
--SUBDIRS = roken vers editline $(dir_com_err) sl asn1 $(dir_des) hx509 \
-+SUBDIRS = roken vers $(dir_el) $(dir_com_err) sl asn1 $(dir_des) hx509 \
+-SUBDIRS = roken vers editline $(dir_com_err) sl asn1 $(dir_hcrypto) hx509 \
++SUBDIRS = roken vers $(dir_el) $(dir_com_err) sl asn1 $(dir_hcrypto) hx509 \
  	krb5 ntlm kafs gssapi hdb kadm5 auth $(dir_45) $(dir_otp) $(dir_dce)
