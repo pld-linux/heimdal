@@ -9,12 +9,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	0.8.1
+Version:	1.0.1
 Release:	1
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
-# Source0-md5:	7ff8c4850bce9702d9d3cf9eff05abaa
+# Source0-md5:	498e24f52b4f2e658e31f728a1279769
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.sysconfig
@@ -30,12 +30,11 @@ Patch1:		%{name}-am_man_fixes.patch
 Patch2:		%{name}-amfix.patch
 Patch3:		%{name}-dbpaths.patch
 Patch4:		%{name}-no-editline.patch
-Patch5:		%{name}-gcc4.patch
-Patch6:		%{name}-db4.patch
-Patch7:		%{name}-libadd.patch
-Patch8:		%{name}-signal.patch
-Patch9:		%{name}-ldap.patch
-Patch10:	%{name}-info.patch
+Patch5:		%{name}-db4.patch
+Patch6:		%{name}-libadd.patch
+Patch7:		%{name}-signal.patch
+Patch8:		%{name}-ldap.patch
+Patch9:		%{name}-info.patch
 URL:		http://www.pdc.kth.se/heimdal/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -317,7 +316,6 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
-%patch10 -p1
 
 %build
 rm -f acinclude.m4
