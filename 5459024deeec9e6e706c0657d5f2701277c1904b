@@ -1,0 +1,5 @@
+- start rewriting spec:
+  - added separated clients packages: ftp, rsh and telnet,
+  - added separated servers packages: ftpd, rshd and telnetd,
+  - added passing LDFLAGS="-s" to ./configure environment,
+  - added using %congfig macro and DESTDIR style %install.
