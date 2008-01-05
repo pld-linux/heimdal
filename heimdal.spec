@@ -1,7 +1,6 @@
 #
 # TODO:
 #	- create init script for kcm
-#	- check unpackaged files
 #
 # Conditional build:
 %bcond_without	x11	# without X11-based utilities
@@ -169,6 +168,7 @@ Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 #Provides:	login
 #Obsoletes:	login
+Conflicts:	shadow < 1:4.0.16
 
 %description login
 login is used when signing onto a system. It can also be used to
@@ -492,19 +492,33 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/krb5.conf
 %attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
 %attr(755,root,root) %{_libdir}/libasn1.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libasn1.so.8
 %attr(755,root,root) %{_libdir}/libgssapi.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libgssapi.so.2
 %attr(755,root,root) %{_libdir}/libhdb.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libhdb.so.9
 %attr(755,root,root) %{_libdir}/libheimntlm.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libheimntlm.so.0
 %attr(755,root,root) %{_libdir}/libhx509.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libhx509.so.1
 %attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkadm5clnt.so.7
 %attr(755,root,root) %{_libdir}/libkadm5srv.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkadm5srv.so.8
 %attr(755,root,root) %{_libdir}/libkafs.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkafs.so.0
 %attr(755,root,root) %{_libdir}/libkdc.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkdc.so.2
 %attr(755,root,root) %{_libdir}/libkrb5.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkrb5.so.22
 %attr(755,root,root) %{_libdir}/libotp.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libotp.so.0
 %attr(755,root,root) %{_libdir}/libroken.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libroken.so.18
 %attr(755,root,root) %{_libdir}/libsl.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libsl.so.0
 %attr(755,root,root) %{_libdir}/libss.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libss.so.0
 %{_infodir}/heimdal.info*
 %{_infodir}/hx509.info*
 %{_mandir}/man5/krb5.conf.5*
@@ -612,8 +626,7 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/login
 %{_mandir}/man1/login.1*
-# conflicts with shadow
-#%{_mandir}/man5/login.access.5*
+%{_mandir}/man5/login.access.5*
 
 %files ftp
 %defattr(644,root,root,755)
