@@ -1,3 +1,6 @@
+# TODO
+#        file /usr/lib64/libgssapi.la from install of libgssapi-devel-0.9-1.amd64 conflicts with file from package heimdal-devel-0.7.2-4.amd64
+#        file /usr/lib64/libgssapi.so from install of libgssapi-devel-0.9-1.amd64 conflicts with file from package heimdal-devel-0.7.2-4.amd64
 #
 # Conditional build:
 %bcond_without	x11	# without X11-based utilities
