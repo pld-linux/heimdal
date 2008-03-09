@@ -10,15 +10,9 @@ diff -urbB heimdal-0.7/configure.in heimdal-0.7.org/configure.in
  
  AC_CANONICAL_HOST
  CANONICAL_HOST=$host
-diff -urbB heimdal-0.7/doc/setup.texi heimdal-0.7.org/doc/setup.texi
---- heimdal-0.7/doc/setup.texi	2005-06-16 18:27:48.000000000 +0200
-+++ heimdal-0.7.org/doc/setup.texi	2005-07-03 19:00:43.961381480 +0200
-@@ -105,17 +105,17 @@
- @section Creating the database
- 
- The database library will look for the database in the directory
--@file{/var/heimdal}, so you should probably create that directory.
-+@file{/var/lib/heimdal}, so you should probably create that directory.
+--- heimdal-1.1/doc/setup.texi.orig	2008-01-24 14:11:44.000000000 +0100
++++ heimdal-1.1/doc/setup.texi	2008-03-09 19:11:01.901155461 +0100
+@@ -111,13 +111,13 @@
  Make sure the directory has restrictive permissions.
  
  @example
@@ -34,7 +28,7 @@ diff -urbB heimdal-0.7/doc/setup.texi heimdal-0.7.org/doc/setup.texi
  master key, run @samp{kstash} to create this master key:
  
  @example
-@@ -328,14 +328,14 @@
+@@ -354,14 +354,14 @@
  one below to your @file{/etc/inetd.conf}.
  
  @example
@@ -51,7 +45,7 @@ diff -urbB heimdal-0.7/doc/setup.texi heimdal-0.7.org/doc/setup.texi
  syntax:
  @smallexample
  principal       [priv1,priv2,...]       [glob-pattern]
-@@ -498,7 +498,7 @@
+@@ -525,7 +525,7 @@
  
  @example
  slave# ktutil get -p foo/admin hprop/`hostname`
@@ -60,7 +54,7 @@ diff -urbB heimdal-0.7/doc/setup.texi heimdal-0.7.org/doc/setup.texi
  slave# hpropd
  @end example
  
-@@ -550,7 +550,7 @@
+@@ -577,7 +577,7 @@
  The program that runs on the master is @command{ipropd-master} and all
  clients run @command{ipropd-slave}.
  
@@ -69,7 +63,7 @@ diff -urbB heimdal-0.7/doc/setup.texi heimdal-0.7.org/doc/setup.texi
  the slaves that the database should be propagated to.  Each line contains
  the full name of the principal (for example
  @samp{iprop/hemligare.foo.se@@FOO.SE}).
-@@ -566,20 +566,20 @@
+@@ -593,20 +593,20 @@
  
  
  @example
@@ -93,7 +87,16 @@ diff -urbB heimdal-0.7/doc/setup.texi heimdal-0.7.org/doc/setup.texi
 +slave#  /usr/sbin/ipropd-slave master &
  @end example
  
- @node Salting, Cross realm, Incremental propagation, Setting up a realm
+ To manage the iprop log file you should use the @command{iprop-log}
+@@ -1291,7 +1291,7 @@
+ Note that the file name is space sensitive.
+ 
+ @example
+-# cat /var/heimdal/pki-mapping
++# cat /var/lib/heimdal/pki-mapping
+ # comments starts with #
+ lha@@EXAMPLE.ORG:C=SE,O=Stockholm universitet,CN=Love,UID=lha
+ lha@@EXAMPLE.ORG:CN=Love,UID=lha
 diff -urbB heimdal-0.7/kadmin/kadmind.8 heimdal-0.7.org/kadmin/kadmind.8
 --- heimdal-0.7/kadmin/kadmind.8	2005-06-16 18:27:56.000000000 +0200
 +++ heimdal-0.7.org/kadmin/kadmind.8	2005-07-03 18:58:54.160073816 +0200
@@ -127,18 +130,6 @@ diff -urbB heimdal-0.7/kdc/kdc.8 heimdal-0.7.org/kdc/kdc.8
  This is the only value that can't be specified in the config file.
  .It Xo
  .Fl p ,
-diff -urbB heimdal-0.7/lib/hdb/hdb.h heimdal-0.7.org/lib/hdb/hdb.h
---- heimdal-0.7/lib/hdb/hdb.h	2005-06-16 18:28:05.000000000 +0200
-+++ heimdal-0.7.org/lib/hdb/hdb.h	2005-07-03 18:58:54.161073664 +0200
-@@ -86,7 +86,7 @@
-     krb5_error_code (*create)(krb5_context, HDB **, const char *filename);
- };
- 
--#define HDB_DB_DIR "/var/heimdal"
-+#define HDB_DB_DIR "/var/lib/heimdal"
- #define HDB_DEFAULT_DB HDB_DB_DIR "/heimdal"
- #define HDB_DB_FORMAT_ENTRY "hdb/db-format"
- 
 diff -urbB heimdal-0.7/lib/krb5/krb5.conf.5 heimdal-0.7.org/lib/krb5/krb5.conf.5
 --- heimdal-0.7/lib/krb5/krb5.conf.5	2005-06-16 18:28:09.000000000 +0200
 +++ heimdal-0.7.org/lib/krb5/krb5.conf.5	2005-07-03 18:58:54.162073512 +0200
