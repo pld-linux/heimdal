@@ -8,12 +8,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	1.0.2
+Version:	1.1
 Release:	1
 License:	Free
 Group:		Networking
-Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
-# Source0-md5:	592d722ec3ad6ed05051c3a05e645e83
+Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
+# Source0-md5:	7892e97b346534cc9afeeee461fe3bab
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.sysconfig
@@ -34,7 +34,7 @@ Patch6:		%{name}-libadd.patch
 Patch7:		%{name}-signal.patch
 Patch8:		%{name}-ldap.patch
 Patch9:		%{name}-info.patch
-URL:		http://www.pdc.kth.se/heimdal/
+URL:		http://www.h5l.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
@@ -324,16 +324,17 @@ rm -f acinclude.m4
 %{__autoconf}
 %{__automake}
 %configure \
+	--enable-hdb-openldap-module \
+	--enable-kcm \
+	--enable-pthread-support \
 	--enable-shared \
 	--enable-static \
 	--enable-new-des3-code \
+	--with-hdbdir=%{_localstatedir} \
+	--with-ipv6 \
 	--with-openldap=/usr \
 	--with-readline=/usr \
-        --with%{!?with_x11:out}-x \
-	--enable-hdb-openldap-module \
-	--enable-pthread-support \
-	--enable-kcm \
-	--with-ipv6
+	--with%{!?with_x11:out}-x
 
 %{__make}
 
@@ -500,7 +501,7 @@ fi
 %attr(755,root,root) %{_libdir}/libheimntlm.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libheimntlm.so.0
 %attr(755,root,root) %{_libdir}/libhx509.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libhx509.so.1
+%attr(755,root,root) %ghost %{_libdir}/libhx509.so.3
 %attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkadm5clnt.so.7
 %attr(755,root,root) %{_libdir}/libkadm5srv.so.*.*.*
@@ -510,7 +511,7 @@ fi
 %attr(755,root,root) %{_libdir}/libkdc.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdc.so.2
 %attr(755,root,root) %{_libdir}/libkrb5.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkrb5.so.22
+%attr(755,root,root) %ghost %{_libdir}/libkrb5.so.24
 %attr(755,root,root) %{_libdir}/libotp.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libotp.so.0
 %attr(755,root,root) %{_libdir}/libroken.so.*.*.*
@@ -522,6 +523,7 @@ fi
 %{_infodir}/heimdal.info*
 %{_infodir}/hx509.info*
 %{_mandir}/man5/krb5.conf.5*
+%{_mandir}/man5/mech.5*
 %{_mandir}/man8/kerberos.8*
 
 %files ldap
@@ -562,6 +564,7 @@ fi
 %{_includedir}/kadm5
 %{_includedir}/krb5
 %{_includedir}/roken
+%{_pkgconfigdir}/heimdal-gssapi.pc
 %{_mandir}/man1/krb5-config.1*
 %{_mandir}/man3/*
 
@@ -635,8 +638,9 @@ fi
 
 %files rsh
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/rsh
 %attr(755,root,root) %{_bindir}/rcp
+%attr(755,root,root) %{_bindir}/rsh
+%{_mandir}/man1/rcp.1*
 %{_mandir}/man1/rsh.1*
 
 %files telnet
