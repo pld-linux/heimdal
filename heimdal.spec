@@ -8,12 +8,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	1.1
+Version:	1.2
 Release:	1
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
-# Source0-md5:	7892e97b346534cc9afeeee461fe3bab
+# Source0-md5:	8d6b690069acd2ae8ada1315174f52f9
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.sysconfig
@@ -446,6 +446,7 @@ fi
 %attr(755,root,root) %{_bindir}/kinit
 %attr(755,root,root) %{_bindir}/klist
 %attr(755,root,root) %{_bindir}/kpasswd
+%attr(755,root,root) %{_bindir}/kswitch
 %attr(755,root,root) %{_bindir}/pagsh
 %attr(755,root,root) %{_bindir}/pfrom
 %attr(755,root,root) %{_bindir}/string2key
@@ -511,15 +512,15 @@ fi
 %attr(755,root,root) %{_libdir}/libkdc.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdc.so.2
 %attr(755,root,root) %{_libdir}/libkrb5.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkrb5.so.24
+%attr(755,root,root) %ghost %{_libdir}/libkrb5.so.[0-9][0-9]
 %attr(755,root,root) %{_libdir}/libotp.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libotp.so.0
 %attr(755,root,root) %{_libdir}/libroken.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libroken.so.18
+%attr(755,root,root) %ghost %{_libdir}/libroken.so.[0-9][0-9]
 %attr(755,root,root) %{_libdir}/libsl.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libsl.so.0
-%attr(755,root,root) %{_libdir}/libss.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libss.so.0
+%attr(755,root,root) %{_libdir}/libwind.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libwind.so.*
 %{_infodir}/heimdal.info*
 %{_infodir}/hx509.info*
 %{_mandir}/man5/krb5.conf.5*
@@ -546,6 +547,7 @@ fi
 %attr(755,root,root) %{_libdir}/libotp.so
 %attr(755,root,root) %{_libdir}/libroken.so
 %attr(755,root,root) %{_libdir}/libsl.so
+%attr(755,root,root) %{_libdir}/libwind.so
 %{_libdir}/libasn1.la
 %{_libdir}/libgssapi.la
 %{_libdir}/libhdb.la
@@ -559,6 +561,7 @@ fi
 %{_libdir}/libotp.la
 %{_libdir}/libroken.la
 %{_libdir}/libsl.la
+%{_libdir}/libwind.la
 %{_includedir}/*.h
 %{_includedir}/gssapi
 %{_includedir}/kadm5
@@ -583,6 +586,7 @@ fi
 %{_libdir}/libotp.a
 %{_libdir}/libroken.a
 %{_libdir}/libsl.a
+%{_libdir}/libwind.a
 
 %files kcm
 %defattr(644,root,root,755)
