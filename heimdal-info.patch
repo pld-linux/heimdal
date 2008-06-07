@@ -1,7 +1,7 @@
 --- heimdal-0.8.1/doc/heimdal.texi.orig	2007-04-23 18:23:41.000000000 +0200
 +++ heimdal-0.8.1/doc/heimdal.texi	2007-07-06 07:42:15.047585047 +0200
 @@ -20,9 +20,9 @@
- @set VERSION 0.8
+ @set VERSION 1.0
  
  @ifinfo
 -@dircategory Security
@@ -14,14 +14,14 @@
  
 --- heimdal-0.8.1/doc/hx509.texi.orig	2007-04-23 18:23:41.000000000 +0200
 +++ heimdal-0.8.1/doc/hx509.texi	2007-07-06 07:42:27.984322270 +0200
-@@ -20,9 +20,9 @@
- @set VERSION 0.8
+@@ -21,9 +21,9 @@
+ @set EDITION 1.0
  
  @ifinfo
 -@dircategory Security
 +@dircategory Security:
  @direntry
--* hx509: (hx509).           The X.509 distribution from KTH
+-* hx509: (hx509).               The X.509 distribution from KTH
 +* hx509: (hx509).			The X.509 distribution from KTH
  @end direntry
  @end ifinfo
