@@ -512,15 +512,15 @@ fi
 %attr(755,root,root) %{_libdir}/libkdc.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdc.so.2
 %attr(755,root,root) %{_libdir}/libkrb5.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkrb5.so.[0-9][0-9]
+%attr(755,root,root) %ghost %{_libdir}/libkrb5.so.25
 %attr(755,root,root) %{_libdir}/libotp.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libotp.so.0
 %attr(755,root,root) %{_libdir}/libroken.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libroken.so.[0-9][0-9]
+%attr(755,root,root) %ghost %{_libdir}/libroken.so.18
 %attr(755,root,root) %{_libdir}/libsl.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libsl.so.0
 %attr(755,root,root) %{_libdir}/libwind.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libwind.so.*
+%attr(755,root,root) %ghost %{_libdir}/libwind.so.0
 %{_infodir}/heimdal.info*
 %{_infodir}/hx509.info*
 %{_mandir}/man5/krb5.conf.5*
