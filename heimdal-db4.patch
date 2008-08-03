@@ -5,7 +5,7 @@
  dnl db_create is used by db3 and db4
  
 -  AC_FIND_FUNC_NO_LIBS(db_create, db4 db3 db, [
-+  AC_FIND_FUNC_NO_LIBS(db_create, db-4.6 db-4.5 db-4.4 db-4.3 db-4.2 db-4.1 db4 db3 db, [
++  AC_FIND_FUNC_NO_LIBS(db_create, db-4.7 db-4.6 db-4.5 db-4.4 db-4.3 db-4.2 db-4.1 db4 db3 db, [
    #include <stdio.h>
    #ifdef HAVE_DB4_DB_H
    #include <db4/db.h>
