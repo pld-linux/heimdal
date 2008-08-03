@@ -8,12 +8,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	1.2
-Release:	4
+Version:	1.2.1
+Release:	1
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
-# Source0-md5:	8d6b690069acd2ae8ada1315174f52f9
+# Source0-md5:	6e5028077e2a6b101a4a72801ba71b9e
 Source1:	%{name}.init
 Source2:	%{name}.logrotate
 Source3:	%{name}.sysconfig
@@ -502,7 +502,7 @@ fi
 %attr(755,root,root) %{_libdir}/libheimntlm.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libheimntlm.so.0
 %attr(755,root,root) %{_libdir}/libhx509.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libhx509.so.3
+%attr(755,root,root) %ghost %{_libdir}/libhx509.so.4
 %attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkadm5clnt.so.7
 %attr(755,root,root) %{_libdir}/libkadm5srv.so.*.*.*
