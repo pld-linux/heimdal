@@ -439,6 +439,7 @@ fi
 %attr(755,root,root) %{_bindir}/afslog
 %attr(755,root,root) %{_bindir}/gsscmd
 %attr(755,root,root) %{_bindir}/hxtool
+%attr(755,root,root) %{_bindir}/idn-lookup
 %attr(755,root,root) %{_bindir}/kauth
 %attr(755,root,root) %{_bindir}/kdestroy
 %attr(755,root,root) %{_bindir}/kf
