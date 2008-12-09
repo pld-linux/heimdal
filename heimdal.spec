@@ -41,7 +41,7 @@ BuildRequires:	bison
 BuildRequires:	db-devel
 BuildRequires:	flex
 BuildRequires:	libcom_err-devel >= 1.34-5
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:2.2
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	openldap-devel >= 2.3.0
@@ -318,7 +318,7 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch9 -p1
 
 %build
-rm -f acinclude.m4
+rm -f acinclude.m4 cf/{libtool,lt*}.m4
 %{__libtoolize}
 %{__aclocal} -I cf
 %{__autoconf}
