@@ -1,0 +1,1 @@
+- removed %{_includedir}/glob.h (another conflict with glibc-devel).
