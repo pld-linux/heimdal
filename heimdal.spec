@@ -375,6 +375,8 @@ rm -f $RPM_BUILD_ROOT%{_includedir}/glob.h
 mv -f $RPM_BUILD_ROOT%{_mandir}/man5/{krb5.conf.5,krb5.conf.5h}
 # resolve conflict with gss
 mv -f $RPM_BUILD_ROOT%{_bindir}/{gss,gsscmd}
+# unpackaged
+rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
