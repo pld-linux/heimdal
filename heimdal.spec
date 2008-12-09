@@ -35,7 +35,7 @@ Patch7:		%{name}-signal.patch
 Patch8:		%{name}-ldap.patch
 Patch9:		%{name}-info.patch
 URL:		http://www.h5l.org/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	db-devel
@@ -44,8 +44,8 @@ BuildRequires:	libcom_err-devel >= 1.34-5
 BuildRequires:	libtool
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
-BuildRequires:	openldap-devel >= 2.4.6
-BuildRequires:	openssl-devel >= 0.9.8b
+BuildRequires:	openldap-devel >= 2.3.0
+BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	texinfo
