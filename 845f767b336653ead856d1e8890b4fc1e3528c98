@@ -1,0 +1,4 @@
+- server Prereq: /sbin/chkconfig
+- the rest of pl translations
+- release 2
+  NOTE: IMO some descriptions should contain notice that kerberos is used
