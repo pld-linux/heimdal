@@ -9,7 +9,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	1.2.1
-Release:	2
+Release:	3
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
@@ -51,7 +51,7 @@ BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	texinfo
 %{?with_x11:BuildRequires:	xorg-lib-libXt-devel}
 Requires:	%{name}-libs = %{version}-%{release}
-Conflicts:	krb5-lib
+Conflicts:	krb5-client
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_libexecdir	%{_sbindir}
@@ -114,6 +114,7 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	db-devel
 Requires:	libcom_err-devel >= 1.34-5
 Requires:	openssl-devel
+Conflicts:	krb5-devel
 
 %description devel
 contains files needed to compile and link software using the kerberos
@@ -141,6 +142,7 @@ Group:		Networking
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-scripts
+Conflicts:	krb5-server
 
 %description server
 Master KDC.
@@ -189,6 +191,7 @@ Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	ftp
 Conflicts:	heimdal-clients
+Conflicts:	krb5-ftp
 
 %description ftp
 The FTP package provides the standard UNIX command-line FTP client
@@ -208,6 +211,7 @@ Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	rsh
 Conflicts:	heimdal-clients
+Conflicts:	krb5-rsh
 
 %description rsh
 The rsh package contains a set of programs which allow users to run
@@ -229,6 +233,7 @@ Requires:	%{name}-libs = %{version}-%{release}
 Provides:	telnet
 Obsoletes:	telnet
 Conflicts:	heimdal-clients
+Conflicts:	krb5-telnet
 
 %description telnet
 Telnet is a popular protocol for remote logins across the Internet.
@@ -245,6 +250,7 @@ Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
 Obsoletes:	ftpd
+Conflicts:	krb5-ftpd
 
 %description ftpd
 FTP is the file transfer protocol, which is a widely used Internet
@@ -261,6 +267,7 @@ Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
 Obsoletes:	rshd
+Conflicts:	krb5-rshd
 
 %description rshd
 The rsh package contains a set of programs which allow users to run
@@ -281,6 +288,7 @@ Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
 Obsoletes:	telnetd
+Conflicts:	krb5-telnetd
 
 %description telnetd
 Telnet is a popular protocol for remote logins across the Internet.
