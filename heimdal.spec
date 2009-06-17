@@ -58,6 +58,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_localstatedir	/var/lib/%{name}
 %define		_sysconfdir	/etc/%{name}
 
+%define		schemadir	/usr/share/openldap/schema
+
 %description
 Heimdal is a free implementation of Kerberos 5. The goals are to:
 - have an implementation that can be freely used by anyone
@@ -105,6 +107,19 @@ LDAP HDB plugin.
 
 %description ldap -l pl.UTF-8
 Wtyczka HDB LDAP.
+
+%package -n openldap-schema-heimdal
+Summary:	Heimdal LDAP schema
+Summary(pl.UTF-8):	Schemat LDAP dla Heimdala
+Group:		Networking/Daemons
+Requires(post,postun):	sed >= 4.0
+Requires:	openldap-servers
+
+%description -n openldap-schema-heimdal
+This package contains Heimdal kerberos LDAP schema for openldap.
+
+%description -n openldap-schema-heimdal -l pl.UTF-8
+en pakiet zawiera schemat Heimdal kerberosa dla openldap-a.
 
 %package devel
 Summary:	Header files for heimdal
@@ -348,11 +363,13 @@ rm -f acinclude.m4 cf/{libtool,lt*}.m4
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir}} \
+install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir},%{schemadir}} \
 	$RPM_BUILD_ROOT/etc/{sysconfig/rc-inetd,logrotate.d,rc.d/init.d}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+install lib/hdb/hdb.schema $RPM_BUILD_ROOT%{schemadir}
 
 mv $RPM_BUILD_ROOT%{_bindir}/su $RPM_BUILD_ROOT%{_bindir}/ksu
 mv $RPM_BUILD_ROOT%{_mandir}/man1/su.1  $RPM_BUILD_ROOT%{_mandir}/man1/ksu.1
@@ -442,6 +459,16 @@ fi
 %postun libs
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
+%post -n openldap-schema-heimdal
+%openldap_schema_register %{schemadir}/hdb.schema
+%service -q ldap restart
+
+%postun -n openldap-schema-heimdal
+if [ "$1" = "0" ]; then
+	%openldap_schema_unregister %{schemadir}/hdb.schema
+	%service -q ldap restart
+fi
 
 %files
 %defattr(644,root,root,755)
@@ -541,6 +568,10 @@ fi
 %files ldap
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/hdb_ldap.so
+
+%files -n openldap-schema-heimdal
+%defattr(644,root,root,755)
+%{schemadir}/*.schema
 
 %files devel
 %defattr(644,root,root,755)
