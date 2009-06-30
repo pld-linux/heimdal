@@ -1,0 +1,11 @@
+--- heimdal-1.2.1/lib/krb5/krb5-protos.h~	2008-07-28 14:07:00.000000000 +0200
++++ heimdal-1.2.1/lib/krb5/krb5-protos.h	2009-06-30 16:14:28.678501398 +0200
+@@ -1742,6 +1742,8 @@
+ 	krb5_context /*context*/,
+ 	char */*str*/);
+ 
++#define krb5_free_error_message krb5_free_error_string
++
+ krb5_error_code KRB5_LIB_FUNCTION
+ krb5_free_host_realm (
+ 	krb5_context /*context*/,
