@@ -57,7 +57,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_libexecdir	%{_sbindir}
 %define		_localstatedir	/var/lib/%{name}
-%define		_sysconfdir	/etc/%{name}
 
 %define		schemadir	/usr/share/openldap/schema
 
