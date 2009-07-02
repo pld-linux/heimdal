@@ -471,6 +471,16 @@ if [ "$1" = "0" ]; then
 	%service -q ldap restart
 fi
 
+%triggerpostun libs -- heimdal-libs < 1.2.1-6
+if [ -f /etc/heimdal/krb5.conf.rpmsave ]; then
+	mv /etc/krb5.conf{,.rpmnew}
+	mv -f /etc/heimdal/krb5.conf.rpmsave /etc/krb5.conf
+fi
+if [ -f /etc/heimdal/krb5.keytab.rpmsave ]; then
+	mv /etc/krb5.keytab{,.rpmnew}
+	mv -f /etc/heimdal/krb5.keytab.rpmsave /etc/krb5.keytab
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog NEWS README TODO
