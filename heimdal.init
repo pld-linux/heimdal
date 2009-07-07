@@ -7,7 +7,7 @@
 # description:	Heimdal Kerberos V server daemons
 #
 # processname:	kdc
-# config:	/etc/heimdal/krb5.conf
+# config:	/etc/krb5.conf
 
 
 # Source function library
