@@ -33,13 +33,7 @@ start() {
 	if [ ! -f /var/lock/subsys/heimdal ]; then
 		msg_starting "Kerberos KDC"
 		busy
-		kdc &
-		sleep 1
-		if ps -C kdc >/dev/null 2>&1; then
-			ok
-		else
-			fail
-		fi
+		daemon kdc --detach
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/heimdal
 	else
