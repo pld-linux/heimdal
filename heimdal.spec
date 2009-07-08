@@ -411,22 +411,37 @@ rm -rf $RPM_BUILD_ROOT
 
 %post server
 /sbin/chkconfig --add heimdal
-%service heimdal restart "heimdal daemon"
-
+%service heimdal restart "heimdal KDC daemon"
 /sbin/chkconfig --add kpasswdd
 %service kpasswdd restart "heimdal password changing daemon"
-
+/sbin/chkconfig --add ipropd
+%service ipropd restart "heimdal propagation daemons"
 %service -q rc-inetd reload
 
 %preun server
 if [ "$1" = "0" ]; then
-	%service heimdal stop
-	/sbin/chkconfig --del heimdal
-
+	%service ipropd stop
+	/sbin/chkconfig --del ipropd
 	%service kpasswdd stop
 	/sbin/chkconfig --del kpasswdd
-
+	%service heimdal stop
+	/sbin/chkconfig --del heimdal
 	%service -q rc-inetd reload
+fi
+
+%post kcm
+/sbin/chkconfig --add kcm
+if [ -f /var/lock/subsys/kcm ]; then
+	echo "Run \"/sbin/service kcm restart\" to restart kcm." >&2
+	echo "WARNING: it will clear all credentials and tickets kept in kcm!" >&2
+else
+	echo "Run \"/sbin/service kcm start\" to start kcm." >&2
+fi
+
+%preun kcm
+if [ "$1" = "0" ]; then
+	%service kcm stop
+	/sbin/chkconfig --del kcm
 fi
 
 %post ftpd
