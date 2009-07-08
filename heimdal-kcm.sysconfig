@@ -1,0 +1,7 @@
+# Customized setings for Kerberos V5
+
+# Nicelevel for Kerberos Credential Cache Manager
+SERVICE_RUN_NICE_LEVEL="+0"
+
+# Additional parameters for Kerberos Credential Cache Manager
+#KCM_PARAMS=""
