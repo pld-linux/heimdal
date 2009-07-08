@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # heimdal	Heimdal Kerberos V credential cache daemon
-# chkconfig:	2345 41 41
+# chkconfig:	2345 11 89
 # description:	Heimdal Kerberos V credential cache daemon
 # processname:	kcm
 # config:	/etc/kcm.conf
