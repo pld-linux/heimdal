@@ -1,0 +1,129 @@
+#!/bin/sh
+#
+# ipropd	Heimdal Kerberos V replication daemons
+# chkconfig:	2345 41 41
+# description:	Heimdal Kerberos V replication daemons
+# processname:	ipropd-master ipropd-slave
+# config:	/etc/krb5.conf
+
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+# Get network config
+. /etc/sysconfig/network
+
+# Get service config
+[ -f /etc/sysconfig/heimdal ] && . /etc/sysconfig/heimdal
+SERVICE_RUN_NICE_LEVEL=${IPROPD_SERVICE_RUN_NICE_LEVEL:-0}
+
+# Check that networking is up.
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
+		msg_network_down "Kerberos Replication Daemons"
+		exit 1
+	fi
+else
+	exit 0
+fi
+
+start() {
+	local pid
+
+	if is_yes "$MASTER_ENABLED"; then
+		if [ ! -f /var/lock/subsys/ipropd-master ]; then
+			msg_starting "Kerberos Replication Daemon (Master)"
+			busy
+			daemon ipropd-master --detach
+			sleep 1
+			pid=$(pidofproc "ipropd-master" "/var/run/ipropd-master.pid")
+			if [ -n "$pid" ]; then
+				touch /var/lock/subsys/ipropd-master
+				ok
+			else
+				fail
+			fi
+		else
+			msg_already_running "Kerberos Replication Daemon (Master)"
+		fi
+	fi
+	if is_yes "$SLAVE_ENABLED"; then
+		if [ ! -f /var/lock/subsys/ipropd-slave ]; then
+			msg_starting "Kerberos Replication Daemon (Slave)"
+			busy
+			daemon ipropd-slave --detach $SLAVE_PARAMS
+			sleep 1
+			pid=$(pidofproc "ipropd-slave" "/var/run/ipropd-slave.pid")
+			if [ -n "$pid" ]; then
+				touch /var/lock/subsys/ipropd-slave
+				ok
+			else
+				fail
+			fi
+		else
+			msg_already_running "Kerberos Replication Daemon (Slave)"
+		fi
+	fi
+}
+
+stop() {
+	if [ -f /var/lock/subsys/ipropd-master ]; then
+		msg_stopping "Kerberos Replication Daemon (Master)"
+		killproc ipropd-master
+		rm -f /var/lock/subsys/ipropd-master >/dev/null 2>&1
+	else
+		if is_yes "$MASTER_ENABLED"; then
+			msg_not_running "Kerberos Replication Daemon (Master)"
+		fi
+	fi
+	if [ -f /var/lock/subsys/ipropd-slave ]; then
+		msg_stopping "Kerberos Replication Daemon (Slave)"
+		killproc ipropd-slave
+		rm -f /var/lock/subsys/ipropd-slave >/dev/null 2>&1
+	else
+		if is_yes "$SLAVE_ENABLED"; then
+			msg_not_running "Kerberos Replication Daemon (Slave)"
+		fi
+	fi
+}
+
+condrestart() {
+	if [ -f /var/lock/subsys/ipropd-master -o -f /var/lock/subsys/ipropd-slave ]; then
+		stop
+		start
+	else
+		msg_not_running "Kerberos Replication Daemons"
+		RETVAL=$1
+	fi
+}
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  restart|force-reload)
+	stop
+	start
+	;;
+  try-restart)
+	condrestart 0
+	;;
+  force-reload)
+	condrestart 7
+	;;
+  status)
+	is_yes "$MASTER_ENABLED" && status ipropd-master
+	is_yes "$SLAVE_ENABLED" && status ipropd-slave
+	exit $?
+	;;
+  *)
+	msg_usage "$0 {start|stop|restart|try-restart|force-reload|status}"
+	exit 3
+esac
+
+exit $RETVAL

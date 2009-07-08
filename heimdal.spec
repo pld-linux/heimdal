@@ -23,7 +23,8 @@ Source6:	%{name}-rshd.inetd
 Source7:	%{name}-telnetd.inetd
 Source8:	%{name}-kadmind.inetd
 Source9:	%{name}-kpasswdd.init
-Source10:	%{name}-kpasswdd.sysconfig
+Source10:	%{name}-ipropd.init
+Source11:	%{name}-kcm.init
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-am_man_fixes.patch
 Patch2:		%{name}-amfix.patch
@@ -388,7 +389,8 @@ install %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
 install %{SOURCE9} $RPM_BUILD_ROOT/etc/rc.d/init.d/kpasswdd
-install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/kpasswdd
+install %{SOURCE10} $RPM_BUILD_ROOT/etc/rc.d/init.d/ipropd
+install %{SOURCE11} $RPM_BUILD_ROOT/etc/rc.d/init.d/kcm
 
 # just a test plugin
 rm -f $RPM_BUILD_ROOT%{_libdir}/windc.*

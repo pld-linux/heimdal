@@ -1,13 +1,13 @@
 #!/bin/sh
 #
-# heimdal	Heimdal Kerberos V server daemons
+# heimdal	Heimdal Kerberos V credential cache daemon
 #
 # chkconfig:	2345 41 41
 #
-# description:	Heimdal Kerberos V server daemons
+# description:	Heimdal Kerberos V credential cache daemons
 #
-# processname:	kdc
-# config:	/etc/krb5.conf
+# processname:	kcm
+# config:	/etc/kcm.conf
 
 
 # Source function library
@@ -17,13 +17,12 @@
 . /etc/sysconfig/network
 
 # Get service config
-[ -f /etc/sysconfig/heimdal ] && . /etc/sysconfig/heimdal
-SERVICE_RUN_NICE_LEVEL=${KDC_SERVICE_RUN_NICE_LEVEL:-0}
+[ -f /etc/sysconfig/kcm ] && . /etc/sysconfig/kcm
 
 # Check that networking is up.
 if is_yes "${NETWORKING}"; then
 	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
-		msg_network_down "Kerberos KDC"
+		msg_network_down "Kerberos KCM"
 		exit 1
 	fi
 else
@@ -33,39 +32,39 @@ fi
 start() {
 	local pid
 
-	if [ ! -f /var/lock/subsys/heimdal ]; then
-		msg_starting "Kerberos KDC"
+	if [ ! -f /var/lock/subsys/kcm ]; then
+		msg_starting "Kerberos KCM"
 		busy
-		daemon kdc --detach $KDC_PARAMS
+		daemon kcm --detach
 		sleep 1
-		pid=$(pidofproc "kdc" "/var/run/kdc.pid")
+		pid=$(pidofproc "kcm" "/var/run/kcm.pid")
 		if [ -n "$pid" ]; then
-			touch /var/lock/subsys/heimdal
+			touch /var/lock/subsys/kcm
 			ok
 		else
 			fail
 		fi
 	else
-		msg_already_running "Kerberos KDC"
+		msg_already_running "Kerberos KCM"
 	fi
 }
 
 stop() {
-	if [ -f /var/lock/subsys/heimdal ]; then
-		msg_stopping "Kerberos KDC"
-		killproc kdc
-		rm -f /var/lock/subsys/heimdal >/dev/null 2>&1
+	if [ -f /var/lock/subsys/kcm ]; then
+		msg_stopping "Kerberos KCM"
+		killproc kcm
+		rm -f /var/lock/subsys/kcm >/dev/null 2>&1
 	else
-		msg_not_running "Kerberos KDC"
+		msg_not_running "Kerberos KCM"
 	fi
 }
 
 condrestart() {
-	if [ -f /var/lock/subsys/heimdal ]; then
+	if [ -f /var/lock/subsys/kcm ]; then
 		stop
 		start
 	else
-		msg_not_running "Kerberos KDC"
+		msg_not_running "Kerberos KCM"
 		RETVAL=$1
 	fi
 }
@@ -90,7 +89,7 @@ case "$1" in
 	condrestart 7
 	;;
   status)
-	status kdc
+	status kcm
 	exit $?
 	;;
   *)
