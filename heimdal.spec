@@ -539,7 +539,6 @@ fi
 
 %files libs
 %defattr(644,root,root,755)
-%dir %{_sysconfdir}
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/krb5.conf
 %attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
 %attr(755,root,root) %{_libdir}/libasn1.so.*.*.*
