@@ -1,7 +1,4 @@
 #
-# TODO:
-#	- create init script for kcm
-#
 # Conditional build:
 %bcond_without	x11	# without X11-based utilities
 #
@@ -15,16 +12,16 @@ Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
 # Source0-md5:	6e5028077e2a6b101a4a72801ba71b9e
 Source1:	%{name}.init
-Source2:	%{name}.logrotate
-Source3:	%{name}.sysconfig
-Source4:	%{name}-krb5.conf
-Source5:	%{name}-ftpd.inetd
-Source6:	%{name}-rshd.inetd
-Source7:	%{name}-telnetd.inetd
-Source8:	%{name}-kadmind.inetd
-Source9:	%{name}-kpasswdd.init
-Source10:	%{name}-ipropd.init
-Source11:	%{name}-kcm.init
+Source2:	%{name}-kpasswdd.init
+Source3:	%{name}-ipropd.init
+Source4:	%{name}-kcm.init
+Source5:	%{name}.sysconfig
+Source6:	%{name}-kcm.sysconfig
+Source7:	%{name}-krb5.conf
+Source8:	%{name}-ftpd.inetd
+Source9:	%{name}-rshd.inetd
+Source10:	%{name}-telnetd.inetd
+Source11:	%{name}-kadmind.inetd
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-am_man_fixes.patch
 Patch2:		%{name}-amfix.patch
@@ -367,7 +364,7 @@ rm -f acinclude.m4 cf/{libtool,lt*}.m4
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir},%{schemadir}} \
-	$RPM_BUILD_ROOT/etc/{sysconfig/rc-inetd,logrotate.d,rc.d/init.d}
+	$RPM_BUILD_ROOT/etc/{sysconfig/rc-inetd,rc.d/init.d}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -377,20 +374,20 @@ install lib/hdb/hdb.schema $RPM_BUILD_ROOT%{schemadir}
 mv $RPM_BUILD_ROOT%{_bindir}/su $RPM_BUILD_ROOT%{_bindir}/ksu
 mv $RPM_BUILD_ROOT%{_mandir}/man1/su.1  $RPM_BUILD_ROOT%{_mandir}/man1/ksu.1
 
-install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
-
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
-install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/kpasswdd
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/ipropd
+install %{SOURCE4} $RPM_BUILD_ROOT/etc/rc.d/init.d/kcm
+install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
+install %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/kcm
 
-install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/ftpd
-install %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
-install %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
-install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
+install %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
 
-install %{SOURCE9} $RPM_BUILD_ROOT/etc/rc.d/init.d/kpasswdd
-install %{SOURCE10} $RPM_BUILD_ROOT/etc/rc.d/init.d/ipropd
-install %{SOURCE11} $RPM_BUILD_ROOT/etc/rc.d/init.d/kcm
+install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/ftpd
+install %{SOURCE9} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
+install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
+install %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
+
 
 # just a test plugin
 rm -f $RPM_BUILD_ROOT%{_libdir}/windc.*
@@ -646,6 +643,8 @@ fi
 
 %files kcm
 %defattr(644,root,root,755)
+%attr(754,root,root) /etc/rc.d/init.d/kcm
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/kcm
 %attr(755,root,root) %{_sbindir}/kcm
 %{_mandir}/man8/kcm.8*
 
@@ -666,9 +665,8 @@ fi
 %{?with_x11:%attr(755,root,root) %{_sbindir}/kxd}
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
 %attr(754,root,root) /etc/rc.d/init.d/kpasswdd
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/*
+%attr(754,root,root) /etc/rc.d/init.d/ipropd
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/heimdal
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/kpasswdd
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/kadmind
 %attr(700,root,root) %dir %{_localstatedir}
 %attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_localstatedir}/*
