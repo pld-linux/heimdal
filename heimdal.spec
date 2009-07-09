@@ -6,7 +6,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	1.2.1
-Release:	8
+Release:	9
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
@@ -33,6 +33,7 @@ Patch7:		%{name}-signal.patch
 Patch8:		%{name}-ldap.patch
 Patch9:		%{name}-info.patch
 Patch10:	%{name}-krb5_free_error_message.patch
+Patch11:	%{name}-static-kcm.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
@@ -339,6 +340,7 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %build
 rm -f acinclude.m4 cf/{libtool,lt*}.m4
@@ -363,13 +365,15 @@ rm -f acinclude.m4 cf/{libtool,lt*}.m4
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir},%{schemadir}} \
+install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir},%{schemadir},/sbin} \
 	$RPM_BUILD_ROOT/etc/{sysconfig/rc-inetd,rc.d/init.d}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install lib/hdb/hdb.schema $RPM_BUILD_ROOT%{schemadir}
+
+mv $RPM_BUILD_ROOT%{_sbindir}/kcm $RPM_BUILD_ROOT/sbin/kcm
 
 mv $RPM_BUILD_ROOT%{_bindir}/su $RPM_BUILD_ROOT%{_bindir}/ksu
 mv $RPM_BUILD_ROOT%{_mandir}/man1/su.1  $RPM_BUILD_ROOT%{_mandir}/man1/ksu.1
@@ -659,7 +663,7 @@ fi
 %defattr(644,root,root,755)
 %attr(754,root,root) /etc/rc.d/init.d/kcm
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/kcm
-%attr(755,root,root) %{_sbindir}/kcm
+%attr(755,root,root) /sbin/kcm
 %{_mandir}/man8/kcm.8*
 
 %files server
