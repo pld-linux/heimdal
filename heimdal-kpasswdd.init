@@ -34,14 +34,8 @@ start() {
 		msg_starting "Kerberos Password Changing Server"
 		busy
 		daemon --fork kpasswdd $KPASSWDD_PARAMS
-		sleep 1
-		pid=$(pidofproc "kpasswdd" "/var/run/kpasswdd.pid")
-		if [ -n "$pid" ]; then
-			touch /var/lock/subsys/kpasswdd
-			ok
-		else
-			fail
-		fi
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/kpasswdd
 	else
 		msg_already_running "Kerberos Password Changing Server"
 	fi

@@ -33,14 +33,8 @@ start() {
 		msg_starting "Kerberos KCM"
 		busy
 		daemon kcm --detach
-		sleep 1
-		pid=$(pidofproc "kcm" "/var/run/kcm.pid")
-		if [ -n "$pid" ]; then
-			touch /var/lock/subsys/kcm
-			ok
-		else
-			fail
-		fi
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/kcm
 	else
 		msg_already_running "Kerberos KCM"
 	fi

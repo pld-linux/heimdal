@@ -35,14 +35,8 @@ start() {
 			msg_starting "Kerberos Replication Daemon (Master)"
 			busy
 			daemon ipropd-master --detach
-			sleep 1
-			pid=$(pidofproc "ipropd-master" "/var/run/ipropd-master.pid")
-			if [ -n "$pid" ]; then
-				touch /var/lock/subsys/ipropd-master
-				ok
-			else
-				fail
-			fi
+			RETVAL=$?
+			[ $RETVAL -eq 0 ] && touch /var/lock/subsys/ipropd-master
 		else
 			msg_already_running "Kerberos Replication Daemon (Master)"
 		fi
@@ -52,14 +46,8 @@ start() {
 			msg_starting "Kerberos Replication Daemon (Slave)"
 			busy
 			daemon ipropd-slave --detach $SLAVE_PARAMS
-			sleep 1
-			pid=$(pidofproc "ipropd-slave" "/var/run/ipropd-slave.pid")
-			if [ -n "$pid" ]; then
-				touch /var/lock/subsys/ipropd-slave
-				ok
-			else
-				fail
-			fi
+			RETVAL=$?
+			[ $RETVAL -eq 0 ] && touch /var/lock/subsys/ipropd-slave
 		else
 			msg_already_running "Kerberos Replication Daemon (Slave)"
 		fi
