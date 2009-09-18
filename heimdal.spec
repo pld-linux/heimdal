@@ -35,6 +35,7 @@ Patch9:		%{name}-info.patch
 Patch10:	%{name}-krb5_free_error_message.patch
 Patch11:	%{name}-static-kcm.patch
 Patch12:	%{name}-kcm.patch
+Patch13:	%{name}-ac.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
@@ -343,6 +344,7 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 %build
 rm -f acinclude.m4 cf/{libtool,lt*}.m4
