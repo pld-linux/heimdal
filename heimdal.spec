@@ -6,7 +6,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	1.2.1
-Release:	11
+Release:	12
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
@@ -369,7 +369,7 @@ rm -f acinclude.m4 cf/{libtool,lt*}.m4
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir},%{schemadir},/sbin} \
+install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir},%{schemadir},/sbin,/%{_lib}} \
 	$RPM_BUILD_ROOT/etc/{sysconfig/rc-inetd,rc.d/init.d}
 
 %{__make} install \
@@ -396,6 +396,11 @@ install %{SOURCE9} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
+for l in $RPM_BUILD_ROOT%{_libdir}/lib*.so ; do
+	lib=`basename $l`
+	mv -f $RPM_BUILD_ROOT%{_libdir}/$lib.* $RPM_BUILD_ROOT/%{_lib}
+	ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/$lib.*.*) $RPM_BUILD_ROOT%{_libdir}/$lib
+done
 
 # just a test plugin
 rm -f $RPM_BUILD_ROOT%{_libdir}/windc.*
@@ -564,34 +569,34 @@ fi
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/krb5.conf
 %attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
-%attr(755,root,root) %{_libdir}/libasn1.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libasn1.so.8
-%attr(755,root,root) %{_libdir}/libgssapi.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libgssapi.so.2
-%attr(755,root,root) %{_libdir}/libhdb.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libhdb.so.9
-%attr(755,root,root) %{_libdir}/libheimntlm.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libheimntlm.so.0
-%attr(755,root,root) %{_libdir}/libhx509.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libhx509.so.4
-%attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkadm5clnt.so.7
-%attr(755,root,root) %{_libdir}/libkadm5srv.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkadm5srv.so.8
-%attr(755,root,root) %{_libdir}/libkafs.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkafs.so.0
-%attr(755,root,root) %{_libdir}/libkdc.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkdc.so.2
-%attr(755,root,root) %{_libdir}/libkrb5.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkrb5.so.25
-%attr(755,root,root) %{_libdir}/libotp.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libotp.so.0
-%attr(755,root,root) %{_libdir}/libroken.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libroken.so.18
-%attr(755,root,root) %{_libdir}/libsl.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libsl.so.0
-%attr(755,root,root) %{_libdir}/libwind.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libwind.so.0
+%attr(755,root,root) /%{_lib}/libasn1.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libasn1.so.8
+%attr(755,root,root) /%{_lib}/libgssapi.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libgssapi.so.2
+%attr(755,root,root) /%{_lib}/libhdb.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libhdb.so.9
+%attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
+%attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libhx509.so.4
+%attr(755,root,root) /%{_lib}/libkadm5clnt.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libkadm5clnt.so.7
+%attr(755,root,root) /%{_lib}/libkadm5srv.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libkadm5srv.so.8
+%attr(755,root,root) /%{_lib}/libkafs.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libkafs.so.0
+%attr(755,root,root) /%{_lib}/libkdc.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libkdc.so.2
+%attr(755,root,root) /%{_lib}/libkrb5.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libkrb5.so.25
+%attr(755,root,root) /%{_lib}/libotp.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libotp.so.0
+%attr(755,root,root) /%{_lib}/libroken.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libroken.so.18
+%attr(755,root,root) /%{_lib}/libsl.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libsl.so.0
+%attr(755,root,root) /%{_lib}/libwind.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libwind.so.0
 %{_infodir}/heimdal.info*
 %{_infodir}/hx509.info*
 %{_mandir}/man5/krb5.conf.5*
