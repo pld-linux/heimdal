@@ -365,6 +365,9 @@ rm -f acinclude.m4 cf/{libtool,lt*}.m4
 	--with-readline=/usr \
 	--with%{!?with_x11:out}-x
 
+# Makefile lacks proper deps so without it multi-job make sometimes fails
+%{__make} -C lib/kadm5 kadm5_err.h
+
 %{__make}
 
 %install
