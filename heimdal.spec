@@ -36,6 +36,7 @@ Patch11:	%{name}-shared-libcom_err.patch
 Patch12:	%{name}-strsvisx.patch
 Patch13:	%{name}-sbindir.patch
 URL:		http://www.h5l.org/
+BuildRequires:encodeKey in hdb_ldap.so
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
