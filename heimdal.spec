@@ -31,11 +31,11 @@ Patch5:		%{name}-libadd.patch
 Patch6:		%{name}-signal.patch
 Patch7:		%{name}-ldap.patch
 Patch8:		%{name}-info.patch
-Patch10:	%{name}-kcm.patch
-Patch11:	%{name}-shared-libcom_err.patch
-Patch12:	%{name}-strsvisx.patch
-Patch13:	%{name}-sbindir.patch
-Patch14:	%{name}-hdb-ldap-module.patch
+Patch9:		%{name}-kcm.patch
+Patch10:	%{name}-shared-libcom_err.patch
+Patch11:	%{name}-strsvisx.patch
+Patch12:	%{name}-sbindir.patch
+Patch13:	%{name}-hdb-ldap-module.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
@@ -343,11 +343,11 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
-%patch14 -p1
 
 %build
 rm -f acinclude.m4 cf/{libtool,lt*}.m4
