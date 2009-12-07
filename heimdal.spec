@@ -5,12 +5,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	1.2.1
-Release:	12
+Version:	1.3.1
+Release:	0.1
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
-# Source0-md5:	6e5028077e2a6b101a4a72801ba71b9e
+# Source0-md5:	4ce17deae040a3519e542f48fd901f21
 Source1:	%{name}.init
 Source2:	%{name}-kpasswdd.init
 Source3:	%{name}-ipropd.init
@@ -26,16 +26,15 @@ Patch0:		%{name}-paths.patch
 Patch1:		%{name}-am_man_fixes.patch
 Patch2:		%{name}-amfix.patch
 Patch3:		%{name}-dbpaths.patch
-Patch4:		%{name}-no-editline.patch
-Patch5:		%{name}-db4.patch
-Patch6:		%{name}-libadd.patch
-Patch7:		%{name}-signal.patch
-Patch8:		%{name}-ldap.patch
-Patch9:		%{name}-info.patch
-Patch10:	%{name}-krb5_free_error_message.patch
-Patch11:	%{name}-static-kcm.patch
-Patch12:	%{name}-kcm.patch
-Patch13:	%{name}-ac.patch
+Patch4:		%{name}-db4.patch
+Patch5:		%{name}-libadd.patch
+Patch6:		%{name}-signal.patch
+Patch7:		%{name}-ldap.patch
+Patch8:		%{name}-info.patch
+Patch10:	%{name}-kcm.patch
+Patch11:	%{name}-shared-libcom_err.patch
+Patch12:	%{name}-strsvisx.patch
+Patch13:	%{name}-sbindir.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
@@ -50,15 +49,18 @@ BuildRequires:	openldap-devel >= 2.3.0
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.268
+BuildRequires:	sqlite3-devel
 BuildRequires:	texinfo
+%{?with_x11:BuildRequires:	xorg-lib-libICE-devel}
+%{?with_x11:BuildRequires:	xorg-lib-libSM-devel}
+%{?with_x11:BuildRequires:	xorg-lib-libX11-devel}
+%{?with_x11:BuildRequires:	xorg-lib-libXau-devel}
 %{?with_x11:BuildRequires:	xorg-lib-libXt-devel}
 Requires:	%{name}-libs = %{version}-%{release}
 Conflicts:	krb5-client
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_libexecdir	%{_sbindir}
 %define		_localstatedir	/var/lib/%{name}
-
 %define		schemadir	/usr/share/openldap/schema
 
 %description
@@ -340,7 +342,6 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
@@ -358,11 +359,11 @@ rm -f acinclude.m4 cf/{libtool,lt*}.m4
 	--enable-pthread-support \
 	--enable-shared \
 	--enable-static \
-	--enable-new-des3-code \
 	--with-hdbdir=%{_localstatedir} \
 	--with-ipv6 \
 	--with-openldap=/usr \
 	--with-readline=/usr \
+	--with-sqlite3=/usr \
 	--with%{!?with_x11:out}-x
 
 # Makefile lacks proper deps so without it multi-job make sometimes fails
@@ -548,15 +549,17 @@ fi
 %{_mandir}/man1/kdestroy.1*
 %{_mandir}/man1/kf.1*
 %{_mandir}/man1/kgetcred.1*
-%{_mandir}/man1/kimpersonate.1*
 %{_mandir}/man1/kinit.1*
 %{_mandir}/man1/klist.1*
 %{_mandir}/man1/kpasswd.1*
 %{_mandir}/man1/ksu.1*
+%{_mandir}/man1/kswitch.1*
 %{_mandir}/man1/otp.1*
 %{_mandir}/man1/otpprint.1*
 %{_mandir}/man1/pagsh.1*
 %{_mandir}/man1/pfrom.1*
+%{_mandir}/man8/kdigest.8*
+%{_mandir}/man8/kimpersonate.8*
 %{_mandir}/man8/ktutil.8*
 %{_mandir}/man8/string2key.8*
 %{_mandir}/man8/verify_krb5_conf.8*
@@ -581,7 +584,7 @@ fi
 %attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
 %attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libhx509.so.4
+%attr(755,root,root) %ghost /%{_lib}/libhx509.so.5
 %attr(755,root,root) /%{_lib}/libkadm5clnt.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libkadm5clnt.so.7
 %attr(755,root,root) /%{_lib}/libkadm5srv.so.*.*.*
@@ -600,6 +603,7 @@ fi
 %attr(755,root,root) %ghost /%{_lib}/libsl.so.0
 %attr(755,root,root) /%{_lib}/libwind.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libwind.so.0
+%attr(755,root,root) %{_libdir}/%{name}/*
 %{_infodir}/heimdal.info*
 %{_infodir}/hx509.info*
 %{_mandir}/man5/krb5.conf.5*
