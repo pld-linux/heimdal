@@ -35,8 +35,8 @@ Patch10:	%{name}-kcm.patch
 Patch11:	%{name}-shared-libcom_err.patch
 Patch12:	%{name}-strsvisx.patch
 Patch13:	%{name}-sbindir.patch
+Patch14:	%{name}-hdb-ldap-module.patch
 URL:		http://www.h5l.org/
-BuildRequires:encodeKey in hdb_ldap.so
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
@@ -347,6 +347,7 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
+%patch14 -p1
 
 %build
 rm -f acinclude.m4 cf/{libtool,lt*}.m4
