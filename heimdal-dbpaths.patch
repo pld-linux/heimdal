@@ -63,13 +63,19 @@ diff -urbB heimdal-0.7/configure.in heimdal-0.7.org/configure.in
  the slaves that the database should be propagated to.  Each line contains
  the full name of the principal (for example
  @samp{iprop/hemligare.foo.se@@FOO.SE}).
-@@ -593,20 +593,20 @@
+@@ -593,25 +593,25 @@
  
  
  @example
 -master# /usr/heimdal/sbin/ktutil get iprop/`hostname`
 +master# /usr/sbin/ktutil get iprop/`hostname`
  @end example
+ 
+ @example
+-slave# /usr/heimdal/sbin/ktutil get iprop/`hostname`
++slave# /usr/sbin/ktutil get iprop/`hostname`
+ @end example
+ 
  
  The next step is to start the @command{ipropd-master} process on the master
  server.  The @command{ipropd-master} listens on the UNIX domain socket

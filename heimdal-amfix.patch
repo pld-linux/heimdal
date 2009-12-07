@@ -10,9 +10,9 @@
  	glob.hin		\
  	ifaddrs.hin		\
 @@ -189,4 +189,5 @@
- 	$(man_MANS) \
  	test-mem.h \
  	ndbm_wrap.c \
--	ndbm_wrap.h
-+	ndbm_wrap.h \
+ 	ndbm_wrap.h \
+-	version-script.map
++	version-script.map \
 +	$(EXTRA_libroken_SOURCES)
