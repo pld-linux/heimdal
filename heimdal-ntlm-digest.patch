@@ -1,0 +1,27 @@
+--- heimdal-1.3.1/lib/gssapi/ntlm/accept_sec_context.c.orig	2009-11-21 16:41:51.000000000 +0100
++++ heimdal-1.3.1/lib/gssapi/ntlm/accept_sec_context.c	2009-12-09 12:36:21.000000000 +0100
+@@ -44,7 +44,23 @@
+     struct ntlm_server_interface *interface = NULL;
+     
+ #ifdef DIGEST
+-    interface = &ntlmsspi_kdc_digest;
++    krb5_context context = NULL;
++    krb5_error_code ret;
++    krb5_boolean b;
++
++    ret = krb5_init_context(&context);
++    if (ret)
++	return GSS_S_FAILURE;
++
++    b = krb5_config_get_bool_default(context, NULL, TRUE,
++				"gssapi",
++				"enable-ntlm-digest", NULL);
++
++    if (b) {
++	interface = &ntlmsspi_kdc_digest;
++    }
++
++    krb5_free_context(context);
+ #endif
+     if (interface == NULL)
+ 	return GSS_S_FAILURE;
