@@ -1,9 +1,9 @@
---- heimdal-1.3.1/lib/gssapi/ntlm/accept_sec_context.c.orig	2009-11-21 16:41:51.000000000 +0100
-+++ heimdal-1.3.1/lib/gssapi/ntlm/accept_sec_context.c	2009-12-09 12:36:21.000000000 +0100
-@@ -44,7 +44,24 @@
-     struct ntlm_server_interface *interface = NULL;
-     
- #ifdef DIGEST
+--- heimdal-1.2.1/lib/gssapi/ntlm/accept_sec_context.c.orig	2008-07-28 14:04:39.000000000 +0200
++++ heimdal-1.2.1/lib/gssapi/ntlm/accept_sec_context.c	2009-12-09 21:40:30.074974606 +0100
+@@ -43,6 +43,22 @@
+ _gss_ntlm_allocate_ctx(OM_uint32 *minor_status, ntlm_ctx *ctx)
+ {
+     OM_uint32 maj_stat;
 +    krb5_context context = NULL;
 +    krb5_error_code ret;
 +    krb5_boolean b;
@@ -20,8 +20,6 @@
 +
 +    if (b)
 +	return GSS_S_FAILURE;
-+
-     interface = &ntlmsspi_kdc_digest;
- #endif
-     if (interface == NULL)
- 	return GSS_S_FAILURE;
+ 
+     *ctx = calloc(1, sizeof(**ctx));
+ 
