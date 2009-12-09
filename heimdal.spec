@@ -6,7 +6,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	1.3.1
-Release:	3
+Release:	3.2
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
@@ -39,6 +39,7 @@ Patch13:	%{name}-hdb-ldap-module.patch
 Patch14:	%{name}-cpp-safe.patch
 Patch15:	%{name}-ntlm-digest.patch
 URL:		http://www.h5l.org/
+BuildRequires:	GSSAPI is seriously broken on x86_64
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
