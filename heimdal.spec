@@ -39,7 +39,6 @@ Patch13:	%{name}-hdb-ldap-module.patch
 Patch14:	%{name}-cpp-safe.patch
 Patch15:	%{name}-ntlm-digest.patch
 URL:		http://www.h5l.org/
-BuildRequires:	GSSAPI is seriously broken on x86_64
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
 BuildRequires:	bison
