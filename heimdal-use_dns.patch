@@ -1,0 +1,21 @@
+commit 9f5772050b4094ed3e4803d3d1bf5c57a732d2b2
+Author: Love Hornquist Astrand <lha@h5l.org>
+Date:   Sun Dec 13 22:55:36 2009 -0800
+
+    Match old code and use krb5_sname_to_principal on the imported name for acquire cred.
+    
+    Reported by Jan Rekorajski
+
+diff --git a/lib/gssapi/krb5/acquire_cred.c b/lib/gssapi/krb5/acquire_cred.c
+index 696171d..7e448dc 100644
+--- a/lib/gssapi/krb5/acquire_cred.c
++++ b/lib/gssapi/krb5/acquire_cred.c
+@@ -339,7 +339,7 @@ OM_uint32 _gsskrb5_acquire_cred
+ 
+     if (desired_name != GSS_C_NO_NAME) {
+ 
+-	ret = _gsskrb5_canon_name(minor_status, context, 0, NULL,
++	ret = _gsskrb5_canon_name(minor_status, context, 1, NULL,
+ 				  desired_name, &handle->principal);
+ 	if (ret) {
+ 	    HEIMDAL_MUTEX_destroy(&handle->cred_id_mutex);
