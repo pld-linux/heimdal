@@ -1,12 +1,13 @@
 #
 # Conditional build:
 %bcond_without	x11	# without X11-based utilities
+%bcond_without	ldap
 #
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	1.3.1
-Release:	6
+Release:	7
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
@@ -49,7 +50,7 @@ BuildRequires:	libcom_err-devel >= 1.34-5
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
-BuildRequires:	openldap-devel >= 2.3.0
+%{?with_ldap:BuildRequires:	openldap-devel >= 2.3.0}
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -362,14 +363,16 @@ rm -f acinclude.m4 cf/{libtool,lt*}.m4
 %{__autoconf}
 %{__automake}
 %configure \
+%if %{with ldap}
 	--enable-hdb-openldap-module \
+	--with-openldap=/usr \
+%endif
 	--enable-kcm \
 	--enable-pthread-support \
 	--enable-shared \
 	--enable-static \
 	--with-hdbdir=%{_localstatedir} \
 	--with-ipv6 \
-	--with-openldap=/usr \
 	--with-readline=/usr \
 	--with-sqlite3=/usr \
 	--with%{!?with_x11:out}-x
@@ -501,6 +504,7 @@ fi
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
+%if %{with ldap}
 %post -n openldap-schema-heimdal
 %openldap_schema_register %{schemadir}/hdb.schema
 %service -q ldap restart
@@ -510,6 +514,7 @@ if [ "$1" = "0" ]; then
 	%openldap_schema_unregister %{schemadir}/hdb.schema
 	%service -q ldap restart
 fi
+%endif
 
 %triggerpostun libs -- heimdal-libs < 1.2.1-6
 if [ -f /etc/heimdal/krb5.conf.rpmsave ]; then
@@ -619,6 +624,7 @@ fi
 %{_mandir}/man5/mech.5*
 %{_mandir}/man8/kerberos.8*
 
+%if %{with ldap}
 %files ldap
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/hdb_ldap.so
@@ -626,6 +632,7 @@ fi
 %files -n openldap-schema-heimdal
 %defattr(644,root,root,755)
 %{schemadir}/*.schema
+%endif
 
 %files devel
 %defattr(644,root,root,755)
