@@ -597,7 +597,7 @@ fi
 %attr(755,root,root) /%{_lib}/libkdc.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libkdc.so.2
 %attr(755,root,root) /%{_lib}/libkrb5.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libkrb5.so.25
+%attr(755,root,root) %ghost /%{_lib}/libkrb5.so.26
 %attr(755,root,root) /%{_lib}/libotp.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libotp.so.0
 %attr(755,root,root) /%{_lib}/libroken.so.*.*.*
