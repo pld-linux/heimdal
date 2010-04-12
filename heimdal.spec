@@ -6,12 +6,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	1.3.1
-Release:	8
+Version:	1.3.2
+Release:	0.1
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
-# Source0-md5:	4ce17deae040a3519e542f48fd901f21
+# Source0-md5:	69d7c4fc1a448f8feda1b478dad48fd0
 Source1:	%{name}.init
 Source2:	%{name}-kpasswdd.init
 Source3:	%{name}-ipropd.init
@@ -32,14 +32,9 @@ Patch5:		%{name}-libadd.patch
 Patch6:		%{name}-signal.patch
 Patch7:		%{name}-ldap.patch
 Patch8:		%{name}-info.patch
-Patch9:		%{name}-kcm.patch
 Patch10:	%{name}-shared-libcom_err.patch
-Patch11:	%{name}-strsvisx.patch
 Patch12:	%{name}-sbindir.patch
-Patch13:	%{name}-hdb-ldap-module.patch
-Patch14:	%{name}-cpp-safe.patch
 Patch15:	%{name}-ntlm-digest.patch
-Patch16:	%{name}-use_dns.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
@@ -347,14 +342,9 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
 %patch10 -p1
-%patch11 -p1
 %patch12 -p1
-%patch13 -p1
-%patch14 -p1
 %patch15 -p1
-%patch16 -p1
 
 %build
 rm -f acinclude.m4 cf/{libtool,lt*}.m4
