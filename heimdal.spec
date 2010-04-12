@@ -32,9 +32,9 @@ Patch5:		%{name}-libadd.patch
 Patch6:		%{name}-signal.patch
 Patch7:		%{name}-ldap.patch
 Patch8:		%{name}-info.patch
-Patch10:	%{name}-shared-libcom_err.patch
-Patch12:	%{name}-sbindir.patch
-Patch15:	%{name}-ntlm-digest.patch
+Patch9:		%{name}-shared-libcom_err.patch
+Patch10:	%{name}-sbindir.patch
+Patch11:	%{name}-ntlm-digest.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake
@@ -342,9 +342,9 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 %patch10 -p1
-%patch12 -p1
-%patch15 -p1
+%patch11 -p1
 
 %build
 rm -f acinclude.m4 cf/{libtool,lt*}.m4
