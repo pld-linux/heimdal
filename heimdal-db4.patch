@@ -5,7 +5,27 @@
  dnl db_create is used by db3 and db4
  
 -  AC_FIND_FUNC_NO_LIBS(db_create, db4 db3 db, [
-+  AC_FIND_FUNC_NO_LIBS(db_create, db-4.7 db-4.6 db-4.5 db-4.4 db-4.3 db-4.2 db-4.1 db4 db3 db, [
++  AC_FIND_FUNC_NO_LIBS(db_create, db-5.0 db-4.8 db-4.7 db-4.6 db-4.5 db-4.4 db-4.3 db-4.2 db-4.1 db4 db3 db, [
    #include <stdio.h>
    #ifdef HAVE_DB4_DB_H
    #include <db4/db.h>
+--- heimdal-1.3.2/lib/hdb/db3.c.orig	2010-03-22 05:11:24.000000000 +0100
++++ heimdal-1.3.2/lib/hdb/db3.c	2010-05-10 20:40:00.494935070 +0200
+@@ -268,7 +268,7 @@
+     db_create(&d, NULL, 0);
+     db->hdb_db = d;
+ 
+-#if (DB_VERSION_MAJOR >= 4) && (DB_VERSION_MINOR >= 1)
++#if (DB_VERSION_MAJOR > 4) || ((DB_VERSION_MAJOR == 4) && (DB_VERSION_MINOR >= 1))
+     ret = (*d->open)(db->hdb_db, NULL, fn, NULL, DB_BTREE, myflags, mode);
+ #else
+     ret = (*d->open)(db->hdb_db, fn, NULL, DB_BTREE, myflags, mode);
+@@ -276,7 +276,7 @@
+ 
+     if (ret == ENOENT) {
+ 	/* try to open without .db extension */
+-#if (DB_VERSION_MAJOR >= 4) && (DB_VERSION_MINOR >= 1)
++#if (DB_VERSION_MAJOR > 4) || ((DB_VERSION_MAJOR == 4) && (DB_VERSION_MINOR >= 1))
+ 	ret = (*d->open)(db->hdb_db, NULL, db->hdb_name, NULL, DB_BTREE,
+ 			 myflags, mode);
+ #else
