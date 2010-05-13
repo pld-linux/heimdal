@@ -1,7 +1,7 @@
 #
 # Conditional build:
-%bcond_without	x11	# without X11-based utilities
-%bcond_without	ldap
+%bcond_without	x11	# X11-based utilities
+%bcond_without	ldap	# LDAP plugin
 #
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
@@ -57,6 +57,8 @@ BuildRequires:	texinfo
 %{?with_x11:BuildRequires:	xorg-lib-libXau-devel}
 %{?with_x11:BuildRequires:	xorg-lib-libXt-devel}
 Requires:	%{name}-libs = %{version}-%{release}
+Provides:	kerberos5-client
+Obsoletes:	kerberos5-client
 Conflicts:	krb5-client
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -99,31 +101,6 @@ heimdal packages.
 %description libs -l pl.UTF-8
 Pakiet zawiera biblioteki współdzielone dla heimdal.
 
-%package ldap
-Summary:	LDAP HDB plugin
-Summary(pl.UTF-8):	Wtyczka HDB LDAP
-Group:		Libraries
-Requires:	%{name}-libs = %{version}-%{release}
-
-%description ldap
-LDAP HDB plugin.
-
-%description ldap -l pl.UTF-8
-Wtyczka HDB LDAP.
-
-%package -n openldap-schema-heimdal
-Summary:	Heimdal LDAP schema
-Summary(pl.UTF-8):	Schemat LDAP dla Heimdala
-Group:		Networking/Daemons
-Requires(post,postun):	sed >= 4.0
-Requires:	openldap-servers
-
-%description -n openldap-schema-heimdal
-This package contains Heimdal kerberos LDAP schema for openldap.
-
-%description -n openldap-schema-heimdal -l pl.UTF-8
-en pakiet zawiera schemat Heimdal kerberosa dla openldap-a.
-
 %package devel
 Summary:	Header files for heimdal
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja do bibliotek heimdal
@@ -154,6 +131,31 @@ Satatic heimdal libraries.
 %description static -l pl.UTF-8
 Biblioteki statyczne heimdal.
 
+%package ldap
+Summary:	LDAP HDB plugin
+Summary(pl.UTF-8):	Wtyczka HDB LDAP
+Group:		Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description ldap
+LDAP HDB plugin.
+
+%description ldap -l pl.UTF-8
+Wtyczka HDB LDAP.
+
+%package -n openldap-schema-heimdal
+Summary:	Heimdal Kerberos LDAP schema
+Summary(pl.UTF-8):	Schemat LDAP Kerberosa Heimdal
+Group:		Networking/Daemons
+Requires(post,postun):	sed >= 4.0
+Requires:	openldap-servers
+
+%description -n openldap-schema-heimdal
+This package contains Heimdal Kerberos LDAP schema for openldap.
+
+%description -n openldap-schema-heimdal -l pl.UTF-8
+Ten pakiet zawiera schemat LDAP Kerberosa Heimdal dla openldap-a.
+
 %package server
 Summary:	Kerberos Server
 Summary(pl.UTF-8):	Serwer Kerberosa
@@ -161,6 +163,9 @@ Group:		Networking
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-scripts
+Provides:	kerberos5-server
+# probably not a good idea
+#Obsoletes:	kerberos5-server
 Conflicts:	krb5-server
 
 %description server
@@ -187,8 +192,8 @@ Summary:	login is used when signing onto a system
 Summary(pl.UTF-8):	Narzędzie do logowania w systemie
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
-#Provides:	login
-#Obsoletes:	login
+Provides:	kerberos5-login
+Obsoletes:	kerberos5-login
 Conflicts:	shadow < 1:4.0.16
 
 %description login
@@ -208,7 +213,9 @@ Summary:	The standard UNIX FTP (file transfer protocol) client
 Summary(pl.UTF-8):	Klient protokołu FTP
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
+Provides:	kerberos5-ftp
 Obsoletes:	ftp
+Obsoletes:	kerberos5-ftp
 Conflicts:	heimdal-clients
 Conflicts:	krb5-ftp
 
@@ -228,6 +235,8 @@ Summary:	Clients for remote access commands (rsh, rlogin, rcp)
 Summary(pl.UTF-8):	Klient zdalnego dostępu (rsh, rlogin, rcp)
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
+Provides:	kerberos5-rsh
+Obsoletes:	kerberos5-rsh
 Obsoletes:	rsh
 Conflicts:	heimdal-clients
 Conflicts:	krb5-rsh
@@ -249,7 +258,8 @@ Summary:	Client for the telnet remote login
 Summary(pl.UTF-8):	Klient usługi telnet
 Group:		Applications/Networking
 Requires:	%{name}-libs = %{version}-%{release}
-Provides:	telnet
+Provides:	kerberos5-telnet
+Obsoletes:	kerberos5-telnet
 Obsoletes:	telnet
 Conflicts:	heimdal-clients
 Conflicts:	krb5-telnet
@@ -268,7 +278,9 @@ Summary(pl.UTF-8):	Serwer FTP
 Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
+Provides:	kerberos5-ftpd
 Obsoletes:	ftpd
+Obsoletes:	kerberos5-ftpd
 Conflicts:	krb5-ftpd
 
 %description ftpd
@@ -285,6 +297,8 @@ Summary(pl.UTF-8):	Serwer zdalnego dostępu (rsh, rlogin, rcp)
 Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
+Provides:	kerberos5-rshd
+Obsoletes:	kerberos5-rshd
 Obsoletes:	rshd
 Conflicts:	krb5-rshd
 
@@ -306,6 +320,8 @@ Summary(pl.UTF-8):	Serwer protokołu telnet
 Group:		Networking/Daemons
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
+Provides:	kerberos5-telnetd
+Obsoletes:	kerberos5-telnetd
 Obsoletes:	telnetd
 Conflicts:	krb5-telnetd
 
@@ -411,7 +427,7 @@ done
 rm -f $RPM_BUILD_ROOT%{_libdir}/windc.*
 # not needed for plugin
 rm -f $RPM_BUILD_ROOT%{_libdir}/hdb_ldap.{la,a}
-# other implementation exists in e2fsprogs (conflict with e2fsprogs-devel)
+# other implementation exists in e2fsprogs (conflict with libss-{devel,static})
 rm -rf $RPM_BUILD_ROOT{%{_libdir}/libss.{so,la,a},%{_includedir}/ss,%{_bindir}/mk_cmds}
 # this is created because glibc's <glob.h> has no GLOB_LIMIT and GLOB_QUOTE
 rm -f $RPM_BUILD_ROOT%{_includedir}/glob.h
@@ -614,16 +630,6 @@ fi
 %{_mandir}/man5/mech.5*
 %{_mandir}/man8/kerberos.8*
 
-%if %{with ldap}
-%files ldap
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/hdb_ldap.so
-
-%files -n openldap-schema-heimdal
-%defattr(644,root,root,755)
-%{schemadir}/*.schema
-%endif
-
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/krb5-config
@@ -680,6 +686,16 @@ fi
 %{_libdir}/libroken.a
 %{_libdir}/libsl.a
 %{_libdir}/libwind.a
+
+%if %{with ldap}
+%files ldap
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/hdb_ldap.so
+
+%files -n openldap-schema-heimdal
+%defattr(644,root,root,755)
+%{schemadir}/hdb.schema
+%endif
 
 %files kcm
 %defattr(644,root,root,755)
