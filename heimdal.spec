@@ -6,12 +6,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	1.3.2
+Version:	1.3.3
 Release:	1
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
-# Source0-md5:	69d7c4fc1a448f8feda1b478dad48fd0
+# Source0-md5:	963c09f1b14c41660be70b55fae9f163
 Source1:	%{name}.init
 Source2:	%{name}-kpasswdd.init
 Source3:	%{name}-ipropd.init
