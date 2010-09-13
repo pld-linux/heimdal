@@ -606,8 +606,8 @@ fi
 %attr(755,root,root) %ghost /%{_lib}/libhdb.so.9
 %attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
-%attr(755,root,root) /lib/libhcrypto.so.*.*.*
-%attr(755,root,root) %ghost /lib/libhcrypto.so.4
+%attr(755,root,root) /%{_lib}/libhcrypto.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libhcrypto.so.4
 %attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libhx509.so.5
 %attr(755,root,root) /%{_lib}/libkadm5clnt.so.*.*.*
