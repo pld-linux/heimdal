@@ -552,9 +552,11 @@ fi
 %attr(755,root,root) %{_bindir}/string2key
 %attr(755,root,root) %{_bindir}/otpprint
 %attr(755,root,root) %{_bindir}/verify_krb5_conf
+%attr(755,root,root) %{_sbindir}/kadmin
 %attr(755,root,root) %{_sbindir}/kdigest
 %attr(755,root,root) %{_sbindir}/kimpersonate
 %attr(755,root,root) %{_sbindir}/ktutil
+%attr(755,root,root) %{_sbindir}/push
 %if %{with x11}
 %attr(755,root,root) %{_bindir}/kx
 %attr(755,root,root) %{_bindir}/tenletxr
@@ -577,9 +579,11 @@ fi
 %{_mandir}/man1/otpprint.1*
 %{_mandir}/man1/pagsh.1*
 %{_mandir}/man1/pfrom.1*
+%{_mandir}/man8/kadmin.8*
 %{_mandir}/man8/kdigest.8*
 %{_mandir}/man8/kimpersonate.8*
 %{_mandir}/man8/ktutil.8*
+%{_mandir}/man8/push.8*
 %{_mandir}/man8/string2key.8*
 %{_mandir}/man8/verify_krb5_conf.8*
 %if %{with x11}
@@ -602,6 +606,8 @@ fi
 %attr(755,root,root) %ghost /%{_lib}/libhdb.so.9
 %attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
+%attr(755,root,root) /lib/libhcrypto.so.*.*.*
+%attr(755,root,root) %ghost /lib/libhcrypto.so.4
 %attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libhx509.so.5
 %attr(755,root,root) /%{_lib}/libkadm5clnt.so.*.*.*
@@ -647,9 +653,11 @@ fi
 %attr(755,root,root) %{_libdir}/libroken.so
 %attr(755,root,root) %{_libdir}/libsl.so
 %attr(755,root,root) %{_libdir}/libwind.so
+%{_libdir}/libhcrypto.so
 %{_libdir}/libasn1.la
 %{_libdir}/libgssapi.la
 %{_libdir}/libhdb.la
+%{_libdir}/libhcrypto.la
 %{_libdir}/libheimntlm.la
 %{_libdir}/libhx509.la
 %{_libdir}/libkadm5clnt.la
@@ -666,6 +674,7 @@ fi
 %{_includedir}/kadm5
 %{_includedir}/krb5
 %{_includedir}/roken
+%{_includedir}/hcrypto
 %{_pkgconfigdir}/heimdal-gssapi.pc
 %{_mandir}/man1/krb5-config.1*
 %{_mandir}/man3/*
@@ -675,6 +684,7 @@ fi
 %{_libdir}/libasn1.a
 %{_libdir}/libgssapi.a
 %{_libdir}/libhdb.a
+%{_libdir}/libhcrypto.a
 %{_libdir}/libheimntlm.a
 %{_libdir}/libhx509.a
 %{_libdir}/libkadm5clnt.a
@@ -706,7 +716,6 @@ fi
 
 %files server
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_sbindir}/kadmin
 %attr(755,root,root) %{_sbindir}/kfd
 %attr(755,root,root) %{_sbindir}/kstash
 %attr(755,root,root) %{_sbindir}/hprop
@@ -717,7 +726,6 @@ fi
 %attr(755,root,root) %{_sbindir}/kadmind
 %attr(755,root,root) %{_sbindir}/kdc
 %attr(755,root,root) %{_sbindir}/kpasswdd
-%attr(755,root,root) %{_sbindir}/push
 %{?with_x11:%attr(755,root,root) %{_sbindir}/kxd}
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
 %attr(754,root,root) /etc/rc.d/init.d/kpasswdd
@@ -730,13 +738,11 @@ fi
 %{_mandir}/man8/iprop-log.8*
 %{_mandir}/man8/hprop.8*
 %{_mandir}/man8/hpropd.8*
-%{_mandir}/man8/kadmin.8*
 %{_mandir}/man8/kadmind.8*
 %{_mandir}/man8/kdc.8*
 %{_mandir}/man8/kfd.8*
 %{_mandir}/man8/kpasswdd.8*
 %{_mandir}/man8/kstash.8*
-%{_mandir}/man8/push.8*
 %{?with_x11:%{_mandir}/man8/kxd.8*}
 
 %files login
