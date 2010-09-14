@@ -606,8 +606,6 @@ fi
 %attr(755,root,root) %ghost /%{_lib}/libhdb.so.9
 %attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
-%attr(755,root,root) /%{_lib}/libhcrypto.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libhcrypto.so.4
 %attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libhx509.so.5
 %attr(755,root,root) /%{_lib}/libkadm5clnt.so.*.*.*
@@ -653,11 +651,9 @@ fi
 %attr(755,root,root) %{_libdir}/libroken.so
 %attr(755,root,root) %{_libdir}/libsl.so
 %attr(755,root,root) %{_libdir}/libwind.so
-%{_libdir}/libhcrypto.so
 %{_libdir}/libasn1.la
 %{_libdir}/libgssapi.la
 %{_libdir}/libhdb.la
-%{_libdir}/libhcrypto.la
 %{_libdir}/libheimntlm.la
 %{_libdir}/libhx509.la
 %{_libdir}/libkadm5clnt.la
@@ -674,7 +670,6 @@ fi
 %{_includedir}/kadm5
 %{_includedir}/krb5
 %{_includedir}/roken
-%{_includedir}/hcrypto
 %{_pkgconfigdir}/heimdal-gssapi.pc
 %{_mandir}/man1/krb5-config.1*
 %{_mandir}/man3/*
@@ -684,7 +679,6 @@ fi
 %{_libdir}/libasn1.a
 %{_libdir}/libgssapi.a
 %{_libdir}/libhdb.a
-%{_libdir}/libhcrypto.a
 %{_libdir}/libheimntlm.a
 %{_libdir}/libhx509.a
 %{_libdir}/libkadm5clnt.a
