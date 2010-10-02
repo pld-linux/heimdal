@@ -544,10 +544,10 @@ fi
 %attr(755,root,root) %{_bindir}/klist
 %attr(755,root,root) %{_bindir}/kpasswd
 %attr(755,root,root) %{_bindir}/kswitch
+%attr(755,root,root) %{_bindir}/otpprint
 %attr(755,root,root) %{_bindir}/pagsh
 %attr(755,root,root) %{_bindir}/pfrom
 %attr(755,root,root) %{_bindir}/string2key
-%attr(755,root,root) %{_bindir}/otpprint
 %attr(755,root,root) %{_bindir}/verify_krb5_conf
 %attr(755,root,root) %{_sbindir}/kadmin
 %attr(755,root,root) %{_sbindir}/kdigest
@@ -556,10 +556,10 @@ fi
 %attr(755,root,root) %{_sbindir}/push
 %if %{with x11}
 %attr(755,root,root) %{_bindir}/kx
-%attr(755,root,root) %{_bindir}/tenletxr
-%attr(755,root,root) %{_bindir}/xnlock
 %attr(755,root,root) %{_bindir}/rxtelnet
 %attr(755,root,root) %{_bindir}/rxterm
+%attr(755,root,root) %{_bindir}/tenletxr
+%attr(755,root,root) %{_bindir}/xnlock
 %endif
 %attr(4755,root,root) %{_bindir}/otp
 %attr(4755,root,root) %{_bindir}/ksu
@@ -576,6 +576,13 @@ fi
 %{_mandir}/man1/otpprint.1*
 %{_mandir}/man1/pagsh.1*
 %{_mandir}/man1/pfrom.1*
+%if %{with x11}
+%{_mandir}/man1/kx.1*
+%{_mandir}/man1/rxtelnet.1*
+%{_mandir}/man1/rxterm.1*
+%{_mandir}/man1/tenletxr.1*
+%{_mandir}/man1/xnlock.1*
+%endif
 %{_mandir}/man8/kadmin.8*
 %{_mandir}/man8/kdigest.8*
 %{_mandir}/man8/kimpersonate.8*
@@ -583,13 +590,6 @@ fi
 %{_mandir}/man8/push.8*
 %{_mandir}/man8/string2key.8*
 %{_mandir}/man8/verify_krb5_conf.8*
-%if %{with x11}
-%{_mandir}/man1/kx.1*
-%{_mandir}/man1/tenletxr.1*
-%{_mandir}/man1/xnlock.1*
-%{_mandir}/man1/rxtelnet.1*
-%{_mandir}/man1/rxterm.1*
-%endif
 
 %files libs
 %defattr(644,root,root,755)
@@ -707,16 +707,17 @@ fi
 
 %files server
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_sbindir}/kfd
-%attr(755,root,root) %{_sbindir}/kstash
+%attr(755,root,root) %{_sbindir}/digest-service
 %attr(755,root,root) %{_sbindir}/hprop
 %attr(755,root,root) %{_sbindir}/hpropd
-%attr(755,root,root) %{_sbindir}/iprop-log
 %attr(755,root,root) %{_sbindir}/ipropd-master
 %attr(755,root,root) %{_sbindir}/ipropd-slave
+%attr(755,root,root) %{_sbindir}/iprop-log
 %attr(755,root,root) %{_sbindir}/kadmind
 %attr(755,root,root) %{_sbindir}/kdc
+%attr(755,root,root) %{_sbindir}/kfd
 %attr(755,root,root) %{_sbindir}/kpasswdd
+%attr(755,root,root) %{_sbindir}/kstash
 %{?with_x11:%attr(755,root,root) %{_sbindir}/kxd}
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
 %attr(754,root,root) /etc/rc.d/init.d/kpasswdd
@@ -725,10 +726,10 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/kadmind
 %attr(700,root,root) %dir %{_localstatedir}
 %attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_localstatedir}/*
-%{_mandir}/man8/iprop.8*
-%{_mandir}/man8/iprop-log.8*
 %{_mandir}/man8/hprop.8*
 %{_mandir}/man8/hpropd.8*
+%{_mandir}/man8/iprop.8*
+%{_mandir}/man8/iprop-log.8*
 %{_mandir}/man8/kadmind.8*
 %{_mandir}/man8/kdc.8*
 %{_mandir}/man8/kfd.8*
