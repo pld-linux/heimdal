@@ -27,3 +27,42 @@
  
  rfc2459_asn1_files: asn1_compile$(EXEEXT) $(srcdir)/rfc2459.asn1
  	$(ASN1_COMPILE) --preserve-binary=TBSCertificate --preserve-binary=TBSCRLCertList --preserve-binary=Name --sequence=GeneralNames --sequence=Extensions --sequence=CRLDistributionPoints $(srcdir)/rfc2459.asn1 rfc2459_asn1 || (rm -f rfc2459_asn1_files ; exit 1)
+--- heimdal-1.4/lib/otp/Makefile.am~	2010-09-13 09:23:34.000000000 +0200
++++ heimdal-1.4/lib/otp/Makefile.am	2010-10-02 12:17:36.532815203 +0200
+@@ -44,7 +44,7 @@
+ libotp_la_LDFLAGS += $(LDFLAGS_VERSION_SCRIPT)$(srcdir)/version-script.map
+ endif
+ 
+-$(libotp_la_OBJECTS): $(ndbm_wrap)
++$(libotp_la_OBJECTS): $(ndbm_wrap) $(srcdir)/version-script.map
+ 
+ ndbm_wrap.c:
+ 	$(LN_S) $(srcdir)/../roken/ndbm_wrap.c .
+--- /dev/null	2010-10-02 12:15:38.061000000 +0200
++++ heimdal-1.4/lib/otp/version-script.map	2010-10-02 12:18:06.229815205 +0200
+@@ -0,0 +1,25 @@
++HEIMDAL_OTP_1.0 {
++	global:
++		otp_challenge;
++		otp_checksum;
++		otp_db_close;
++		otp_db_open;
++		otp_delete;
++		otp_error;
++		otp_find_alg;		
++		otp_get;
++		otp_parse;
++		otp_parse_altdict;
++		otp_parse_hex;
++		otp_parse_stddict;
++		otp_print_hex;
++		otp_print_hex_extended;
++		otp_print_stddict;
++		otp_print_stddict_extended;
++		otp_put;
++		otp_simple_get;
++		otp_verify_user;
++		otp_verify_user_1;
++	local:
++		*;
++};
