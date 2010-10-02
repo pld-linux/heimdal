@@ -1,6 +1,6 @@
-diff -urbB heimdal-0.7/configure.in heimdal-0.7.org/configure.in
---- heimdal-0.7/configure.in	2005-06-16 18:29:14.000000000 +0200
-+++ heimdal-0.7.org/configure.in	2005-07-03 18:58:54.158074120 +0200
+diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
+--- heimdal-0.7/configure.ac	2005-06-16 18:29:14.000000000 +0200
++++ heimdal-0.7.org/configure.ac	2005-07-03 18:58:54.158074120 +0200
 @@ -16,7 +16,7 @@
  AC_PREFIX_DEFAULT(/usr/heimdal)
  

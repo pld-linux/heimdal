@@ -2,10 +2,10 @@
 +++ heimdal-0.7.2/cf/db.m4	2006-02-19 23:45:57.731511500 +0100
 @@ -27,7 +27,7 @@
  
- dnl db_create is used by db3 and db4
+ dnl db_create is used by db3 and db4 and db5
  
--  AC_FIND_FUNC_NO_LIBS(db_create, db4 db3 db, [
-+  AC_FIND_FUNC_NO_LIBS(db_create, db-5.0 db-4.8 db-4.7 db-4.6 db-4.5 db-4.4 db-4.3 db-4.2 db-4.1 db4 db3 db, [
+-  AC_FIND_FUNC_NO_LIBS(db_create, [$dbheader] db5 db4 db3 db, [
++  AC_FIND_FUNC_NO_LIBS(db_create, [$dbheader] db-5.0 db-4.8 db-4.7 db-4.6 db-4.5 db-4.4 db-4.3 db-4.2 db-4.1 db4 db3 db, [
    #include <stdio.h>
    #ifdef HAVE_DB4_DB_H
    #include <db4/db.h>

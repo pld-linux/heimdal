@@ -136,8 +136,8 @@ diff -ur heimdal-1.3.1/kdc/Makefile.am heimdal-1.3.1-sbin/kdc/Makefile.am
  
 -sbin_PROGRAMS = kstash
 -
--libexec_PROGRAMS = hprop hpropd kdc
-+sbin_PROGRAMS = kstash hprop hpropd kdc
+-libexec_PROGRAMS = hprop hpropd kdc digest-service
++sbin_PROGRAMS = kstash hprop hpropd kdc digest-service
  
  noinst_PROGRAMS = kdc-replay
  

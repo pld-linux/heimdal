@@ -6,12 +6,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	1.3.3
-Release:	2
+Version:	1.4
+Release:	0.1
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
-# Source0-md5:	963c09f1b14c41660be70b55fae9f163
+# Source0-md5:	31d08bbf47a77827fe97ef3f52b4c9c4
 Source1:	%{name}.init
 Source2:	%{name}-kpasswdd.init
 Source3:	%{name}-ipropd.init
@@ -30,7 +30,6 @@ Patch3:		%{name}-dbpaths.patch
 Patch4:		%{name}-db4.patch
 Patch5:		%{name}-libadd.patch
 Patch6:		%{name}-signal.patch
-Patch7:		%{name}-ldap.patch
 Patch8:		%{name}-info.patch
 Patch9:		%{name}-shared-libcom_err.patch
 Patch10:	%{name}-sbindir.patch
@@ -356,7 +355,6 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1

@@ -1,7 +1,7 @@
 --- heimdal-1.3.1/lib/gssapi/ntlm/accept_sec_context.c.orig	2009-11-21 16:41:51.000000000 +0100
 +++ heimdal-1.3.1/lib/gssapi/ntlm/accept_sec_context.c	2009-12-09 12:36:21.000000000 +0100
 @@ -44,7 +44,24 @@
-     struct ntlm_server_interface *interface = NULL;
+     struct ntlm_server_interface *ns_interface = NULL;
      
  #ifdef DIGEST
 +    krb5_context context = NULL;
@@ -21,7 +21,7 @@
 +    if (b)
 +	return GSS_S_FAILURE;
 +
-     interface = &ntlmsspi_kdc_digest;
+     ns_interface = &ntlmsspi_kdc_digest;
  #endif
-     if (interface == NULL)
+     if (ns_interface == NULL)
  	return GSS_S_FAILURE;
