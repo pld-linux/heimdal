@@ -30,6 +30,7 @@ Patch3:		%{name}-dbpaths.patch
 Patch4:		%{name}-db4.patch
 Patch5:		%{name}-libadd.patch
 Patch6:		%{name}-signal.patch
+Patch7:		%{name}-make.patch
 Patch8:		%{name}-info.patch
 Patch9:		%{name}-shared-libcom_err.patch
 Patch10:	%{name}-sbindir.patch
@@ -355,6 +356,7 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
@@ -380,9 +382,6 @@ rm -f acinclude.m4 cf/{libtool,lt*}.m4
 	--with-readline=/usr \
 	--with-sqlite3=/usr \
 	--with%{!?with_x11:out}-x
-
-# Makefile lacks proper deps so without it multi-job make sometimes fails
-%{__make} -C lib/kadm5 kadm5_err.h
 
 %{__make}
 
