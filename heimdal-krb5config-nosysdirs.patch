@@ -1,0 +1,20 @@
+--- heimdal-1.4/tools/krb5-config.in.orig	2010-09-13 09:23:34.000000000 +0200
++++ heimdal-1.4/tools/krb5-config.in	2010-10-07 08:45:53.207740205 +0200
+@@ -120,7 +120,7 @@
+ fi
+ 
+ if test "$do_libs" = "yes"; then
+-    lib_flags="-L${libdir}"
++    lib_flags=
+     case $library in
+     gssapi)
+ 	lib_flags="$lib_flags -lgssapi -lheimntlm"
+@@ -142,7 +142,7 @@
+     echo $lib_flags
+ fi
+ if test "$do_cflags" = "yes"; then
+-    echo "-I${includedir} @INCLUDE_hcrypto@"
++    echo "@INCLUDE_hcrypto@"
+ fi
+ 
+ exit 0
