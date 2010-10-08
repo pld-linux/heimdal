@@ -38,16 +38,18 @@ Patch11:	%{name}-ntlm-digest.patch
 Patch12:	%{name}-krb5config-nosysdirs.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
-BuildRequires:	automake
+BuildRequires:	automake >= 1:1.10.3
 BuildRequires:	bison
 BuildRequires:	db-devel
 BuildRequires:	flex
+BuildRequires:	libcap-ng-devel >= 0.4.0
 BuildRequires:	libcom_err-devel >= 1.34-5
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
 %{?with_ldap:BuildRequires:	openldap-devel >= 2.3.0}
 BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	pkgconfig
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	sqlite3-devel

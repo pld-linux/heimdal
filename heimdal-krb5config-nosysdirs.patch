@@ -18,3 +18,36 @@
  fi
  
  exit 0
+--- heimdal-1.4/cf/test-package.m4.orig	2010-09-13 09:23:34.000000000 +0200
++++ heimdal-1.4/cf/test-package.m4	2010-10-08 20:18:05.375741882 +0200
+@@ -98,18 +98,20 @@
+ 			found=yes])
+ 	fi
+ 	if test "$found" = no; then
+-		ires= lres=
+-		for i in $header_dirs; do
+-			CFLAGS="-I$i $save_CFLAGS"
+-			AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[$2]],[[]])],[ires=$i;break])
++		ires=no lres=no
++		for i in '' $header_dirs; do
++			iopt="${i:+-I$i}"
++			CFLAGS="$iopt $save_CFLAGS"
++			AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[$2]],[[]])],[ires=$iopt;break])
+ 		done
+-		for i in $lib_dirs; do
+-			LIBS="-L$i $3 $4 $save_LIBS"
+-			AC_LINK_IFELSE([AC_LANG_PROGRAM([[$2]],[[]])],[lres=$i;break])
++		for i in '' $lib_dirs; do
++			lopt="${i:+-L$i}"
++			LIBS="$lopt $3 $4 $save_LIBS"
++			AC_LINK_IFELSE([AC_LANG_PROGRAM([[$2]],[[]])],[lres=$lopt;break])
+ 		done
+-		if test "$ires" -a "$lres" -a "$with_$1" != "no"; then
+-			INCLUDE_$1="-I$ires"
+-			LIB_$1="-L$lres $3 $4"
++		if test "$ires" != "no" -a "$lres" != "no" -a "$with_$1" != "no"; then
++			INCLUDE_$1="$ires"
++			LIB_$1="$lres $3 $4"
+ 			found=yes
+ 			AC_MSG_RESULT([headers $ires, libraries $lres])
+ 		fi
