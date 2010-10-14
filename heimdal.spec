@@ -385,6 +385,7 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 	--with-ipv6 \
 	--with-readline=/usr \
 	--with-sqlite3=/usr \
+	--without-hesiod \
 	--with%{!?with_x11:out}-x
 
 %{__make}
