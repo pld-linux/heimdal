@@ -33,7 +33,7 @@
  
  kadm5_err.h: kadm5_err.et
  
-+kadm5_locl.h: kadm5_err.h
++$(dist_libkadm5clnt_la_SOURCES): $(nodist_libkadm5clnt_la_SOURCES)
 +
  $(libkadm5clnt_la_OBJECTS) $(libkadm5srv_la_OBJECTS): $(srcdir)/kadm5-protos.h $(srcdir)/kadm5-private.h
  
