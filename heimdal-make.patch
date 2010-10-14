@@ -27,6 +27,17 @@
  
  rfc2459_asn1_files: asn1_compile$(EXEEXT) $(srcdir)/rfc2459.asn1
  	$(ASN1_COMPILE) --preserve-binary=TBSCertificate --preserve-binary=TBSCRLCertList --preserve-binary=Name --sequence=GeneralNames --sequence=Extensions --sequence=CRLDistributionPoints $(srcdir)/rfc2459.asn1 rfc2459_asn1 || (rm -f rfc2459_asn1_files ; exit 1)
+--- heimdal-1.4/lib/kadm5/Makefile.am~	2010-10-14 12:25:00.959390842 +0200
++++ heimdal-1.4/lib/kadm5/Makefile.am	2010-10-14 14:14:14.533473440 +0200
+@@ -159,6 +159,8 @@
+ 
+ kadm5_err.h: kadm5_err.et
+ 
++kadm5_locl.h: kadm5_err.h
++
+ $(libkadm5clnt_la_OBJECTS) $(libkadm5srv_la_OBJECTS): $(srcdir)/kadm5-protos.h $(srcdir)/kadm5-private.h
+ 
+ proto_opts = -q -R '^(_|kadm5_c_|kadm5_s_|kadm5_log)' -P comment
 --- heimdal-1.4/lib/otp/Makefile.am~	2010-10-02 12:17:36.532815203 +0200
 +++ heimdal-1.4/lib/otp/Makefile.am	2010-10-02 12:29:52.970815205 +0200
 @@ -74,3 +74,5 @@
