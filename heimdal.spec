@@ -7,7 +7,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	1.4
-Release:	4
+Release:	5
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
@@ -91,11 +91,25 @@ Heimdal jest darmową implementacją Kerberosa 5. Główne zalety to:
 - zawiera wystarczającą kompatybilność z Kerberos V4
 - wsparcie dla IPv6
 
+%package common
+Summary:	Heimdal essential config files and documentation
+Summary(pl.UTF-8):	Niezbędne pliki konfiguracyjne i dokumentacja dla heimdal
+Group:		Networking
+
+%description common
+Package contains essential configs and documentation required
+by heimdal packages.
+
+%description common -l pl.UTF-8
+Pakiet zawiera niezbędne pliki konfiguracyjne i dokumentację
+dla heimdala.
+
 %package libs
 Summary:	Heimdal shared libraries
 Summary(pl.UTF-8):	Biblioteki współdzielone dla heimdal
 Group:		Libraries
 Requires(post,postun):	/sbin/ldconfig
+Requires:	%{name}-common = %{version}-%{release}
 
 %description libs
 Package contains shared libraries required by several of the other
@@ -518,13 +532,14 @@ if [ "$1" = "0" ]; then
 	%service -q rc-inetd reload
 fi
 
-%post libs
-/sbin/ldconfig
+%post common
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%postun libs
-/sbin/ldconfig
+%postun common
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
+%post libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
 
 %if %{with ldap}
 %post -n openldap-schema-heimdal
@@ -610,10 +625,18 @@ fi
 %{_mandir}/man8/string2key.8*
 %{_mandir}/man8/verify_krb5_conf.8*
 
-%files libs
+%files common
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/krb5.conf
 %attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
+%{_infodir}/heimdal.info*
+%{_infodir}/hx509.info*
+%{_mandir}/man5/krb5.conf.5*
+%{_mandir}/man5/mech.5*
+%{_mandir}/man8/kerberos.8*
+
+%files libs
+%defattr(644,root,root,755)
 %attr(755,root,root) /%{_lib}/libasn1.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libasn1.so.8
 %attr(755,root,root) /%{_lib}/libgssapi.so.*.*.*
@@ -644,11 +667,6 @@ fi
 %attr(755,root,root) %ghost /%{_lib}/libwind.so.0
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*
-%{_infodir}/heimdal.info*
-%{_infodir}/hx509.info*
-%{_mandir}/man5/krb5.conf.5*
-%{_mandir}/man5/mech.5*
-%{_mandir}/man8/kerberos.8*
 
 %files devel
 %defattr(644,root,root,755)
