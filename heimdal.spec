@@ -424,6 +424,20 @@ for l in $RPM_BUILD_ROOT%{_libdir}/lib*.so ; do
 	ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/$lib.*.*) $RPM_BUILD_ROOT%{_libdir}/$lib
 done
 
+# install definitions of KCM internal data structures to get KCM support in nfs-utils
+install -d $RPM_BUILD_ROOT%{_includedir}/kcm
+_mutexdef=$(cat << EOF | %{__cc} -E -I./include - | sed 's/_HEIMDAL_MUTEX \(.*\)/\1/p; d'
+#include "config.h"
+#include "heim_threads.h"
+_HEIMDAL_MUTEX HEIMDAL_MUTEX
+EOF)
+%{__sed} -e '/#include <kcm-protos.h>/d' \
+	-e '/#include "headers.h"/d' \
+	-e '/kcm_service/N; /kcm_service/d;' \
+	-e 's/<kcm\.h>/<kcm\/kcm.h>/' \
+	-e "s/HEIMDAL_MUTEX/$_mutexdef/g" kcm/kcm_locl.h >$RPM_BUILD_ROOT%{_includedir}/kcm/kcm_locl.h
+install -p lib/krb5/kcm.h $RPM_BUILD_ROOT%{_includedir}/kcm
+
 # just a test plugin
 rm -f $RPM_BUILD_ROOT%{_libdir}/windc.*
 # not needed for plugin
@@ -669,6 +683,7 @@ fi
 %{_includedir}/*.h
 %{_includedir}/gssapi
 %{_includedir}/kadm5
+%{_includedir}/kcm
 %{_includedir}/krb5
 %{_includedir}/roken
 %{_pkgconfigdir}/heimdal-gssapi.pc
