@@ -2,12 +2,13 @@
 # Conditional build:
 %bcond_without	x11	# X11-based utilities
 %bcond_without	ldap	# LDAP plugin
+%bcond_with	expose_internals	# install internal KCM headers
 #
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	1.4
-Release:	6
+Release:	7
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
@@ -425,6 +426,7 @@ for l in $RPM_BUILD_ROOT%{_libdir}/lib*.so ; do
 	ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/$lib.*.*) $RPM_BUILD_ROOT%{_libdir}/$lib
 done
 
+%if %{with expose_internals}
 # install definitions of KCM internal data structures to get KCM support in nfs-utils
 install -d $RPM_BUILD_ROOT%{_includedir}/kcm
 _mutexdef=$(cat << EOF | %{__cc} -E -I./include - | sed 's/_HEIMDAL_MUTEX \(.*\)/\1/p; d'
@@ -438,6 +440,7 @@ EOF)
 	-e 's/<kcm\.h>/<kcm\/kcm.h>/' \
 	-e "s/HEIMDAL_MUTEX/$_mutexdef/g" kcm/kcm_locl.h >$RPM_BUILD_ROOT%{_includedir}/kcm/kcm_locl.h
 install -p lib/krb5/kcm.h $RPM_BUILD_ROOT%{_includedir}/kcm
+%endif
 
 # just a test plugin
 rm -f $RPM_BUILD_ROOT%{_libdir}/windc.*
@@ -684,7 +687,7 @@ fi
 %{_includedir}/*.h
 %{_includedir}/gssapi
 %{_includedir}/kadm5
-%{_includedir}/kcm
+%{?with_expose_internals:%{_includedir}/kcm}
 %{_includedir}/krb5
 %{_includedir}/roken
 %{_pkgconfigdir}/heimdal-gssapi.pc
