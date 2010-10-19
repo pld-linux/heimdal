@@ -8,7 +8,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	1.4
-Release:	9
+Release:	10
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
@@ -391,7 +391,7 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 	--without-hesiod \
 	--with%{!?with_x11:out}-x
 
-%{__make}
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
