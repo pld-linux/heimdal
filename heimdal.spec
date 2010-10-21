@@ -33,7 +33,6 @@ Patch5:		%{name}-libadd.patch
 Patch6:		%{name}-signal.patch
 Patch7:		%{name}-make.patch
 Patch8:		%{name}-info.patch
-Patch9:		%{name}-shared-libcom_err.patch
 Patch10:	%{name}-sbindir.patch
 Patch11:	%{name}-ntlm-digest.patch
 Patch12:	%{name}-krb5config-nosysdirs.patch
@@ -45,7 +44,7 @@ BuildRequires:	bison
 BuildRequires:	db-devel
 BuildRequires:	flex
 BuildRequires:	libcap-ng-devel >= 0.4.0
-BuildRequires:	libcom_err-devel >= 1.34-5
+BuildRequires:	libcom_err-devel >= 1.41.11
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
@@ -112,7 +111,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	db-devel
-Requires:	libcom_err-devel >= 1.34-5
+Requires:	libcom_err-devel >= 1.41.11
 Requires:	openssl-devel
 Conflicts:	krb5-devel
 Conflicts:	libgssglue-devel
@@ -363,7 +362,6 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
