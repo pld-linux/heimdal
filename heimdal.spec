@@ -113,6 +113,7 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	db-devel
 Requires:	libcom_err-devel >= 1.41.11
 Requires:	openssl-devel
+Requires:	sqlite3-devel
 Conflicts:	krb5-devel
 Conflicts:	libgssglue-devel
 
