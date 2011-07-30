@@ -579,10 +579,10 @@ fi
 %postun libs-database -p /sbin/ldconfig
 %post   libs-krb5 -p /sbin/ldconfig
 %postun libs-krb5 -p /sbin/ldconfig
-%post   libs-ntlm -p /sbin/ldconfig
-%postun libs-ntlm -p /sbin/ldconfig
 %post   libs-server -p /sbin/ldconfig
 %postun libs-server -p /sbin/ldconfig
+%post   libs-support -p /sbin/ldconfig
+%postun libs-support -p /sbin/ldconfig
 
 %if %{with ldap}
 %post -n openldap-schema-heimdal
