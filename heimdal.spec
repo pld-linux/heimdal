@@ -97,6 +97,11 @@ Summary:	Heimdal shared libraries
 Summary(pl.UTF-8):	Biblioteki współdzielone dla heimdal
 Group:		Libraries
 Requires(post,postun):	/sbin/ldconfig
+Requires:	%{name}-libs-core = %{version}-%{release}
+Requires:	%{name}-libs-database = %{version}-%{release}
+Requires:	%{name}-libs-krb5 = %{version}-%{release}
+Requires:	%{name}-libs-ntlm = %{version}-%{release}
+Requires:	%{name}-libs-server = %{version}-%{release}
 
 %description libs
 Package contains shared libraries required by several of the other
@@ -105,6 +110,14 @@ heimdal packages.
 %description libs -l pl.UTF-8
 Pakiet zawiera biblioteki współdzielone dla heimdal.
 
+%package libs-core
+Summary:	Heimdal core libraries
+Group:		Libraries
+Requires(post,postun):	/sbin/ldconfig
+
+%description libs-core
+Package contains main heimdal libraries.
+
 %package libs-database
 Summary:	Heimdal KDC and kadmin shared libraries
 Group:		Libraries
@@ -112,6 +125,30 @@ Requires(post,postun):	/sbin/ldconfig
 
 %description libs-database
 Package contains shared libraries required to run KDC.
+
+%package libs-krb5
+Summary:	Heimdal krb5 shared library
+Group:		Libraries
+Requires(post,postun):	/sbin/ldconfig
+
+%description libs-krb5
+Package contains krb5 shared library from heimdal.
+
+%package libs-ntlm
+Summary:	Heimdal NTLM shared libraries
+Group:		Libraries
+Requires(post,postun):	/sbin/ldconfig
+
+%description libs-ntlm
+Package contains shared NTLM heimdal libraries.
+
+%package libs-server
+Summary:	Heimdal support shared libraries
+Group:		Libraries
+Requires(post,postun):	/sbin/ldconfig
+
+%description libs-server
+Package contains shared libraries required to run heimdal services.
 
 %package devel
 Summary:	Header files for heimdal
@@ -531,15 +568,21 @@ if [ "$1" = "0" ]; then
 fi
 
 %post libs
-/sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun libs
-/sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
+%post   libs-core -p /sbin/ldconfig
+%postun libs-core -p /sbin/ldconfig
 %post   libs-database -p /sbin/ldconfig
 %postun libs-database -p /sbin/ldconfig
+%post   libs-krb5 -p /sbin/ldconfig
+%postun libs-krb5 -p /sbin/ldconfig
+%post   libs-ntlm -p /sbin/ldconfig
+%postun libs-ntlm -p /sbin/ldconfig
+%post   libs-server -p /sbin/ldconfig
+%postun libs-server -p /sbin/ldconfig
 
 %if %{with ldap}
 %post -n openldap-schema-heimdal
@@ -629,26 +672,6 @@ fi
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/krb5.conf
 %attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
-%attr(755,root,root) /%{_lib}/libasn1.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libasn1.so.8
-%attr(755,root,root) /%{_lib}/libgssapi.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libgssapi.so.2
-%attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
-%attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libhx509.so.5
-%attr(755,root,root) /%{_lib}/libkrb5.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libkrb5.so.26
-%attr(755,root,root) /%{_lib}/libroken.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libroken.so.18
-%attr(755,root,root) /%{_lib}/libwind.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libwind.so.0
-%attr(755,root,root) %{_libdir}/libkafs.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkafs.so.0
-%attr(755,root,root) %{_libdir}/libotp.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libotp.so.0
-%attr(755,root,root) %{_libdir}/libsl.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libsl.so.0
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*
 %{_infodir}/heimdal.info*
@@ -656,6 +679,18 @@ fi
 %{_mandir}/man5/krb5.conf.5*
 %{_mandir}/man5/mech.5*
 %{_mandir}/man8/kerberos.8*
+
+%files libs-core
+%attr(755,root,root) /%{_lib}/libasn1.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libasn1.so.8
+%attr(755,root,root) /%{_lib}/libgssapi.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libgssapi.so.2
+%attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libhx509.so.5
+%attr(755,root,root) %{_libdir}/libkafs.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkafs.so.0
+%attr(755,root,root) /%{_lib}/libroken.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libroken.so.18
 
 %files libs-database
 %attr(755,root,root) %{_libdir}/libhdb.so.*.*.*
@@ -666,6 +701,22 @@ fi
 %attr(755,root,root) %ghost %{_libdir}/libkadm5srv.so.8
 %attr(755,root,root) %{_libdir}/libkdc.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdc.so.2
+
+%files libs-krb5
+%attr(755,root,root) /%{_lib}/libkrb5.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libkrb5.so.26
+
+%files libs-ntlm
+%attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
+%attr(755,root,root) /%{_lib}/libwind.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libwind.so.0
+
+%files libs-server
+%attr(755,root,root) %{_libdir}/libotp.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libotp.so.0
+%attr(755,root,root) %{_libdir}/libsl.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libsl.so.0
 
 %files devel
 %defattr(644,root,root,755)
