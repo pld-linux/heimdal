@@ -111,12 +111,12 @@ heimdal packages.
 Pakiet zawiera biblioteki współdzielone dla heimdal.
 
 %package libs-core
-Summary:	Heimdal core libraries
+Summary:	Heimdal main libraries
 Group:		Libraries
 Requires(post,postun):	/sbin/ldconfig
 
 %description libs-core
-Package contains main heimdal libraries.
+Package contains ASN.1, GSS API, X.509 and roken heimdal libraries.
 
 %package libs-database
 Summary:	Heimdal KDC and kadmin shared libraries
@@ -143,12 +143,12 @@ Requires(post,postun):	/sbin/ldconfig
 Package contains shared libraries required to run heimdal services.
 
 %package libs-support
-Summary:	Heimdal support libraries
+Summary:	Heimdal AFS and NTLM libraries
 Group:		Libraries
 Requires(post,postun):	/sbin/ldconfig
 
 %description libs-support
-Package contains shared heimdal support libraries.
+Package contains shared heimdal AFS and NTLM shared libraries.
 
 %package devel
 Summary:	Header files for heimdal
@@ -489,19 +489,19 @@ install -p lib/krb5/kcm.h $RPM_BUILD_ROOT%{_includedir}/kcm
 %endif
 
 # just a test plugin
-rm -f $RPM_BUILD_ROOT%{_libdir}/windc.*
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/windc.*
 # not needed for plugin
-rm -f $RPM_BUILD_ROOT%{_libdir}/hdb_ldap.{la,a}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/hdb_ldap.{la,a}
 # other implementation exists in e2fsprogs (conflict with libss-{devel,static})
-rm -rf $RPM_BUILD_ROOT{%{_libdir}/libss.{so,la,a},%{_includedir}/ss,%{_bindir}/mk_cmds}
+%{__rm} -r $RPM_BUILD_ROOT{%{_libdir}/libss.{so,la,a},%{_includedir}/ss,%{_bindir}/mk_cmds}
 # this is created because glibc's <glob.h> has no GLOB_LIMIT and GLOB_QUOTE
-rm -f $RPM_BUILD_ROOT%{_includedir}/glob.h
+%{__rm} $RPM_BUILD_ROOT%{_includedir}/glob.h
 # resolve heimdal-libs/krb5-libs conflict
-mv -f $RPM_BUILD_ROOT%{_mandir}/man5/{krb5.conf.5,krb5.conf.5h}
+%{__mv} $RPM_BUILD_ROOT%{_mandir}/man5/{krb5.conf.5,krb5.conf.5h}
 # resolve conflict with gss
-mv -f $RPM_BUILD_ROOT%{_bindir}/{gss,gsscmd}
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/{gss,gsscmd}
 # unpackaged
-rm -f $RPM_BUILD_ROOT%{_infodir}/dir
+%{__rm} $RPM_BUILD_ROOT%{_infodir}/dir
 
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
@@ -685,6 +685,7 @@ fi
 %attr(755,root,root) %ghost /%{_lib}/libasn1.so.8
 %attr(755,root,root) /%{_lib}/libgssapi.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libgssapi.so.2
+# consider x509 and roken subpackages
 %attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libhx509.so.5
 %attr(755,root,root) /%{_lib}/libroken.so.*.*.*
