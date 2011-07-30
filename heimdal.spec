@@ -429,7 +429,7 @@ install %{SOURCE9} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
-for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimntlm,hx509,krb5,roken,wind}.*.so; do
+for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimntlm,hx509,krb5,roken,wind}.so; do
 	lib=`basename $l`
 	mv -f $RPM_BUILD_ROOT%{_libdir}/$lib.* $RPM_BUILD_ROOT/%{_lib}
 	ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/$lib.*.*) $RPM_BUILD_ROOT%{_libdir}/$lib
