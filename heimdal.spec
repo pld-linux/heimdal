@@ -100,8 +100,8 @@ Requires(post,postun):	/sbin/ldconfig
 Requires:	%{name}-libs-core = %{version}-%{release}
 Requires:	%{name}-libs-database = %{version}-%{release}
 Requires:	%{name}-libs-krb5 = %{version}-%{release}
-Requires:	%{name}-libs-ntlm = %{version}-%{release}
 Requires:	%{name}-libs-server = %{version}-%{release}
+Requires:	%{name}-libs-support = %{version}-%{release}
 
 %description libs
 Package contains shared libraries required by several of the other
@@ -134,21 +134,21 @@ Requires(post,postun):	/sbin/ldconfig
 %description libs-krb5
 Package contains krb5 shared library from heimdal.
 
-%package libs-ntlm
-Summary:	Heimdal NTLM shared libraries
-Group:		Libraries
-Requires(post,postun):	/sbin/ldconfig
-
-%description libs-ntlm
-Package contains shared NTLM heimdal libraries.
-
 %package libs-server
-Summary:	Heimdal support shared libraries
+Summary:	Heimdal services support shared libraries
 Group:		Libraries
 Requires(post,postun):	/sbin/ldconfig
 
 %description libs-server
 Package contains shared libraries required to run heimdal services.
+
+%package libs-support
+Summary:	Heimdal support libraries
+Group:		Libraries
+Requires(post,postun):	/sbin/ldconfig
+
+%description libs-support
+Package contains shared heimdal support libraries.
 
 %package devel
 Summary:	Header files for heimdal
@@ -687,8 +687,6 @@ fi
 %attr(755,root,root) %ghost /%{_lib}/libgssapi.so.2
 %attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libhx509.so.5
-%attr(755,root,root) %{_libdir}/libkafs.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkafs.so.0
 %attr(755,root,root) /%{_lib}/libroken.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libroken.so.18
 
@@ -706,17 +704,19 @@ fi
 %attr(755,root,root) /%{_lib}/libkrb5.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libkrb5.so.26
 
-%files libs-ntlm
-%attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
-%attr(755,root,root) /%{_lib}/libwind.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libwind.so.0
-
 %files libs-server
 %attr(755,root,root) %{_libdir}/libotp.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libotp.so.0
 %attr(755,root,root) %{_libdir}/libsl.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libsl.so.0
+
+%files libs-support
+%attr(755,root,root) %{_libdir}/libkafs.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkafs.so.0
+%attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
+%attr(755,root,root) /%{_lib}/libwind.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libwind.so.0
 
 %files devel
 %defattr(644,root,root,755)
