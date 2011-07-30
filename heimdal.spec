@@ -105,6 +105,14 @@ heimdal packages.
 %description libs -l pl.UTF-8
 Pakiet zawiera biblioteki współdzielone dla heimdal.
 
+%package libs-database
+Summary:	Heimdal KDC and kadmin shared libraries
+Group:		Libraries
+Requires(post,postun):	/sbin/ldconfig
+
+%description libs-database
+Package contains shared libraries required to run KDC.
+
 %package devel
 Summary:	Header files for heimdal
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja do bibliotek heimdal
@@ -405,7 +413,7 @@ install lib/hdb/hdb.schema $RPM_BUILD_ROOT%{schemadir}
 mv $RPM_BUILD_ROOT%{_sbindir}/kcm $RPM_BUILD_ROOT/sbin/kcm
 
 mv $RPM_BUILD_ROOT%{_bindir}/su $RPM_BUILD_ROOT%{_bindir}/ksu
-mv $RPM_BUILD_ROOT%{_mandir}/man1/su.1  $RPM_BUILD_ROOT%{_mandir}/man1/ksu.1
+mv $RPM_BUILD_ROOT%{_mandir}/man1/su.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksu.1
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/kpasswdd
@@ -421,7 +429,7 @@ install %{SOURCE9} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
-for l in $RPM_BUILD_ROOT%{_libdir}/lib*.so ; do
+for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimntlm,hx509,krb5,roken,wind}.*.so; do
 	lib=`basename $l`
 	mv -f $RPM_BUILD_ROOT%{_libdir}/$lib.* $RPM_BUILD_ROOT/%{_lib}
 	ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/$lib.*.*) $RPM_BUILD_ROOT%{_libdir}/$lib
@@ -530,6 +538,9 @@ fi
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
+%post   libs-database -p /sbin/ldconfig
+%postun libs-database -p /sbin/ldconfig
+
 %if %{with ldap}
 %post -n openldap-schema-heimdal
 %openldap_schema_register %{schemadir}/hdb.schema
@@ -622,30 +633,22 @@ fi
 %attr(755,root,root) %ghost /%{_lib}/libasn1.so.8
 %attr(755,root,root) /%{_lib}/libgssapi.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libgssapi.so.2
-%attr(755,root,root) /%{_lib}/libhdb.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libhdb.so.9
 %attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
 %attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libhx509.so.5
-%attr(755,root,root) /%{_lib}/libkadm5clnt.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libkadm5clnt.so.7
-%attr(755,root,root) /%{_lib}/libkadm5srv.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libkadm5srv.so.8
-%attr(755,root,root) /%{_lib}/libkafs.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libkafs.so.0
-%attr(755,root,root) /%{_lib}/libkdc.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libkdc.so.2
 %attr(755,root,root) /%{_lib}/libkrb5.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libkrb5.so.26
-%attr(755,root,root) /%{_lib}/libotp.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libotp.so.0
 %attr(755,root,root) /%{_lib}/libroken.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libroken.so.18
-%attr(755,root,root) /%{_lib}/libsl.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libsl.so.0
 %attr(755,root,root) /%{_lib}/libwind.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libwind.so.0
+%attr(755,root,root) %{_libdir}/libkafs.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkafs.so.0
+%attr(755,root,root) %{_libdir}/libotp.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libotp.so.0
+%attr(755,root,root) %{_libdir}/libsl.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libsl.so.0
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*
 %{_infodir}/heimdal.info*
@@ -653,6 +656,16 @@ fi
 %{_mandir}/man5/krb5.conf.5*
 %{_mandir}/man5/mech.5*
 %{_mandir}/man8/kerberos.8*
+
+%files libs-database
+%attr(755,root,root) %{_libdir}/libhdb.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libhdb.so.9
+%attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkadm5clnt.so.7
+%attr(755,root,root) %{_libdir}/libkadm5srv.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkadm5srv.so.8
+%attr(755,root,root) %{_libdir}/libkdc.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkdc.so.2
 
 %files devel
 %defattr(644,root,root,755)
