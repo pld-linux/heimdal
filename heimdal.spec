@@ -8,7 +8,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	1.4
-Release:	12
+Release:	12.1
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
@@ -60,7 +60,7 @@ BuildRequires:	texinfo
 %{?with_x11:BuildRequires:	xorg-lib-libX11-devel}
 %{?with_x11:BuildRequires:	xorg-lib-libXau-devel}
 %{?with_x11:BuildRequires:	xorg-lib-libXt-devel}
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 Provides:	kerberos5-client
 Obsoletes:	kerberos5-client
 Conflicts:	krb5-client
@@ -97,11 +97,6 @@ Summary:	Heimdal shared libraries
 Summary(pl.UTF-8):	Biblioteki współdzielone dla heimdal
 Group:		Libraries
 Requires(post,postun):	/sbin/ldconfig
-Requires:	%{name}-libs-core = %{version}-%{release}
-Requires:	%{name}-libs-database = %{version}-%{release}
-Requires:	%{name}-libs-krb5 = %{version}-%{release}
-Requires:	%{name}-libs-server = %{version}-%{release}
-Requires:	%{name}-libs-support = %{version}-%{release}
 
 %description libs
 Package contains shared libraries required by several of the other
@@ -110,51 +105,31 @@ heimdal packages.
 %description libs -l pl.UTF-8
 Pakiet zawiera biblioteki współdzielone dla heimdal.
 
-%package libs-core
-Summary:	Heimdal main libraries
+%package libs-common
+Summary:	Common libraries used by Heimdal programs
 Group:		Libraries
+Requires:	%{name}-libs = %{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
 
-%description libs-core
-Package contains ASN.1, GSS API, X.509 and roken heimdal libraries.
-
-%package libs-database
-Summary:	Heimdal KDC and kadmin shared libraries
-Group:		Libraries
-Requires(post,postun):	/sbin/ldconfig
-
-%description libs-database
-Package contains shared libraries required to run KDC.
-
-%package libs-krb5
-Summary:	Heimdal krb5 shared library
-Group:		Libraries
-Requires(post,postun):	/sbin/ldconfig
-
-%description libs-krb5
-Package contains krb5 shared library from heimdal.
+%description libs-common
+Common libraries used by Heimdal programs.
 
 %package libs-server
-Summary:	Heimdal services support shared libraries
+Summary:	Libraries used by Heimdal KDC server
 Group:		Libraries
+Requires:	%{name}-libs = %{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
 
 %description libs-server
-Package contains shared libraries required to run heimdal services.
-
-%package libs-support
-Summary:	Heimdal AFS and NTLM libraries
-Group:		Libraries
-Requires(post,postun):	/sbin/ldconfig
-
-%description libs-support
-Package contains shared heimdal AFS and NTLM shared libraries.
+Package contains shared libraries required to run KDC server.
 
 %package devel
 Summary:	Header files for heimdal
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja do bibliotek heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
+Requires:	%{name}-libs-server = %{version}-%{release}
 Requires:	db-devel
 Requires:	libcom_err-devel >= 1.41.11
 Requires:	openssl-devel
@@ -211,7 +186,7 @@ Summary:	Kerberos Server
 Summary(pl.UTF-8):	Serwer Kerberosa
 Group:		Networking
 Requires(post,preun):	/sbin/chkconfig
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-server = %{version}-%{release}
 Requires:	rc-scripts
 Provides:	kerberos5-server
 # probably not a good idea
@@ -466,7 +441,7 @@ install %{SOURCE9} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
-for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimntlm,hx509,krb5,roken,wind}.so; do
+for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimntlm,hx509,kafs,krb5,roken,wind}.so; do
 	lib=`basename $l`
 	mv -f $RPM_BUILD_ROOT%{_libdir}/$lib.* $RPM_BUILD_ROOT/%{_lib}
 	ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/$lib.*.*) $RPM_BUILD_ROOT%{_libdir}/$lib
@@ -573,16 +548,12 @@ fi
 %postun libs
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%post   libs-core -p /sbin/ldconfig
-%postun libs-core -p /sbin/ldconfig
-%post   libs-database -p /sbin/ldconfig
-%postun libs-database -p /sbin/ldconfig
-%post   libs-krb5 -p /sbin/ldconfig
-%postun libs-krb5 -p /sbin/ldconfig
+%post   libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
+%post   libs-common -p /sbin/ldconfig
+%postun libs-common -p /sbin/ldconfig
 %post   libs-server -p /sbin/ldconfig
 %postun libs-server -p /sbin/ldconfig
-%post   libs-support -p /sbin/ldconfig
-%postun libs-support -p /sbin/ldconfig
 
 %if %{with ldap}
 %post -n openldap-schema-heimdal
@@ -679,45 +650,38 @@ fi
 %{_mandir}/man5/krb5.conf.5*
 %{_mandir}/man5/mech.5*
 %{_mandir}/man8/kerberos.8*
-
-%files libs-core
 %attr(755,root,root) /%{_lib}/libasn1.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libasn1.so.8
 %attr(755,root,root) /%{_lib}/libgssapi.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libgssapi.so.2
-# consider x509 and roken subpackages
+%attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
 %attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libhx509.so.5
+%attr(755,root,root) /%{_lib}/libkafs.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libkafs.so.0
+%attr(755,root,root) /%{_lib}/libkrb5.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libkrb5.so.26
 %attr(755,root,root) /%{_lib}/libroken.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libroken.so.18
+%attr(755,root,root) /%{_lib}/libwind.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libwind.so.0
 
-%files libs-database
+%files libs-common
 %attr(755,root,root) %{_libdir}/libhdb.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libhdb.so.9
 %attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkadm5clnt.so.7
 %attr(755,root,root) %{_libdir}/libkadm5srv.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkadm5srv.so.8
-%attr(755,root,root) %{_libdir}/libkdc.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkdc.so.2
-
-%files libs-krb5
-%attr(755,root,root) /%{_lib}/libkrb5.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libkrb5.so.26
-
-%files libs-server
 %attr(755,root,root) %{_libdir}/libotp.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libotp.so.0
 %attr(755,root,root) %{_libdir}/libsl.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libsl.so.0
 
-%files libs-support
-%attr(755,root,root) %{_libdir}/libkafs.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkafs.so.0
-%attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
-%attr(755,root,root) /%{_lib}/libwind.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libwind.so.0
+%files libs-server
+%attr(755,root,root) %{_libdir}/libkdc.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkdc.so.2
 
 %files devel
 %defattr(644,root,root,755)
