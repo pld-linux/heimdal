@@ -656,8 +656,6 @@ fi
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/krb5.conf
 %attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
-%dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/*
 %{_infodir}/heimdal.info*
 %{_infodir}/hx509.info*
 %{_mandir}/man5/krb5.conf.5*
@@ -687,6 +685,8 @@ fi
 
 %files libs-common
 %defattr(644,root,root,755)
+%dir %{_libdir}/%{name}
+%attr(755,root,root) %{_libdir}/%{name}/*
 %attr(755,root,root) %{_libdir}/libhdb.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libhdb.so.9
 %attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
