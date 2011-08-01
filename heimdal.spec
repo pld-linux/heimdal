@@ -7,12 +7,12 @@
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	1.4
-Release:	12.1
+Version:	1.5
+Release:	0.1
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
-# Source0-md5:	31d08bbf47a77827fe97ef3f52b4c9c4
+# Source0-md5:	f717a9255e9140f18ce4d36728548b72
 Source1:	%{name}.init
 Source2:	%{name}-kpasswdd.init
 Source3:	%{name}-ipropd.init
@@ -36,7 +36,7 @@ Patch8:		%{name}-info.patch
 Patch9:		%{name}-sbindir.patch
 Patch10:	%{name}-ntlm-digest.patch
 Patch11:	%{name}-krb5config-nosysdirs.patch
-Patch12:	%{name}-kcm.patch
+Patch12:	%{name}-tinfo.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.10.3
@@ -408,6 +408,11 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %{__aclocal} -I cf
 %{__autoconf}
 %{__automake}
+cd lib/libedit
+%{__aclocal}
+%{__autoconf}
+%{__automake}
+cd ../..
 %configure \
 %if %{with ldap}
 	--enable-hdb-openldap-module \
@@ -483,8 +488,6 @@ install -p lib/krb5/kcm.h $RPM_BUILD_ROOT%{_includedir}/kcm
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/hdb_ldap.{la,a}
 # resolve heimdal-libs/krb5-libs conflict
 %{__mv} $RPM_BUILD_ROOT%{_mandir}/man5/{krb5.conf.5,krb5.conf.5h}
-# resolve conflict with gss
-%{__mv} $RPM_BUILD_ROOT%{_bindir}/{gss,gsscmd}
 # unpackaged
 %{__rm} $RPM_BUILD_ROOT%{_infodir}/dir
 
@@ -591,10 +594,8 @@ fi
 %defattr(644,root,root,755)
 %doc ChangeLog NEWS README TODO
 %attr(755,root,root) %{_bindir}/afslog
-%attr(755,root,root) %{_bindir}/gsscmd
 %attr(755,root,root) %{_bindir}/hxtool
 %attr(755,root,root) %{_bindir}/idn-lookup
-%attr(755,root,root) %{_bindir}/kauth
 %attr(755,root,root) %{_bindir}/kdestroy
 %attr(755,root,root) %{_bindir}/kf
 %attr(755,root,root) %{_bindir}/kgetcred
@@ -666,7 +667,7 @@ fi
 %attr(755,root,root) /%{_lib}/libasn1.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libasn1.so.8
 %attr(755,root,root) /%{_lib}/libgssapi.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libgssapi.so.2
+%attr(755,root,root) %ghost /%{_lib}/libgssapi.so.3
 %attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
 %attr(755,root,root) /%{_lib}/libhx509.so.*.*.*

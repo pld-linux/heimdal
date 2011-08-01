@@ -159,11 +159,11 @@ diff -ur heimdal-1.3.1/kuser/Makefile.am heimdal-1.3.1-sbin/kuser/Makefile.am
 @@ -16,7 +16,7 @@
  	kimpersonate.8
  
- bin_PROGRAMS = kinit klist kdestroy kgetcred kswitch
+ bin_PROGRAMS = kinit kdestroy kgetcred kcc
 -libexec_PROGRAMS = kdigest kimpersonate
 +sbin_PROGRAMS = kdigest kimpersonate
  
- noinst_PROGRAMS = kverify kdecode_ticket generate-requests copy_cred_cache
+ noinst_PROGRAMS = kverify kdecode_ticket generate-requests
  
 diff -ur heimdal-1.3.1/lib/kadm5/Makefile.am heimdal-1.3.1-sbin/lib/kadm5/Makefile.am
 --- heimdal-1.3.1/lib/kadm5/Makefile.am	2009-12-07 17:20:42.696503142 +0100
