@@ -92,6 +92,19 @@ Heimdal jest darmową implementacją Kerberosa 5. Główne zalety to:
 - zawiera wystarczającą kompatybilność z Kerberos V4
 - wsparcie dla IPv6
 
+%package common
+Summary:	Heimdal essential config files and documentation
+Summary(pl.UTF-8):	Niezbędne pliki konfiguracyjne i dokumentacja dla heimdal
+Group:		Networking
+
+%description common
+Package contains essential configs and documentation required
+by heimdal packages.
+
+%description common -l pl.UTF-8
+Pakiet zawiera niezbędne pliki konfiguracyjne i dokumentację
+dla heimdala.
+
 %package libs
 Summary:	Heimdal shared libraries
 Summary(pl.UTF-8):	Biblioteki współdzielone dla heimdal
@@ -108,6 +121,7 @@ Pakiet zawiera biblioteki współdzielone dla heimdal.
 %package libs-common
 Summary:	Common libraries used by Heimdal programs
 Group:		Libraries
+Requires:	%{name}-common = %{version}-%{release}
 Requires:	%{name}-libs = %{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
 
@@ -117,7 +131,7 @@ Common libraries used by Heimdal programs.
 %package libs-server
 Summary:	Libraries used by Heimdal KDC server
 Group:		Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 Requires(post,postun):	/sbin/ldconfig
 
 %description libs-server
@@ -160,7 +174,7 @@ Biblioteki statyczne heimdal.
 Summary:	LDAP HDB plugin
 Summary(pl.UTF-8):	Wtyczka HDB LDAP
 Group:		Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 
 %description ldap
 LDAP HDB plugin.
@@ -203,7 +217,7 @@ Główne centrum dystrybucji kluczy (KDC).
 Summary:	KCM - credencial cache daemon for Kerberos tickets
 Summary(pl.UTF-8):	KCM - demon zapamiętujący dane uwierzytelniające dla biletów Kerberosa
 Group:		Daemons
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 
 %description kcm
 KCM is a credencial cache daemon for Kerberos tickets.
@@ -216,7 +230,7 @@ Kerberosa.
 Summary:	login is used when signing onto a system
 Summary(pl.UTF-8):	Narzędzie do logowania w systemie
 Group:		Applications/Networking
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 Provides:	kerberos5-login
 Obsoletes:	kerberos5-login
 Conflicts:	shadow < 1:4.0.16
@@ -237,7 +251,7 @@ zawiera skerberyzowaną wersję programu login.
 Summary:	The standard UNIX FTP (file transfer protocol) client
 Summary(pl.UTF-8):	Klient protokołu FTP
 Group:		Applications/Networking
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 Provides:	kerberos5-ftp
 Obsoletes:	ftp
 Obsoletes:	kerberos5-ftp
@@ -259,7 +273,7 @@ rozpowszechnionym w Internecie.
 Summary:	Clients for remote access commands (rsh, rlogin, rcp)
 Summary(pl.UTF-8):	Klient zdalnego dostępu (rsh, rlogin, rcp)
 Group:		Applications/Networking
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 Provides:	kerberos5-rsh
 Obsoletes:	kerberos5-rsh
 Obsoletes:	rsh
@@ -282,7 +296,7 @@ kopiowanie plików pomiędzy maszynami (rsh, rlogin, rcp).
 Summary:	Client for the telnet remote login
 Summary(pl.UTF-8):	Klient usługi telnet
 Group:		Applications/Networking
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 Provides:	kerberos5-telnet
 Obsoletes:	kerberos5-telnet
 Obsoletes:	telnet
@@ -301,7 +315,7 @@ zawiera klienta tej usługi.
 Summary:	The standard UNIX FTP (file transfer protocol) server
 Summary(pl.UTF-8):	Serwer FTP
 Group:		Networking/Daemons
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
 Provides:	kerberos5-ftpd
 Obsoletes:	ftpd
@@ -320,7 +334,7 @@ Internecie.
 Summary:	Server for remote access commands (rsh, rlogin, rcp)
 Summary(pl.UTF-8):	Serwer zdalnego dostępu (rsh, rlogin, rcp)
 Group:		Networking/Daemons
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
 Provides:	kerberos5-rshd
 Obsoletes:	kerberos5-rshd
@@ -343,7 +357,7 @@ kopiowanie plików pomiędzy maszynami (rsh, rlogin, rcp).
 Summary:	Server for the telnet remote login
 Summary(pl.UTF-8):	Serwer protokołu telnet
 Group:		Networking/Daemons
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
 Provides:	kerberos5-telnetd
 Obsoletes:	kerberos5-telnetd
@@ -364,7 +378,7 @@ na której działa.
 Summary:	Kerberos daemons programs for use on servers
 Summary(pl.UTF-8):	Serwery popularnych usług, autoryzujące przy pomocy kerberosa
 Group:		Networking
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs-common = %{version}-%{release}
 
 %description daemons
 Kerberos Daemons.
@@ -467,10 +481,6 @@ install -p lib/krb5/kcm.h $RPM_BUILD_ROOT%{_includedir}/kcm
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/windc.*
 # not needed for plugin
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/hdb_ldap.{la,a}
-# other implementation exists in e2fsprogs (conflict with libss-{devel,static})
-%{__rm} -r $RPM_BUILD_ROOT{%{_libdir}/libss.{so,la,a},%{_includedir}/ss,%{_bindir}/mk_cmds}
-# this is created because glibc's <glob.h> has no GLOB_LIMIT and GLOB_QUOTE
-%{__rm} $RPM_BUILD_ROOT%{_includedir}/glob.h
 # resolve heimdal-libs/krb5-libs conflict
 %{__mv} $RPM_BUILD_ROOT%{_mandir}/man5/{krb5.conf.5,krb5.conf.5h}
 # resolve conflict with gss
@@ -542,14 +552,14 @@ if [ "$1" = "0" ]; then
 	%service -q rc-inetd reload
 fi
 
-%post libs
-/sbin/ldconfig
+%post common
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%postun libs
-/sbin/ldconfig
+%postun common
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
+%post   libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
 %post   libs-common -p /sbin/ldconfig
 %postun libs-common -p /sbin/ldconfig
 %post   libs-server -p /sbin/ldconfig
@@ -639,7 +649,7 @@ fi
 %{_mandir}/man8/string2key.8*
 %{_mandir}/man8/verify_krb5_conf.8*
 
-%files libs
+%files common
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/krb5.conf
 %attr(400,root,root) %ghost %{_sysconfdir}/krb5.keytab
@@ -650,6 +660,9 @@ fi
 %{_mandir}/man5/krb5.conf.5*
 %{_mandir}/man5/mech.5*
 %{_mandir}/man8/kerberos.8*
+
+%files libs
+%defattr(644,root,root,755)
 %attr(755,root,root) /%{_lib}/libasn1.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libasn1.so.8
 %attr(755,root,root) /%{_lib}/libgssapi.so.*.*.*
@@ -668,6 +681,7 @@ fi
 %attr(755,root,root) %ghost /%{_lib}/libwind.so.0
 
 %files libs-common
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libhdb.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libhdb.so.9
 %attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
@@ -680,6 +694,7 @@ fi
 %attr(755,root,root) %ghost %{_libdir}/libsl.so.0
 
 %files libs-server
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libkdc.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdc.so.2
 
