@@ -460,7 +460,7 @@ install %{SOURCE9} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
-for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimntlm,hx509,kafs,krb5,roken,wind}.so; do
+for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimbase,heimntlm,hx509,kafs,krb5,roken,wind}.so; do
 	lib=`basename $l`
 	mv -f $RPM_BUILD_ROOT%{_libdir}/$lib.* $RPM_BUILD_ROOT/%{_lib}
 	ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/$lib.*.*) $RPM_BUILD_ROOT%{_libdir}/$lib
@@ -594,8 +594,10 @@ fi
 %defattr(644,root,root,755)
 %doc ChangeLog NEWS README TODO
 %attr(755,root,root) %{_bindir}/afslog
+%attr(755,root,root) %{_bindir}/gsstool
 %attr(755,root,root) %{_bindir}/hxtool
 %attr(755,root,root) %{_bindir}/idn-lookup
+%attr(755,root,root) %{_bindir}/kcc
 %attr(755,root,root) %{_bindir}/kdestroy
 %attr(755,root,root) %{_bindir}/kf
 %attr(755,root,root) %{_bindir}/kgetcred
@@ -668,6 +670,8 @@ fi
 %attr(755,root,root) %ghost /%{_lib}/libasn1.so.8
 %attr(755,root,root) /%{_lib}/libgssapi.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libgssapi.so.3
+%attr(755,root,root) /%{_lib}/libheimbase.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libheimbase.so.1
 %attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
 %attr(755,root,root) /%{_lib}/libhx509.so.*.*.*
@@ -705,6 +709,7 @@ fi
 %attr(755,root,root) %{_libdir}/libasn1.so
 %attr(755,root,root) %{_libdir}/libgssapi.so
 %attr(755,root,root) %{_libdir}/libhdb.so
+%attr(755,root,root) %{_libdir}/libheimbase.so
 %attr(755,root,root) %{_libdir}/libheimntlm.so
 %attr(755,root,root) %{_libdir}/libhx509.so
 %attr(755,root,root) %{_libdir}/libkadm5clnt.so
@@ -719,6 +724,7 @@ fi
 %{_libdir}/libasn1.la
 %{_libdir}/libgssapi.la
 %{_libdir}/libhdb.la
+%{_libdir}/libheimbase.la
 %{_libdir}/libheimntlm.la
 %{_libdir}/libhx509.la
 %{_libdir}/libkadm5clnt.la
@@ -745,6 +751,7 @@ fi
 %{_libdir}/libasn1.a
 %{_libdir}/libgssapi.a
 %{_libdir}/libhdb.a
+%{_libdir}/libheimbase.a
 %{_libdir}/libheimntlm.a
 %{_libdir}/libhx509.a
 %{_libdir}/libkadm5clnt.a
