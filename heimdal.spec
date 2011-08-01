@@ -543,13 +543,13 @@ if [ "$1" = "0" ]; then
 fi
 
 %post libs
+/sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun libs
+/sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%post   libs -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
 %post   libs-common -p /sbin/ldconfig
 %postun libs-common -p /sbin/ldconfig
 %post   libs-server -p /sbin/ldconfig
