@@ -488,8 +488,6 @@ install -p lib/krb5/kcm.h $RPM_BUILD_ROOT%{_includedir}/kcm
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/hdb_ldap.{la,a}
 # resolve heimdal-libs/krb5-libs conflict
 %{__mv} $RPM_BUILD_ROOT%{_mandir}/man5/{krb5.conf.5,krb5.conf.5h}
-# unpackaged
-%{__rm} $RPM_BUILD_ROOT%{_infodir}/dir
 
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
