@@ -94,7 +94,7 @@ Heimdal jest darmową implementacją Kerberosa 5. Główne zalety to:
 
 %package common
 Summary:	Heimdal essential config files and documentation
-Summary(pl.UTF-8):	Niezbędne pliki konfiguracyjne i dokumentacja dla heimdal
+Summary(pl.UTF-8):	Niezbędne pliki konfiguracyjne i dokumentacja dla heimdala
 Group:		Networking
 
 %description common
@@ -107,35 +107,43 @@ dla heimdala.
 
 %package libs
 Summary:	Heimdal shared libraries
-Summary(pl.UTF-8):	Biblioteki współdzielone dla heimdal
+Summary(pl.UTF-8):	Biblioteki współdzielone dla heimdala
 Group:		Libraries
-Requires(post,postun):	/sbin/ldconfig
 
 %description libs
-Package contains shared libraries required by several of the other
-heimdal packages.
+This package contains shared libraries required by several of the
+other heimdal packages.
 
 %description libs -l pl.UTF-8
-Pakiet zawiera biblioteki współdzielone dla heimdal.
+Ten pakiet zawiera biblioteki współdzielone wymagane przez kilka
+innych pakietów składowych heimdala.
 
 %package libs-common
 Summary:	Common libraries used by Heimdal programs
+Summary(pl.UTF-8):	Wspólne biblioteki używane przez programy z Heimdala
 Group:		Libraries
 Requires:	%{name}-common = %{version}-%{release}
 Requires:	%{name}-libs = %{version}-%{release}
-Requires(post,postun):	/sbin/ldconfig
 
 %description libs-common
 Common libraries used by Heimdal programs.
 
+%description libs-common -l pl.UTF-8
+Wspólne biblioteki używane przez programy z projektu Heimdal.
+
 %package libs-server
 Summary:	Libraries used by Heimdal KDC server
+Summary(pl.UTF-8):	Biblioteki używane przez serwer Heimdal KDC
 Group:		Libraries
 Requires:	%{name}-libs-common = %{version}-%{release}
-Requires(post,postun):	/sbin/ldconfig
 
 %description libs-server
-Package contains shared libraries required to run KDC server.
+This package contains shared libraries required to run Heimdal KDC
+server.
+
+%description libs-server -l pl.UTF-8
+Ten pakiet zawiera biblioteki współdzielone używane potrzebne dla
+serwera KDC z projektu Heimdal.
 
 %package devel
 Summary:	Header files for heimdal
@@ -683,8 +691,6 @@ fi
 
 %files libs-common
 %defattr(644,root,root,755)
-%dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/*
 %attr(755,root,root) %{_libdir}/libhdb.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libhdb.so.9
 %attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
@@ -695,6 +701,10 @@ fi
 %attr(755,root,root) %ghost %{_libdir}/libotp.so.0
 %attr(755,root,root) %{_libdir}/libsl.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libsl.so.0
+%dir %{_libdir}/%{name}
+%attr(755,root,root) %{_libdir}/%{name}/asn1_compile
+%attr(755,root,root) %{_libdir}/%{name}/asn1_print
+%attr(755,root,root) %{_libdir}/%{name}/slc
 
 %files libs-server
 %defattr(644,root,root,755)
@@ -742,7 +752,46 @@ fi
 %{_includedir}/roken
 %{_pkgconfigdir}/heimdal-gssapi.pc
 %{_mandir}/man1/krb5-config.1*
-%{_mandir}/man3/*
+%{_mandir}/man3/DES_*.3*
+%{_mandir}/man3/DH_*.3*
+%{_mandir}/man3/EVP_*.3*
+%{_mandir}/man3/HDB.3*
+%{_mandir}/man3/OpenSSL_add_all_algorithms*.3*
+%{_mandir}/man3/PKCS5_PBKDF2_HMAC_SHA1.3*
+%{_mandir}/man3/RAND_*.3*
+%{_mandir}/man3/RSA_*.3*
+%{_mandir}/man3/__gss_c_attr_stream_sizes_oid_desc.3*
+%{_mandir}/man3/challenge.3*
+%{_mandir}/man3/context.3*
+%{_mandir}/man3/data.3*
+%{_mandir}/man3/domain.3*
+%{_mandir}/man3/ecalloc.3*
+%{_mandir}/man3/flags.3*
+%{_mandir}/man3/getarg.3*
+%{_mandir}/man3/gss_*.3*
+%{_mandir}/man3/gssapi*.3*
+%{_mandir}/man3/hcrypto_*.3*
+%{_mandir}/man3/hdb_*.3*
+%{_mandir}/man3/heim_ntlm_*.3*
+%{_mandir}/man3/hostname.3*
+%{_mandir}/man3/hx509*.3*
+%{_mandir}/man3/internalvsmechname.3*
+%{_mandir}/man3/kadm5_pwcheck.3*
+%{_mandir}/man3/kafs.3*
+%{_mandir}/man3/krb5*.3*
+%{_mandir}/man3/length.3*
+%{_mandir}/man3/lm.3*
+%{_mandir}/man3/ntlm*.3*
+%{_mandir}/man3/os.3*
+%{_mandir}/man3/page_*.3*
+%{_mandir}/man3/parse_time.3*
+%{_mandir}/man3/rtbl.3*
+%{_mandir}/man3/sessionkey.3*
+%{_mandir}/man3/targetinfo.3*
+%{_mandir}/man3/targetname.3*
+%{_mandir}/man3/username.3*
+%{_mandir}/man3/wind*.3*
+%{_mandir}/man3/ws.3*
 
 %files static
 %defattr(644,root,root,755)
