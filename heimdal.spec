@@ -110,6 +110,7 @@ dla heimdala.
 Summary:	Heimdal shared libraries
 Summary(pl.UTF-8):	Biblioteki współdzielone dla heimdala
 Group:		Libraries
+Requires:	libcom_err >= 1.41.11
 
 %description libs
 This package contains shared libraries required by several of the
