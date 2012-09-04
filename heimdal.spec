@@ -499,8 +499,10 @@ install -p lib/krb5/kcm.h $RPM_BUILD_ROOT%{_includedir}/kcm
 
 # just a test plugin
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/windc.*
+%if %{with ldap}
 # not needed for plugin
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/hdb_ldap.{la,a}
+%endif
 # resolve heimdal-libs/krb5-libs conflict
 %{__mv} $RPM_BUILD_ROOT%{_mandir}/man5/{krb5.conf.5,krb5.conf.5h}
 
