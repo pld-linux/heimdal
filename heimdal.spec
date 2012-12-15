@@ -1,18 +1,18 @@
 #
 # Conditional build:
-%bcond_without	x11	# X11-based utilities
-%bcond_without	ldap	# LDAP plugin
+%bcond_without	x11			# X11-based utilities
+%bcond_without	ldap			# LDAP plugin
 %bcond_with	expose_internals	# install internal KCM headers
 #
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	1.5.2
-Release:	6
+Version:	1.5.3
+Release:	1
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
-# Source0-md5:	bb23d9dbdafd395d816f7abc598481a1
+# Source0-md5:	30b379e3de12f332fbd201131f02ffca
 Source1:	%{name}.init
 Source2:	%{name}-kpasswdd.init
 Source3:	%{name}-ipropd.init
