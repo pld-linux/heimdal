@@ -2,6 +2,7 @@
 # Conditional build:
 %bcond_without	x11			# X11-based utilities
 %bcond_without	ldap			# LDAP plugin
+%bcond_with	openssl			# use OpenSSL instead of internal hcrypto
 %bcond_with	expose_internals	# install internal KCM headers
 #
 Summary:	Heimdal implementation of Kerberos V5 system
@@ -50,7 +51,7 @@ BuildRequires:	libtool >= 2:2.2
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
 %{?with_ldap:BuildRequires:	openldap-devel >= 2.3.0}
-BuildRequires:	openssl-devel >= 0.9.7d
+%{?with_openssl:BuildRequires:	openssl-devel >= 0.9.7d}
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -156,7 +157,7 @@ Requires:	%{name}-libs-common = %{version}-%{release}
 Requires:	%{name}-libs-server = %{version}-%{release}
 Requires:	db-devel
 Requires:	libcom_err-devel >= 1.41.11
-Requires:	openssl-devel
+%{?with_openssl:Requires:	openssl-devel}
 Requires:	sqlite3-devel
 Conflicts:	krb5-devel
 Conflicts:	libgssglue-devel
@@ -433,6 +434,7 @@ cd ../..
 	--enable-hdb-openldap-module \
 	--with-openldap=/usr \
 %endif
+	--with%{!?with_openssl:out}-openssl \
 	--enable-kcm \
 	--enable-pthread-support \
 	--enable-shared \
@@ -700,6 +702,10 @@ fi
 
 %files libs-common
 %defattr(644,root,root,755)
+%if !%{with openssl}
+%attr(755,root,root) %{_libdir}/libhcrypto.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libhcrypto.so.4
+%endif
 %attr(755,root,root) %{_libdir}/libhdb.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libhdb.so.9
 %attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
@@ -725,6 +731,7 @@ fi
 %attr(755,root,root) %{_bindir}/krb5-config
 %attr(755,root,root) %{_libdir}/libasn1.so
 %attr(755,root,root) %{_libdir}/libgssapi.so
+%{!?with_openssl:%{_libdir}/libhcrypto.so}
 %attr(755,root,root) %{_libdir}/libhdb.so
 %attr(755,root,root) %{_libdir}/libheimbase.so
 %attr(755,root,root) %{_libdir}/libheimntlm.so
@@ -740,6 +747,7 @@ fi
 %attr(755,root,root) %{_libdir}/libwind.so
 %{_libdir}/libasn1.la
 %{_libdir}/libgssapi.la
+%{!?with_openssl:%{_libdir}/libhcrypto.la}
 %{_libdir}/libhdb.la
 %{_libdir}/libheimbase.la
 %{_libdir}/libheimntlm.la
@@ -755,6 +763,7 @@ fi
 %{_libdir}/libwind.la
 %{_includedir}/*.h
 %{_includedir}/gssapi
+%{!?with_openssl:%{_includedir}/hcrypto}
 %{_includedir}/kadm5
 %{?with_expose_internals:%{_includedir}/kcm}
 %{_includedir}/krb5
@@ -806,6 +815,7 @@ fi
 %defattr(644,root,root,755)
 %{_libdir}/libasn1.a
 %{_libdir}/libgssapi.a
+%{!?with_openssl:%{_libdir}/libhcrypto.a}
 %{_libdir}/libhdb.a
 %{_libdir}/libheimbase.a
 %{_libdir}/libheimntlm.a
