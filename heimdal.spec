@@ -9,7 +9,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	1.5.3
-Release:	1
+Release:	2
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
@@ -477,7 +477,7 @@ install %{SOURCE9} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
 install %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
-for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimbase,heimntlm,hx509,kafs,krb5,roken,wind}.so; do
+for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,hcrypto,heimbase,heimntlm,hx509,kafs,krb5,roken,wind}.so; do
 	lib=`basename $l`
 	mv -f $RPM_BUILD_ROOT%{_libdir}/$lib.* $RPM_BUILD_ROOT/%{_lib}
 	ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/$lib.*.*) $RPM_BUILD_ROOT%{_libdir}/$lib
@@ -686,6 +686,10 @@ fi
 %attr(755,root,root) /%{_lib}/libgssapi.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libgssapi.so.3
 %attr(755,root,root) /%{_lib}/libheimbase.so.*.*.*
+%if !%{with openssl}
+%attr(755,root,root) /%{_lib}/libhcrypto.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libhcrypto.so.4
+%endif
 %attr(755,root,root) %ghost /%{_lib}/libheimbase.so.1
 %attr(755,root,root) /%{_lib}/libheimntlm.so.*.*.*
 %attr(755,root,root) %ghost /%{_lib}/libheimntlm.so.0
@@ -702,10 +706,6 @@ fi
 
 %files libs-common
 %defattr(644,root,root,755)
-%if !%{with openssl}
-%attr(755,root,root) %{_libdir}/libhcrypto.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libhcrypto.so.4
-%endif
 %attr(755,root,root) %{_libdir}/libhdb.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libhdb.so.9
 %attr(755,root,root) %{_libdir}/libkadm5clnt.so.*.*.*
