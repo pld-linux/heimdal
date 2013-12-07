@@ -9,7 +9,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	1.5.3
-Release:	3
+Release:	4
 License:	Free
 Group:		Networking
 Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
@@ -38,7 +38,7 @@ Patch9:		%{name}-sbindir.patch
 Patch10:	%{name}-ntlm-digest.patch
 Patch11:	%{name}-krb5config-nosysdirs.patch
 Patch12:	%{name}-tinfo.patch
-Patch13:	%{name}-missing-mit_glue-exports.patch
+Patch13:	%{name}-missing-exports.patch
 Patch14:	%{name}-texinfo.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62

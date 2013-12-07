@@ -40,3 +40,11 @@ index dc39a10..76a1e5e 100644
  		krb5_cc_copy_match_f;
  		krb5_cc_default;
  		krb5_cc_default_name;
+@@ -381,6 +381,7 @@
+ 		krb5_get_renewed_creds;
+ 		krb5_get_server_rcache;
+ 		krb5_get_use_admin_kdc;
++		krb5_get_validated_creds;
+ 		krb5_get_warn_dest;
+ 		krb5_get_wrapped_length;
+ 		krb5_getportbyname;
