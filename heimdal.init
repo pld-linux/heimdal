@@ -31,37 +31,38 @@ else
 fi
 
 start() {
-	local pid
-
-	if [ ! -f /var/lock/subsys/heimdal ]; then
-		msg_starting "Kerberos KDC"
-		busy
-		daemon kdc --detach $KDC_PARAMS
-		RETVAL=$?
-		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/heimdal
-	else
+	if [ -f /var/lock/subsys/heimdal ]; then
 		msg_already_running "Kerberos KDC"
+		return
 	fi
+
+	msg_starting "Kerberos KDC"
+	busy
+	daemon kdc --detach $KDC_PARAMS
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/heimdal
 }
 
 stop() {
-	if [ -f /var/lock/subsys/heimdal ]; then
-		msg_stopping "Kerberos KDC"
-		killproc kdc
-		rm -f /var/lock/subsys/heimdal >/dev/null 2>&1
-	else
+	if [ ! -f /var/lock/subsys/heimdal ]; then
 		msg_not_running "Kerberos KDC"
+		return
 	fi
+
+	msg_stopping "Kerberos KDC"
+	killproc kdc
+	rm -f /var/lock/subsys/heimdal >/dev/null 2>&1
 }
 
 condrestart() {
-	if [ -f /var/lock/subsys/heimdal ]; then
-		stop
-		start
-	else
+	if [ ! -f /var/lock/subsys/heimdal ]; then
 		msg_not_running "Kerberos KDC"
 		RETVAL=$1
+		return
 	fi
+
+	stop
+	start
 }
 
 RETVAL=0

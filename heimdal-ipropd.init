@@ -6,7 +6,6 @@
 # processname:	ipropd-master ipropd-slave
 # config:	/etc/krb5.conf
 
-
 # Source function library
 . /etc/rc.d/init.d/functions
 
@@ -27,62 +26,85 @@ else
 	exit 0
 fi
 
-start() {
-	local pid
+start_master() {
+	if [ -f /var/lock/subsys/ipropd-master ]; then
+		msg_already_running "Kerberos Replication Daemon (Master)"
+		return
+	fi
 
-	if is_yes "$MASTER_ENABLED"; then
-		if [ ! -f /var/lock/subsys/ipropd-master ]; then
-			msg_starting "Kerberos Replication Daemon (Master)"
-			busy
-			daemon ipropd-master --detach
-			RETVAL=$?
-			[ $RETVAL -eq 0 ] && touch /var/lock/subsys/ipropd-master
-		else
-			msg_already_running "Kerberos Replication Daemon (Master)"
-		fi
+	if ! is_yes "$MASTER_ENABLED"; then
+		return
 	fi
-	if is_yes "$SLAVE_ENABLED"; then
-		if [ ! -f /var/lock/subsys/ipropd-slave ]; then
-			msg_starting "Kerberos Replication Daemon (Slave)"
-			busy
-			daemon ipropd-slave --detach $SLAVE_PARAMS
-			RETVAL=$?
-			[ $RETVAL -eq 0 ] && touch /var/lock/subsys/ipropd-slave
-		else
-			msg_already_running "Kerberos Replication Daemon (Slave)"
-		fi
-	fi
+
+	msg_starting "Kerberos Replication Daemon (Master)"
+	busy
+	daemon ipropd-master --detach
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/ipropd-master
 }
 
-stop() {
-	if [ -f /var/lock/subsys/ipropd-master ]; then
-		msg_stopping "Kerberos Replication Daemon (Master)"
-		killproc ipropd-master
-		rm -f /var/lock/subsys/ipropd-master >/dev/null 2>&1
-	else
+start_slave() {
+	if [ -f /var/lock/subsys/ipropd-slave ]; then
+		msg_already_running "Kerberos Replication Daemon (Slave)"
+		return
+	fi
+
+	if ! is_yes "$SLAVE_ENABLED"; then
+		return
+	fi
+
+	msg_starting "Kerberos Replication Daemon (Slave)"
+	busy
+	daemon ipropd-slave --detach $SLAVE_PARAMS
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/ipropd-slave
+}
+
+stop_master() {
+	if [ ! -f /var/lock/subsys/ipropd-master ]; then
 		if is_yes "$MASTER_ENABLED"; then
 			msg_not_running "Kerberos Replication Daemon (Master)"
 		fi
+		return
 	fi
-	if [ -f /var/lock/subsys/ipropd-slave ]; then
-		msg_stopping "Kerberos Replication Daemon (Slave)"
-		killproc ipropd-slave
-		rm -f /var/lock/subsys/ipropd-slave >/dev/null 2>&1
-	else
+
+	msg_stopping "Kerberos Replication Daemon (Master)"
+	killproc ipropd-master
+	rm -f /var/lock/subsys/ipropd-master >/dev/null 2>&1
+}
+
+stop_slave() {
+	if [ ! -f /var/lock/subsys/ipropd-slave ]; then
 		if is_yes "$SLAVE_ENABLED"; then
 			msg_not_running "Kerberos Replication Daemon (Slave)"
 		fi
+		return
 	fi
+
+	msg_stopping "Kerberos Replication Daemon (Slave)"
+	killproc ipropd-slave
+	rm -f /var/lock/subsys/ipropd-slave >/dev/null 2>&1
+}
+
+start() {
+	start_master
+	start_slave
+}
+
+stop() {
+	stop_master
+	stop_slave
 }
 
 condrestart() {
-	if [ -f /var/lock/subsys/ipropd-master -o -f /var/lock/subsys/ipropd-slave ]; then
-		stop
-		start
-	else
+	if [ ! -f /var/lock/subsys/ipropd-master -a ! -f /var/lock/subsys/ipropd-slave ]; then
 		msg_not_running "Kerberos Replication Daemons"
 		RETVAL=$1
+		return
 	fi
+
+	stop
+	start
 }
 
 RETVAL=0
