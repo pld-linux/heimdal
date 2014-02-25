@@ -2,9 +2,10 @@
 # Conditional build:
 %bcond_without	x11			# X11-based utilities
 %bcond_without	ldap			# LDAP plugin
+%bcond_without	sqlite			# Sqlite3 support
 %bcond_with	openssl			# use OpenSSL instead of internal hcrypto
 %bcond_with	expose_internals	# install internal KCM headers
-#
+
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
@@ -56,7 +57,7 @@ BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.268
-BuildRequires:	sqlite3-devel
+%{?with_sqlite:BuildRequires:	sqlite3-devel}
 BuildRequires:	texinfo
 %{?with_x11:BuildRequires:	xorg-lib-libICE-devel}
 %{?with_x11:BuildRequires:	xorg-lib-libSM-devel}
@@ -159,7 +160,7 @@ Requires:	%{name}-libs-server = %{version}-%{release}
 Requires:	db-devel
 Requires:	libcom_err-devel >= 1.41.11
 %{?with_openssl:Requires:	openssl-devel}
-Requires:	sqlite3-devel
+%{?with-sqlite:Requires:	sqlite3-devel}
 Conflicts:	krb5-devel
 Conflicts:	libgssglue-devel
 
@@ -447,7 +448,7 @@ cd ../..
 	--with-hdbdir=%{_localstatedir} \
 	--with-ipv6 \
 	--with-readline=/usr \
-	--with-sqlite3=/usr \
+	%{?with_sqlite:--with-sqlite3=/usr} \
 	--without-hesiod \
 	--with%{!?with_x11:out}-x
 
