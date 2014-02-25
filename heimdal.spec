@@ -461,28 +461,28 @@ install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir},%{schemadir},/sbin,/
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install lib/hdb/hdb.schema $RPM_BUILD_ROOT%{schemadir}
+cp -p lib/hdb/hdb.schema $RPM_BUILD_ROOT%{schemadir}
 
 mv $RPM_BUILD_ROOT%{_sbindir}/kcm $RPM_BUILD_ROOT/sbin/kcm
 
 mv $RPM_BUILD_ROOT%{_bindir}/su $RPM_BUILD_ROOT%{_bindir}/ksu
 mv $RPM_BUILD_ROOT%{_mandir}/man1/su.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksu.1
 
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/kpasswdd
-install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/ipropd
-install %{SOURCE4} $RPM_BUILD_ROOT/etc/rc.d/init.d/kcm
-install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
-install %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/kcm
+install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
+install -p %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/kpasswdd
+install -p %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/ipropd
+install -p %{SOURCE4} $RPM_BUILD_ROOT/etc/rc.d/init.d/kcm
+cp -p %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
+cp -p %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/kcm
 
-install %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
+cp -p %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
 
-install %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/ftpd
-install %{SOURCE9} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
-install %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
-install %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
+cp -p %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/ftpd
+cp -p %{SOURCE9} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
+cp -p %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
+cp -p %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
-for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimbase,heimntlm,hx509,kafs,krb5,roken,wind}.so %{!?with_openssl:libhcrypto.so} ; do
+for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimbase,heimntlm,hx509,kafs,krb5,roken,wind}.so %{!?with_openssl:libhcrypto.so}; do
 	lib=`basename $l`
 	mv -f $RPM_BUILD_ROOT%{_libdir}/$lib.* $RPM_BUILD_ROOT/%{_lib}
 	ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/$lib.*.*) $RPM_BUILD_ROOT%{_libdir}/$lib
@@ -540,12 +540,9 @@ fi
 
 %post kcm
 /sbin/chkconfig --add kcm
-if [ -f /var/lock/subsys/kcm ]; then
-	echo "Run \"/sbin/service kcm restart\" to restart kcm." >&2
-	echo "WARNING: it will clear all credentials and tickets kept in kcm!" >&2
-else
-	echo "Run \"/sbin/service kcm start\" to start kcm." >&2
-fi
+%service -n kcm restart
+# Add note to service -n restart
+echo "WARNING: it will clear all credentials and tickets kept in kcm!" >&2
 
 %preun kcm
 if [ "$1" = "0" ]; then
@@ -590,7 +587,6 @@ fi
 %post   libs-server -p /sbin/ldconfig
 %postun libs-server -p /sbin/ldconfig
 
-%if %{with ldap}
 %post -n openldap-schema-heimdal
 %openldap_schema_register %{schemadir}/hdb.schema
 %service -q ldap restart
@@ -600,7 +596,6 @@ if [ "$1" = "0" ]; then
 	%openldap_schema_unregister %{schemadir}/hdb.schema
 	%service -q ldap restart
 fi
-%endif
 
 %triggerpostun libs -- heimdal-libs < 1.2.1-6
 if [ -f /etc/heimdal/krb5.conf.rpmsave ]; then
