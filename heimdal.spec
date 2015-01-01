@@ -36,6 +36,7 @@ Patch8:		%{name}-gcc4.patch
 Patch9:		%{name}-db4.patch
 Patch10:	%{name}-libadd.patch
 Patch11:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-0.7.2-setuid-patch.txt
+Patch12:	optarg.patch
 URL:		http://www.pdc.kth.se/heimdal/
 %{?with_x11:BuildRequires:	XFree86-devel}
 BuildRequires:	autoconf
@@ -294,6 +295,7 @@ Biblioteki statyczne heimdal.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 %build
 rm -f acinclude.m4
@@ -310,7 +312,7 @@ export CPPFLAGS="-Dglob=heimdal_glob -Dglobfree=heimdal_globfree"
 	--enable-new-des3-code \
 	--with-openldap=/usr \
 	--with-readline=/usr \
-		--with%{!?with_x11:out}-x \
+	--with%{!?with_x11:out}-x \
 	--with-ipv6
 
 %{__make}

@@ -1,0 +1,26 @@
+fix syntax error
+
+checking whether __progname is declared... no
+checking whether optarg is declared... yes
+./configure[28783]: syntax error: `fi' unexpected
+
+
+checking whether h_nerr is declared... no
+checking for __progname... yes
+checking whether __progname is declared... no
+checking whether optarg is declared... yes
+./configure: line 28783: syntax error near unexpected token `fi'
+./configure: line 28783: `fi'
+
+--- heimdal-0.7.2/cf/roken-frag.m4~	2015-01-01 18:14:07.000000000 +0200
++++ heimdal-0.7.2/cf/roken-frag.m4	2015-01-01 18:34:31.890707544 +0200
+@@ -624,7 +624,8 @@
+ #include <err.h>
+ #endif])
+ 
+-AC_CHECK_DECLS([optarg, optind, opterr, optopt, environ],[],[][
++AC_CHECK_DECLS([optarg, optind, opterr, optopt, environ],[],[],
++[
+ #include <stdlib.h>
+ #ifdef HAVE_UNISTD_H
+ #include <unistd.h>
