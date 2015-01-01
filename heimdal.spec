@@ -57,6 +57,9 @@ Requires:	%{name}-libs = %{version}-%{release}
 Conflicts:	krb5-lib
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+# needs -lpthread really
+%define		skip_post_check_so	libgssapi.so.4.0.0
+
 %define		_libexecdir	%{_sbindir}
 %define		_localstatedir	/var/lib/%{name}
 %define		_sysconfdir	/etc/%{name}
