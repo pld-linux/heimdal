@@ -9,7 +9,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	0.7.2
-Release:	5
+Release:	6
 License:	Free
 Group:		Networking
 Source0:	ftp://ftp.pdc.kth.se/pub/heimdal/src/%{name}-%{version}.tar.gz
@@ -57,8 +57,9 @@ Requires:	%{name}-libs = %{version}-%{release}
 Conflicts:	krb5-lib
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-# needs -lpthread really
-%define		skip_post_check_so	libgssapi.so.4.0.0
+# libgssapi.so -lpthread
+# libkadm5srv.so -ldl
+%define		skip_post_check_so	libgssapi.so.4.0.0 libkadm5srv.so.7.0.7
 
 %define		_libexecdir	%{_sbindir}
 %define		_localstatedir	/var/lib/%{name}
