@@ -6,15 +6,17 @@
 %bcond_with	openssl			# use OpenSSL instead of internal hcrypto
 %bcond_with	expose_internals	# install internal KCM headers
 
+%define		rel	0.1
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
-Version:	1.5.3
-Release:	5
+Version:	1.6
+Release:	0.rc2.%{rel}
 License:	Free
 Group:		Networking
-Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
-# Source0-md5:	30b379e3de12f332fbd201131f02ffca
+#Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
+Source0:	https://github.com/heimdal/heimdal/archive/heimdal-1-6-branch/%{name}-%{version}.tar.gz
+# Source0-md5:	4566d8a4f28c57b4a044e6a89b1cddc4
 Source1:	%{name}.init
 Source2:	%{name}-kpasswdd.init
 Source3:	%{name}-ipropd.init
@@ -403,29 +405,32 @@ Kerberos Daemons.
 Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 
 %prep
-%setup -q
+%setup -qc
+mv heimdal-heimdal-1-6-branch/* .
 %patch0 -p1
-%patch1 -p1
+#%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
+#%patch7 -p1
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
-%patch11 -p1
+#%patch11 -p1
 %patch12 -p1
 %patch13 -p1
-%patch14 -p1
+#%patch14 -p1
+
+%{__rm} acinclude.m4
+# cf/{libtool,lt*}.m4
 
 %build
 install -d our-ld
 ln -s %{_bindir}/ld.bfd our-ld/ld
 export PATH=$(pwd)/our-ld:$PATH
 
-%{__rm} acinclude.m4 cf/{libtool,lt*}.m4
 %{__libtoolize}
 %{__aclocal} -I cf
 %{__autoconf}
