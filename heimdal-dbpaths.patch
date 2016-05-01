@@ -148,15 +148,3 @@ diff -urbB heimdal-0.7/lib/krb5/krb5.conf.5 heimdal-0.7.org/lib/krb5/krb5.conf.5
  	kdc = SYSLOG:INFO
  	default = SYSLOG:INFO:USER
  .Ed
-diff -urbB heimdal-0.7/lib/krb5/krb5.conf.cat5 heimdal-0.7.org/lib/krb5/krb5.conf.cat5
---- heimdal-0.7/lib/krb5/krb5.conf.cat5	2005-06-16 18:33:58.000000000 +0200
-+++ heimdal-0.7.org/lib/krb5/krb5.conf.cat5	2005-07-03 18:58:54.163073360 +0200
-@@ -503,7 +503,7 @@
-                            default_domain = foo.se
-                    }
-            [logging]
--                   kdc = FILE:/var/heimdal/kdc.log
-+                   kdc = FILE:/var/lib/heimdal/kdc.log
-                    kdc = SYSLOG:INFO
-                    default = SYSLOG:INFO:USER
- 
