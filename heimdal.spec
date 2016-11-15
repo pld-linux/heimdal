@@ -6,7 +6,7 @@
 %bcond_with	openssl			# use OpenSSL instead of internal hcrypto
 %bcond_with	expose_internals	# install internal KCM headers
 
-%define		rel	0.1
+%define		rel	0.2
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
