@@ -17,7 +17,7 @@ License:	Free
 Group:		Networking
 #Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
 Source0:	https://github.com/heimdal/heimdal/archive/master/%{name}-%{version}.tar.gz
-# Source0-md5:	80819330470034a5ed5fa32b67fb105a
+# Source0-md5:	8639cd192cd4448f0e99ac39f73890f0
 Source1:	%{name}.init
 Source2:	%{name}-kpasswdd.init
 Source3:	%{name}-ipropd.init
@@ -410,7 +410,7 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %prep
 %setup -qc
 mv heimdal-*/{.??*,*} .
-%patch0 -p1
+#%patch0 -p1 appl/ftp/ftpd is no longer there, along with more apps
 #%patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -419,7 +419,7 @@ mv heimdal-*/{.??*,*} .
 %patch6 -p1
 #%patch7 -p1
 %patch8 -p1
-%patch9 -p1
+#%patch9 -p1 most of the apps are gone
 %patch10 -p1
 #%patch11 -p1
 %patch12 -p1

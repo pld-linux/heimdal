@@ -10,16 +10,20 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  
  AC_CANONICAL_HOST
  CANONICAL_HOST=$host
---- heimdal-1.1/doc/setup.texi.orig	2008-01-24 14:11:44.000000000 +0100
-+++ heimdal-1.1/doc/setup.texi	2008-03-09 19:11:01.901155461 +0100
-@@ -111,13 +111,13 @@
+--- heimdal-1.7.old/doc/setup.texi	2016-11-15 05:29:47.000000000 +0200
++++ heimdal-1.7.old/doc/setup.texi	2016-11-19 00:47:14.126318922 +0200
+@@ -122,8 +122,8 @@
  Make sure the directory has restrictive permissions.
  
  @example
 -# mkdir /var/heimdal
+-# chmod og-rwx /var/heimdal
 +# mkdir /var/lib/heimdal
++# chmod og-rwx /var/lib/heimdal
  @end example
  
+ Heimdal supports various database backends: lmdb (LMDB), db3 (Berkeley
+@@ -150,7 +150,7 @@
  The keys of all the principals are stored in the database.  If you
  choose to, these can be encrypted with a master key.  You do not have to
  remember this key (or password), but just to enter it once and it will
@@ -28,7 +32,7 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  master key, run @samp{kstash} to create this master key:
  
  @example
-@@ -354,14 +354,14 @@
+@@ -335,14 +335,14 @@
  one below to your @file{/etc/inetd.conf}.
  
  @example
@@ -45,7 +49,7 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  syntax:
  @smallexample
  principal       [priv1,priv2,...]       [glob-pattern]
-@@ -525,7 +525,7 @@
+@@ -518,7 +518,7 @@
  
  @example
  slave# ktutil get -p foo/admin hprop/`hostname`
@@ -54,7 +58,7 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  slave# hpropd
  @end example
  
-@@ -577,7 +577,7 @@
+@@ -578,7 +578,7 @@
  The program that runs on the master is @command{ipropd-master} and all
  clients run @command{ipropd-slave}.
  
@@ -63,7 +67,7 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  the slaves that the database should be propagated to.  Each line contains
  the full name of the principal (for example
  @samp{iprop/hemligare.foo.se@@FOO.SE}).
-@@ -593,25 +593,25 @@
+@@ -594,25 +594,25 @@
  
  
  @example
@@ -94,8 +98,20 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  @end example
  
  To manage the iprop log file you should use the @command{iprop-log}
-@@ -1291,7 +1291,7 @@
- Note that the file name is space sensitive.
+@@ -623,9 +623,9 @@
+ Both the master and slave provides status of the world as they see it.
+ 
+ The master write outs the current status of the slaves, last seen and
+-their version number in @file{/var/heimdal/slaves-stats}.
++their version number in @file{/var/lib/heimdal/slaves-stats}.
+ 
+-The slave write out the current status in @file{/var/heimdal/ipropd-slave-status}.
++The slave write out the current status in @file{/var/lib/heimdal/ipropd-slave-status}.
+ 
+ These locations can be changed with command line options, and in the
+ case of @command{ipropd_master}, the configuration file.
+@@ -1567,7 +1567,7 @@
+ Note that the file contents are space sensitive.
  
  @example
 -# cat /var/heimdal/pki-mapping
