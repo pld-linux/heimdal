@@ -6,18 +6,16 @@
 %bcond_with	openssl			# use OpenSSL instead of internal hcrypto
 %bcond_with	expose_internals	# install internal KCM headers
 
-%define		rel	0.2
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 # see dev-7.3 WIP branch for newer version
 Name:		heimdal
-Version:	1.7
-Release:	0.rc2.%{rel}
+Version:	7.1.0
+Release:	0.1
 License:	Free
 Group:		Networking
-#Source0:	http://www.h5l.org/dist/src/%{name}-%{version}.tar.gz
-Source0:	https://github.com/heimdal/heimdal/archive/master/%{name}-%{version}.tar.gz
-# Source0-md5:	8639cd192cd4448f0e99ac39f73890f0
+Source0:	https://github.com/heimdal/heimdal/releases/download/heimdal-%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	bbeedb8eae6f81b12cbbaada4faaeb47
 Source1:	%{name}.init
 Source2:	%{name}-kpasswdd.init
 Source3:	%{name}-ipropd.init
@@ -408,11 +406,10 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %define	specflags	-pthread
 
 %prep
-%setup -qc
-mv heimdal-*/{.??*,*} .
+%setup -q
 #%patch0 -p1 appl/ftp/ftpd is no longer there, along with more apps
 #%patch1 -p1
-%patch2 -p1
+#%patch2 -p1 outdated?
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
