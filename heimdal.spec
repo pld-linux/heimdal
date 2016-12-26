@@ -8,6 +8,7 @@
 
 Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
+# see dev-7.1 WIP branch for newer version
 Name:		heimdal
 Version:	1.5.3
 Release:	7
