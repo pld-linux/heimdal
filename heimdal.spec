@@ -26,7 +26,8 @@ Source8:	%{name}-ftpd.inetd
 Source9:	%{name}-rshd.inetd
 Source10:	%{name}-telnetd.inetd
 Source11:	%{name}-kadmind.inetd
-Patch0:		%{name}-paths.patch
+#Patch0:		%{name}-paths.patch
+Patch0:		%{name}-hdb-ldap.patch
 Patch1:		%{name}-am_man_fixes.patch
 Patch2:		%{name}-amfix.patch
 Patch3:		%{name}-dbpaths.patch
@@ -40,7 +41,7 @@ Patch10:	%{name}-ntlm-digest.patch
 Patch11:	%{name}-krb5config-nosysdirs.patch
 Patch12:	%{name}-tinfo.patch
 Patch13:	%{name}-missing-exports.patch
-Patch14:	%{name}-texinfo.patch
+#Patch14:	%{name}-texinfo.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.10.3
@@ -98,30 +99,30 @@ Heimdal jest darmową implementacją Kerberosa 5. Główne zalety to:
 
 %package common
 Summary:	Heimdal essential config files and documentation
-Summary(pl.UTF-8):	Niezbędne pliki konfiguracyjne i dokumentacja dla heimdala
+Summary(pl.UTF-8):	Niezbędne pliki konfiguracyjne i dokumentacja dla Heimdala
 Group:		Networking
 
 %description common
 Package contains essential configs and documentation required by
-heimdal packages.
+Heimdal packages.
 
 %description common -l pl.UTF-8
 Pakiet zawiera niezbędne pliki konfiguracyjne i dokumentację dla
-heimdala.
+Heimdala.
 
 %package libs
 Summary:	Heimdal shared libraries
-Summary(pl.UTF-8):	Biblioteki współdzielone dla heimdala
+Summary(pl.UTF-8):	Biblioteki współdzielone dla Heimdala
 Group:		Libraries
 Requires:	libcom_err >= 1.41.11
 
 %description libs
 This package contains shared libraries required by several of the
-other heimdal packages.
+other Heimdal packages.
 
 %description libs -l pl.UTF-8
 Ten pakiet zawiera biblioteki współdzielone wymagane przez kilka
-innych pakietów składowych heimdala.
+innych pakietów składowych Heimdala.
 
 %package libs-common
 Summary:	Common libraries used by Heimdal programs
@@ -151,8 +152,8 @@ Ten pakiet zawiera biblioteki współdzielone używane potrzebne dla
 serwera KDC z projektu Heimdal.
 
 %package devel
-Summary:	Header files for heimdal
-Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja do bibliotek heimdal
+Summary:	Header files for Heimdal
+Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja do bibliotek Heimdal
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-libs-common = %{version}-%{release}
@@ -165,23 +166,24 @@ Conflicts:	krb5-devel
 Conflicts:	libgssglue-devel
 
 %description devel
-contains files needed to compile and link software using the kerberos
-libraries.
+This package contains files needed to compile and link software using
+the Heimdal libraries.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe i dokumentacja do bibliotek heimdal.
+Pliki nagłówkowe do kompilowania programów przy użyciu bibliotek
+Heimdal.
 
 %package static
-Summary:	Static heimdal libraries
-Summary(pl.UTF-8):	Biblioteki statyczne heimdal
+Summary:	Static Heimdal libraries
+Summary(pl.UTF-8):	Biblioteki statyczne Heimdal
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
-Satatic heimdal libraries.
+Satatic Heimdal libraries.
 
 %description static -l pl.UTF-8
-Biblioteki statyczne heimdal.
+Biblioteki statyczne Heimdal.
 
 %package ldap
 Summary:	LDAP HDB plugin
@@ -276,13 +278,13 @@ Conflicts:	krb5-ftp
 
 %description ftp
 The FTP package provides the standard UNIX command-line FTP client
-with kerberos authentication support. FTP is the file transfer
+with Kerberos authentication support. FTP is the file transfer
 protocol, which is a widely used Internet protocol for transferring
 files and for archiving files.
 
 %description ftp -l pl.UTF-8
 Ten pakiet dostarcza standardowego klienta FTP z wbudowaną obsługą
-kerberosa. FTP jest protokołem do przesyłania plików szeroko
+Kerberosa. FTP jest protokołem do przesyłania plików szeroko
 rozpowszechnionym w Internecie.
 
 %package rsh
@@ -392,7 +394,7 @@ na której działa.
 
 %package daemons
 Summary:	Kerberos daemons programs for use on servers
-Summary(pl.UTF-8):	Serwery popularnych usług, autoryzujące przy pomocy kerberosa
+Summary(pl.UTF-8):	Serwery popularnych usług, autoryzujące przy pomocy Kerberosa
 Group:		Networking
 Requires:	%{name}-libs-common = %{version}-%{release}
 
@@ -404,8 +406,8 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 
 %prep
 %setup -q
-#%patch0 -p1 appl/ftp/ftpd is no longer there, along with more apps
-#%patch1 -p1
+%patch0 -p1
+%patch1 -p1
 #%patch2 -p1 outdated?
 %patch3 -p1
 %patch4 -p1
@@ -413,12 +415,11 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch6 -p1
 #%patch7 -p1
 %patch8 -p1
-#%patch9 -p1 most of the apps are gone
+%patch9 -p1
 %patch10 -p1
-#%patch11 -p1
+%patch11 -p1
 %patch12 -p1
 %patch13 -p1
-#%patch14 -p1
 
 %{__rm} acinclude.m4
 # cf/{libtool,lt*}.m4
@@ -446,6 +447,7 @@ cd ../..
 	--enable-kcm \
 	--enable-pthread-support \
 	--enable-shared \
+	--disable-silent-rules \
 	--enable-static \
 	--with-hdbdir=%{_localstatedir} \
 	--with-ipv6 \
@@ -466,10 +468,10 @@ install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir},%{schemadir},/sbin,/
 
 cp -p lib/hdb/hdb.schema $RPM_BUILD_ROOT%{schemadir}
 
-mv $RPM_BUILD_ROOT%{_sbindir}/kcm $RPM_BUILD_ROOT/sbin/kcm
+%{__mv} $RPM_BUILD_ROOT%{_sbindir}/kcm $RPM_BUILD_ROOT/sbin/kcm
 
-mv $RPM_BUILD_ROOT%{_bindir}/su $RPM_BUILD_ROOT%{_bindir}/ksu
-mv $RPM_BUILD_ROOT%{_mandir}/man1/su.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksu.1
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/su $RPM_BUILD_ROOT%{_bindir}/ksu
+%{__mv} $RPM_BUILD_ROOT%{_mandir}/man1/su.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksu.1
 
 install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 install -p %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/kpasswdd
@@ -487,7 +489,7 @@ cp -p %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
 for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimbase,heimntlm,hx509,kafs,krb5,roken,wind}.so %{!?with_openssl:libhcrypto.so}; do
 	lib=`basename $l`
-	mv -f $RPM_BUILD_ROOT%{_libdir}/$lib.* $RPM_BUILD_ROOT/%{_lib}
+	%{__mv} $RPM_BUILD_ROOT%{_libdir}/$lib.* $RPM_BUILD_ROOT/%{_lib}
 	ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/$lib.*.*) $RPM_BUILD_ROOT%{_libdir}/$lib
 done
 

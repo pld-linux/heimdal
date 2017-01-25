@@ -1,0 +1,18 @@
+--- heimdal-7.1.0/lib/hdb/hdb-protos.h.orig	2016-12-20 05:24:44.000000000 +0100
++++ heimdal-7.1.0/lib/hdb/hdb-protos.h	2017-01-25 21:51:26.547406462 +0100
+@@ -370,6 +370,7 @@
+ 	const hdb_entry */*e*/,
+ 	krb5_kvno /*kvno*/);
+ 
++#ifndef OPENLDAP_MODULE
+ krb5_error_code
+ hdb_ldap_create (
+ 	krb5_context /*context*/,
+@@ -381,6 +382,7 @@
+ 	krb5_context /*context*/,
+ 	HDB ** /*db*/,
+ 	const char */*arg*/);
++#endif
+ 
+ krb5_error_code
+ hdb_list_builtin (

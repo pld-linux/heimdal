@@ -10,18 +10,6 @@ diff -ur heimdal-1.3.1/appl/dceutils/Makefile.am heimdal-1.3.1-sbin/appl/dceutil
  
  dpagaix_CFLAGS = $(dpagaix_cflags)
  dpagaix_LDFLAGS = $(dpagaix_ldflags)
-diff -ur heimdal-1.3.1/appl/ftp/ftpd/Makefile.am heimdal-1.3.1-sbin/appl/ftp/ftpd/Makefile.am
---- heimdal-1.3.1/appl/ftp/ftpd/Makefile.am	2009-11-21 16:41:51.000000000 +0100
-+++ heimdal-1.3.1-sbin/appl/ftp/ftpd/Makefile.am	2009-12-07 17:20:32.678628545 +0100
-@@ -4,7 +4,7 @@
- 
- AM_CPPFLAGS += -I$(srcdir)/../common $(INCLUDE_krb4) -DFTP_SERVER
- 
--libexec_PROGRAMS = ftpd
-+sbin_PROGRAMS = ftpd
- 
- CHECK_LOCAL = 
- 
 diff -ur heimdal-1.3.1/appl/kf/Makefile.am heimdal-1.3.1-sbin/appl/kf/Makefile.am
 --- heimdal-1.3.1/appl/kf/Makefile.am	2009-11-21 16:41:51.000000000 +0100
 +++ heimdal-1.3.1-sbin/appl/kf/Makefile.am	2009-12-07 17:20:32.681638741 +0100
@@ -34,86 +22,16 @@ diff -ur heimdal-1.3.1/appl/kf/Makefile.am heimdal-1.3.1-sbin/appl/kf/Makefile.a
  
  man_MANS = kf.1 kfd.8
  
-diff -ur heimdal-1.3.1/appl/kx/Makefile.am heimdal-1.3.1-sbin/appl/kx/Makefile.am
---- heimdal-1.3.1/appl/kx/Makefile.am	2009-11-21 16:41:51.000000000 +0100
-+++ heimdal-1.3.1-sbin/appl/kx/Makefile.am	2009-12-07 17:20:32.684638988 +0100
-@@ -10,13 +10,13 @@
- 
- bin_PROGRAMS = kx
- bin_SCRIPTS = rxterm rxtelnet tenletxr
--libexec_PROGRAMS = kxd
-+sbin_PROGRAMS = kxd
- 
- else
- 
- bin_PROGRAMS = 
- bin_SCRIPTS = 
--libexec_PROGRAMS = 
-+sbin_PROGRAMS = 
- 
- endif
- 
-diff -ur heimdal-1.3.1/appl/popper/Makefile.am heimdal-1.3.1-sbin/appl/popper/Makefile.am
---- heimdal-1.3.1/appl/popper/Makefile.am	2009-11-21 16:41:51.000000000 +0100
-+++ heimdal-1.3.1-sbin/appl/popper/Makefile.am	2009-12-07 17:20:32.687628025 +0100
-@@ -4,7 +4,7 @@
- 
- noinst_PROGRAMS = pop_debug
- 
--libexec_PROGRAMS = popper
-+sbin_PROGRAMS = popper
- 
- popper_SOURCES =				\
- 	pop_auth.c				\
-diff -ur heimdal-1.3.1/appl/push/Makefile.am heimdal-1.3.1-sbin/appl/push/Makefile.am
---- heimdal-1.3.1/appl/push/Makefile.am	2009-11-21 16:41:51.000000000 +0100
-+++ heimdal-1.3.1-sbin/appl/push/Makefile.am	2009-12-07 17:20:32.690628323 +0100
+--- heimdal-7.1.0/kadmin/Makefile.am.orig	2017-01-25 21:23:47.817425405 +0100
++++ heimdal-7.1.0/kadmin/Makefile.am	2017-01-25 21:26:46.720756697 +0100
 @@ -6,7 +6,7 @@
  
- bin_SCRIPTS		= pfrom
+ bin_PROGRAMS = kadmin
  
--libexec_PROGRAMS	= push
-+sbin_PROGRAMS	= push
- 
- push_SOURCES = push.c push_locl.h
- 
-diff -ur heimdal-1.3.1/appl/rsh/Makefile.am heimdal-1.3.1-sbin/appl/rsh/Makefile.am
---- heimdal-1.3.1/appl/rsh/Makefile.am	2009-11-21 16:41:51.000000000 +0100
-+++ heimdal-1.3.1-sbin/appl/rsh/Makefile.am	2009-12-07 17:20:32.693503567 +0100
-@@ -8,7 +8,7 @@
- 
- man_MANS = rsh.1 rshd.8
- 
--libexec_PROGRAMS = rshd
-+sbin_PROGRAMS = rshd
- 
- rsh_SOURCES  = rsh.c common.c rsh_locl.h
- 
-diff -ur heimdal-1.3.1/appl/telnet/telnetd/Makefile.am heimdal-1.3.1-sbin/appl/telnet/telnetd/Makefile.am
---- heimdal-1.3.1/appl/telnet/telnetd/Makefile.am	2009-11-21 16:41:51.000000000 +0100
-+++ heimdal-1.3.1-sbin/appl/telnet/telnetd/Makefile.am	2009-12-07 17:20:32.696628158 +0100
-@@ -4,7 +4,7 @@
- 
- AM_CPPFLAGS += -I$(srcdir)/.. $(INCLUDE_hcrypto)
- 
--libexec_PROGRAMS = telnetd
-+sbin_PROGRAMS = telnetd
- 
- CHECK_LOCAL = 
- 
-diff -ur heimdal-1.3.1/kadmin/Makefile.am heimdal-1.3.1-sbin/kadmin/Makefile.am
---- heimdal-1.3.1/kadmin/Makefile.am	2009-12-07 17:20:42.684504134 +0100
-+++ heimdal-1.3.1-sbin/kadmin/Makefile.am	2009-12-07 17:20:57.712503501 +0100
-@@ -4,9 +4,7 @@
- 
- AM_CPPFLAGS += $(INCLUDE_libintl) $(INCLUDE_readline) $(INCLUDE_hcrypto) -I$(srcdir)/../lib/krb5 -I$(top_builddir)/include/gssapi
- 
--sbin_PROGRAMS = kadmin
--
 -libexec_PROGRAMS = kadmind
-+sbin_PROGRAMS = kadmin kadmind
++sbin_PROGRAMS = kadmind
  
- man_MANS = kadmin.8 kadmind.8
+ man_MANS = kadmin.1 kadmind.8
  
 diff -ur heimdal-1.3.1/kcm/Makefile.am heimdal-1.3.1-sbin/kcm/Makefile.am
 --- heimdal-1.3.1/kcm/Makefile.am	2009-12-07 17:20:42.687503717 +0100

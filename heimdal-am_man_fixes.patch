@@ -1,11 +1,10 @@
-diff -urNbB heimdal-0.7.org/cf/Makefile.am.common heimdal-0.7/cf/Makefile.am.common
---- heimdal-0.7.org/cf/Makefile.am.common	2005-06-16 18:28:31.000000000 +0200
-+++ heimdal-0.7/cf/Makefile.am.common	2005-07-03 19:11:48.112415176 +0200
-@@ -126,84 +126,7 @@
- .x.c:
+--- heimdal-7.1.0/cf/Makefile.am.common.orig	2017-01-25 20:23:32.137466687 +0100
++++ heimdal-7.1.0/cf/Makefile.am.common	2017-01-25 20:23:36.384133306 +0100
+@@ -149,99 +149,7 @@
+ .hx.h:
  	@cmp -s $< $@ 2> /dev/null || cp $< $@
  
--SUFFIXES += .1 .3 .5 .8 .cat1 .cat3 .cat5 .cat8
+-SUFFIXES += .1 .3 .5 .7 .8 .cat1 .cat3 .cat5 .cat7 .cat8
 -
 -NROFF_MAN = groff -mandoc -Tascii
 -#NROFF_MAN = nroff -man
@@ -14,6 +13,8 @@ diff -urNbB heimdal-0.7.org/cf/Makefile.am.common heimdal-0.7/cf/Makefile.am.com
 -.3.cat3:
 -	$(NROFF_MAN) $< > $@
 -.5.cat5:
+-	$(NROFF_MAN) $< > $@
+-.7.cat7:
 -	$(NROFF_MAN) $< > $@
 -.8.cat8:
 -	$(NROFF_MAN) $< > $@
@@ -59,6 +60,19 @@ diff -urNbB heimdal-0.7.org/cf/Makefile.am.common heimdal-0.7/cf/Makefile.am.com
 -		$(NROFF_MAN) $(srcdir)/$$i > $(distdir)/$$x; \
 -	done
 -
+-dist-cat7-mans:
+-	@foo='$(man7_MANS)'; \
+-	bar='$(man_MANS)'; \
+-	for i in $$bar; do \
+-	case $$i in \
+-	*.7) foo="$$foo $$i";; \
+-	esac; done ;\
+-	for i in $$foo; do \
+-		x=`echo $$i | sed 's/\.[^.]*$$/.cat7/'`; \
+-		echo "$(NROFF_MAN) $(srcdir)/$$i > $(distdir)/$$x"; \
+-		$(NROFF_MAN) $(srcdir)/$$i > $(distdir)/$$x; \
+-	done
+-
 -dist-cat8-mans:
 -	@foo='$(man8_MANS)'; \
 -	bar='$(man_MANS)'; \
@@ -72,19 +86,18 @@ diff -urNbB heimdal-0.7.org/cf/Makefile.am.common heimdal-0.7/cf/Makefile.am.com
 -		$(NROFF_MAN) $(srcdir)/$$i > $(distdir)/$$x; \
 -	done
 -
--dist-hook: dist-cat1-mans dist-cat3-mans dist-cat5-mans dist-cat8-mans
+-dist-hook: dist-cat1-mans dist-cat3-mans dist-cat5-mans dist-cat7-mans dist-cat8-mans
 -
 -install-cat-mans:
--	$(SHELL) $(top_srcdir)/cf/install-catman.sh install "$(INSTALL_DATA)" "$(mkinstalldirs)" "$(srcdir)" "$(DESTDIR)$(mandir)" '$(CATMANEXT)' $(man_MANS) $(man1_MANS) $(man3_MANS) $(man5_MANS) $(man8_MANS)
+-	$(SHELL) $(top_srcdir)/cf/install-catman.sh install "$(INSTALL_DATA)" "$(mkinstalldirs)" "$(srcdir)" "$(DESTDIR)$(mandir)" '$(CATMANEXT)' $(man_MANS) $(man1_MANS) $(man3_MANS) $(man5_MANS) $(man7_MANS) $(man8_MANS)
 -
 -uninstall-cat-mans:
--	$(SHELL) $(top_srcdir)/cf/install-catman.sh uninstall "$(INSTALL_DATA)" "$(mkinstalldirs)" "$(srcdir)" "$(DESTDIR)$(mandir)" '$(CATMANEXT)' $(man_MANS) $(man1_MANS) $(man3_MANS) $(man5_MANS) $(man8_MANS)
+-	$(SHELL) $(top_srcdir)/cf/install-catman.sh uninstall "$(INSTALL_DATA)" "$(mkinstalldirs)" "$(srcdir)" "$(DESTDIR)$(mandir)" '$(CATMANEXT)' $(man_MANS) $(man1_MANS) $(man3_MANS) $(man5_MANS) $(man7_MANS) $(man8_MANS)
 -
 -install-data-hook: install-cat-mans
 -uninstall-hook: uninstall-cat-mans
 -
-+SUFFIXES += .1 .3 .5 .8
++SUFFIXES += .1 .3 .5 .7 .8
  
  .et.h:
  	$(COMPILE_ET) $<
-
