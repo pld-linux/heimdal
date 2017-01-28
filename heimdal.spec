@@ -485,9 +485,11 @@ cp -p %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/kcm
 
 cp -p %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
 
+%if 0
 cp -p %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/ftpd
 cp -p %{SOURCE9} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
 cp -p %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
+%endif
 cp -p %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
 
 for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,heimbase,heimntlm,hx509,kafs,krb5,roken,wind}.so %{!?with_openssl:libhcrypto.so}; do
@@ -619,10 +621,13 @@ fi
 %defattr(644,root,root,755)
 %doc ChangeLog NEWS README TODO
 %attr(755,root,root) %{_bindir}/afslog
+%attr(755,root,root) %{_bindir}/bsearch
 %attr(755,root,root) %{_bindir}/gsstool
+%attr(755,root,root) %{_bindir}/heimtools
 %attr(755,root,root) %{_bindir}/hxtool
 %attr(755,root,root) %{_bindir}/idn-lookup
-%attr(755,root,root) %{_bindir}/kcc
+%attr(755,root,root) %{_bindir}/kadmin
+#%attr(755,root,root) %{_bindir}/kcc
 %attr(755,root,root) %{_bindir}/kdestroy
 %attr(755,root,root) %{_bindir}/kf
 %attr(755,root,root) %{_bindir}/kgetcred
@@ -630,26 +635,27 @@ fi
 %attr(755,root,root) %{_bindir}/klist
 %attr(755,root,root) %{_bindir}/kpasswd
 %attr(755,root,root) %{_bindir}/kswitch
+%attr(755,root,root) %{_bindir}/ktutil
 %attr(755,root,root) %{_bindir}/otpprint
 %attr(755,root,root) %{_bindir}/pagsh
-%attr(755,root,root) %{_bindir}/pfrom
+#%attr(755,root,root) %{_bindir}/pfrom
 %attr(755,root,root) %{_bindir}/string2key
 %attr(755,root,root) %{_bindir}/verify_krb5_conf
-%attr(755,root,root) %{_sbindir}/kadmin
 %attr(755,root,root) %{_sbindir}/kdigest
 %attr(755,root,root) %{_sbindir}/kimpersonate
-%attr(755,root,root) %{_sbindir}/ktutil
-%attr(755,root,root) %{_sbindir}/push
+#%attr(755,root,root) %{_sbindir}/push
 %if %{with x11}
-%attr(755,root,root) %{_bindir}/kx
-%attr(755,root,root) %{_bindir}/rxtelnet
-%attr(755,root,root) %{_bindir}/rxterm
-%attr(755,root,root) %{_bindir}/tenletxr
-%attr(755,root,root) %{_bindir}/xnlock
+#%attr(755,root,root) %{_bindir}/kx
+#%attr(755,root,root) %{_bindir}/rxtelnet
+#%attr(755,root,root) %{_bindir}/rxterm
+#%attr(755,root,root) %{_bindir}/tenletxr
+#%attr(755,root,root) %{_bindir}/xnlock
 %endif
 %attr(4755,root,root) %{_bindir}/otp
 %attr(4755,root,root) %{_bindir}/ksu
 %{_mandir}/man1/afslog.1*
+%{_mandir}/man1/bsearch.1*
+%{_mandir}/man1/kadmin.1*
 %{_mandir}/man1/kdestroy.1*
 %{_mandir}/man1/kf.1*
 %{_mandir}/man1/kgetcred.1*
@@ -658,22 +664,21 @@ fi
 %{_mandir}/man1/kpasswd.1*
 %{_mandir}/man1/ksu.1*
 %{_mandir}/man1/kswitch.1*
+%{_mandir}/man1/ktutil.1*
 %{_mandir}/man1/otp.1*
 %{_mandir}/man1/otpprint.1*
 %{_mandir}/man1/pagsh.1*
-%{_mandir}/man1/pfrom.1*
+#%{_mandir}/man1/pfrom.1*
 %if %{with x11}
-%{_mandir}/man1/kx.1*
-%{_mandir}/man1/rxtelnet.1*
-%{_mandir}/man1/rxterm.1*
-%{_mandir}/man1/tenletxr.1*
-%{_mandir}/man1/xnlock.1*
+#%{_mandir}/man1/kx.1*
+#%{_mandir}/man1/rxtelnet.1*
+#%{_mandir}/man1/rxterm.1*
+#%{_mandir}/man1/tenletxr.1*
+#%{_mandir}/man1/xnlock.1*
 %endif
-%{_mandir}/man8/kadmin.8*
 %{_mandir}/man8/kdigest.8*
 %{_mandir}/man8/kimpersonate.8*
-%{_mandir}/man8/ktutil.8*
-%{_mandir}/man8/push.8*
+#%{_mandir}/man8/push.8*
 %{_mandir}/man8/string2key.8*
 %{_mandir}/man8/verify_krb5_conf.8*
 
@@ -777,47 +782,48 @@ fi
 %{_includedir}/krb5
 %{_includedir}/roken
 %{_pkgconfigdir}/heimdal-gssapi.pc
+%{_pkgconfigdir}/heimdal-kadm-client.pc
+%{_pkgconfigdir}/heimdal-kadm-server.pc
+%{_pkgconfigdir}/heimdal-krb5.pc
+%{_pkgconfigdir}/kadm-client.pc
+%{_pkgconfigdir}/kadm-server.pc
+%{_pkgconfigdir}/kafs.pc
+%{_pkgconfigdir}/krb5.pc
+%{_pkgconfigdir}/krb5-gssapi.pc
 %{_mandir}/man1/krb5-config.1*
 %{_mandir}/man3/DES_*.3*
 %{_mandir}/man3/DH_*.3*
 %{_mandir}/man3/EVP_*.3*
 %{_mandir}/man3/HDB.3*
+%{_mandir}/man3/OSSL_CIPHER_ALGORITHM.3*
 %{_mandir}/man3/OpenSSL_add_all_algorithms*.3*
+%{_mandir}/man3/PKCS5_PBKDF2_HMAC.3*
 %{_mandir}/man3/PKCS5_PBKDF2_HMAC_SHA1.3*
 %{_mandir}/man3/RAND_*.3*
 %{_mandir}/man3/RSA_*.3*
-%{_mandir}/man3/__gss_c_attr_stream_sizes_oid_desc.3*
-%{_mandir}/man3/challenge.3*
-%{_mandir}/man3/context.3*
+%{_mandir}/man3/WINCNG_CIPHER_ALGORITHM.3*
+%{_mandir}/man3/WINCNG_CIPHER_ALGORITHM_UNAVAILABLE.3*
 %{_mandir}/man3/data.3*
-%{_mandir}/man3/domain.3*
 %{_mandir}/man3/ecalloc.3*
-%{_mandir}/man3/flags.3*
 %{_mandir}/man3/getarg.3*
 %{_mandir}/man3/gss_*.3*
 %{_mandir}/man3/gssapi*.3*
 %{_mandir}/man3/hcrypto_*.3*
 %{_mandir}/man3/hdb_*.3*
 %{_mandir}/man3/heim_ntlm_*.3*
-%{_mandir}/man3/hostname.3*
+%{_mandir}/man3/heimbase.3*
 %{_mandir}/man3/hx509*.3*
-%{_mandir}/man3/internalvsmechname.3*
+%{_mandir}/man3/internal_v_smechname.3*
 %{_mandir}/man3/kadm5_pwcheck.3*
 %{_mandir}/man3/kafs.3*
 %{_mandir}/man3/krb5*.3*
 %{_mandir}/man3/length.3*
-%{_mandir}/man3/lm.3*
 %{_mandir}/man3/ntlm*.3*
-%{_mandir}/man3/os.3*
 %{_mandir}/man3/page_*.3*
 %{_mandir}/man3/parse_time.3*
 %{_mandir}/man3/rtbl.3*
-%{_mandir}/man3/sessionkey.3*
-%{_mandir}/man3/targetinfo.3*
-%{_mandir}/man3/targetname.3*
-%{_mandir}/man3/username.3*
 %{_mandir}/man3/wind*.3*
-%{_mandir}/man3/ws.3*
+%{_mandir}/man7/krb5-plugin.7*
 
 %files static
 %defattr(644,root,root,755)
@@ -868,7 +874,7 @@ fi
 %attr(755,root,root) %{_sbindir}/kfd
 %attr(755,root,root) %{_sbindir}/kpasswdd
 %attr(755,root,root) %{_sbindir}/kstash
-%{?with_x11:%attr(755,root,root) %{_sbindir}/kxd}
+#%{?with_x11:%attr(755,root,root) %{_sbindir}/kxd}
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
 %attr(754,root,root) /etc/rc.d/init.d/kpasswdd
 %attr(754,root,root) /etc/rc.d/init.d/ipropd
@@ -885,8 +891,9 @@ fi
 %{_mandir}/man8/kfd.8*
 %{_mandir}/man8/kpasswdd.8*
 %{_mandir}/man8/kstash.8*
-%{?with_x11:%{_mandir}/man8/kxd.8*}
+#%{?with_x11:%{_mandir}/man8/kxd.8*}
 
+%if 0
 %files login
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/login
@@ -933,3 +940,4 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/popper
 %{_mandir}/man8/popper.8*
+%endif
