@@ -245,9 +245,6 @@ Kerberosa.
 %patch12 -p1
 %patch13 -p1
 
-#%{__rm} acinclude.m4
-## cf/{libtool,lt*}.m4
-
 %build
 install -d our-ld
 ln -s %{_bindir}/ld.bfd our-ld/ld
