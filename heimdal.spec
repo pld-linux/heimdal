@@ -276,8 +276,7 @@ cd ../..
 	--with-ipv6 \
 	--with-openssl%{!?with_openssl:=no} \
 	--with-readline=/usr \
-	%{?with_sqlite:--with-sqlite3=/usr} \
-	--without-hesiod
+	%{?with_sqlite:--with-sqlite3=/usr}
 
 %{__make} -j1
 
