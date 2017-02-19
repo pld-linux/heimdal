@@ -1,6 +1,5 @@
 #
 # Conditional build:
-%bcond_without	x11			# X11-based utilities
 %bcond_without	ldap			# LDAP plugin
 %bcond_without	sqlite			# Sqlite3 support
 %bcond_with	openssl			# use OpenSSL instead of internal hcrypto
@@ -26,22 +25,18 @@ Source8:	%{name}-ftpd.inetd
 Source9:	%{name}-rshd.inetd
 Source10:	%{name}-telnetd.inetd
 Source11:	%{name}-kadmind.inetd
-#Patch0:		%{name}-paths.patch
 Patch0:		%{name}-hdb-ldap.patch
 Patch1:		%{name}-am_man_fixes.patch
-Patch2:		%{name}-amfix.patch
 Patch3:		%{name}-dbpaths.patch
 Patch4:		%{name}-db4.patch
 Patch5:		%{name}-libadd.patch
 Patch6:		%{name}-signal.patch
-Patch7:		%{name}-make.patch
 Patch8:		%{name}-info.patch
 Patch9:		%{name}-sbindir.patch
 Patch10:	%{name}-ntlm-digest.patch
 Patch11:	%{name}-krb5config-nosysdirs.patch
 Patch12:	%{name}-tinfo.patch
 Patch13:	%{name}-missing-exports.patch
-#Patch14:	%{name}-texinfo.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.10.3
@@ -60,11 +55,6 @@ BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.268
 %{?with_sqlite:BuildRequires:	sqlite3-devel}
 BuildRequires:	texinfo
-%{?with_x11:BuildRequires:	xorg-lib-libICE-devel}
-%{?with_x11:BuildRequires:	xorg-lib-libSM-devel}
-%{?with_x11:BuildRequires:	xorg-lib-libX11-devel}
-%{?with_x11:BuildRequires:	xorg-lib-libXau-devel}
-%{?with_x11:BuildRequires:	xorg-lib-libXt-devel}
 Requires:	%{name}-libs-common = %{version}-%{release}
 Provides:	kerberos5-client
 Obsoletes:	kerberos5-client
@@ -161,7 +151,7 @@ Requires:	%{name}-libs-server = %{version}-%{release}
 Requires:	db-devel
 Requires:	libcom_err-devel >= 1.41.11
 %{?with_openssl:Requires:	openssl-devel}
-%{?with-sqlite:Requires:	sqlite3-devel}
+%{?with_sqlite:Requires:	sqlite3-devel}
 Conflicts:	krb5-devel
 Conflicts:	libgssglue-devel
 
@@ -244,154 +234,6 @@ KCM is a credencial cache daemon for Kerberos tickets.
 KCM to demon zapamiętujący dane uwierzytelniające dla biletów
 Kerberosa.
 
-%package login
-Summary:	login is used when signing onto a system
-Summary(pl.UTF-8):	Narzędzie do logowania w systemie
-Group:		Applications/Networking
-Requires:	%{name}-libs-common = %{version}-%{release}
-Provides:	kerberos5-login
-Obsoletes:	kerberos5-login
-Conflicts:	shadow < 1:4.0.16
-
-%description login
-login is used when signing onto a system. It can also be used to
-switch from one user to another at any time (most modern shells have
-support for this feature built into them, however). This package
-contain kerberized version login program.
-
-%description login -l pl.UTF-8
-login jest używany przy logowaniu do systemu. Może być także użyty do
-przełączenia z jednego użytkownika na innego w dowolnej chwili
-(większość współczesnych shelli ma wbudowaną obsługę tego). Ten pakiet
-zawiera skerberyzowaną wersję programu login.
-
-%package ftp
-Summary:	The standard UNIX FTP (file transfer protocol) client
-Summary(pl.UTF-8):	Klient protokołu FTP
-Group:		Applications/Networking
-Requires:	%{name}-libs-common = %{version}-%{release}
-Provides:	kerberos5-ftp
-Obsoletes:	ftp
-Obsoletes:	kerberos5-ftp
-Conflicts:	heimdal-clients
-Conflicts:	krb5-ftp
-
-%description ftp
-The FTP package provides the standard UNIX command-line FTP client
-with Kerberos authentication support. FTP is the file transfer
-protocol, which is a widely used Internet protocol for transferring
-files and for archiving files.
-
-%description ftp -l pl.UTF-8
-Ten pakiet dostarcza standardowego klienta FTP z wbudowaną obsługą
-Kerberosa. FTP jest protokołem do przesyłania plików szeroko
-rozpowszechnionym w Internecie.
-
-%package rsh
-Summary:	Clients for remote access commands (rsh, rlogin, rcp)
-Summary(pl.UTF-8):	Klient zdalnego dostępu (rsh, rlogin, rcp)
-Group:		Applications/Networking
-Requires:	%{name}-libs-common = %{version}-%{release}
-Provides:	kerberos5-rsh
-Obsoletes:	kerberos5-rsh
-Obsoletes:	rsh
-Conflicts:	heimdal-clients
-Conflicts:	krb5-rsh
-
-%description rsh
-The rsh package contains a set of programs which allow users to run
-commands on remote machines, login to other machines and copy files
-between machines (rsh, rlogin and rcp). All three of these commands
-use rhosts style authentication. This package contains the clients
-needed for all of these services.
-
-%description rsh -l pl.UTF-8
-Ten pakiet zawiera zestaw narzędzi pozwalających na wykonywanie
-poleceń na zdalnych maszynach, logowanie na inne maszyny oraz
-kopiowanie plików pomiędzy maszynami (rsh, rlogin, rcp).
-
-%package telnet
-Summary:	Client for the telnet remote login
-Summary(pl.UTF-8):	Klient usługi telnet
-Group:		Applications/Networking
-Requires:	%{name}-libs-common = %{version}-%{release}
-Provides:	kerberos5-telnet
-Obsoletes:	kerberos5-telnet
-Obsoletes:	telnet
-Conflicts:	heimdal-clients
-Conflicts:	krb5-telnet
-
-%description telnet
-Telnet is a popular protocol for remote logins across the Internet.
-This package provides a command line telnet client.
-
-%description telnet -l pl.UTF-8
-Telnet jest popularnym protokołem zdalnego logowania. Ten pakiet
-zawiera klienta tej usługi.
-
-%package ftpd
-Summary:	The standard UNIX FTP (file transfer protocol) server
-Summary(pl.UTF-8):	Serwer FTP
-Group:		Networking/Daemons
-Requires:	%{name}-libs-common = %{version}-%{release}
-Requires:	rc-inetd >= 0.8.1
-Provides:	kerberos5-ftpd
-Obsoletes:	ftpd
-Obsoletes:	kerberos5-ftpd
-Conflicts:	krb5-ftpd
-
-%description ftpd
-FTP is the file transfer protocol, which is a widely used Internet
-protocol for transferring files and for archiving files.
-
-%description ftpd -l pl.UTF-8
-FTP jest protokołem transmisji plików szeroko rozpowszechnionym w
-Internecie.
-
-%package rshd
-Summary:	Server for remote access commands (rsh, rlogin, rcp)
-Summary(pl.UTF-8):	Serwer zdalnego dostępu (rsh, rlogin, rcp)
-Group:		Networking/Daemons
-Requires:	%{name}-libs-common = %{version}-%{release}
-Requires:	rc-inetd >= 0.8.1
-Provides:	kerberos5-rshd
-Obsoletes:	kerberos5-rshd
-Obsoletes:	rshd
-Conflicts:	krb5-rshd
-
-%description rshd
-The rsh package contains a set of programs which allow users to run
-commmands on remote machines, login to other machines and copy files
-between machines (rsh, rlogin and rcp). All three of these commands
-use rhosts style authentication. This package contains servers needed
-for all of these services.
-
-%description rshd -l pl.UTF-8
-Ten pakiet zawiera zestaw serwerów pozwalających na wykonywanie
-poleceń na zdalnych maszynach, logowanie na inne maszyny oraz
-kopiowanie plików pomiędzy maszynami (rsh, rlogin, rcp).
-
-%package telnetd
-Summary:	Server for the telnet remote login
-Summary(pl.UTF-8):	Serwer protokołu telnet
-Group:		Networking/Daemons
-Requires:	%{name}-libs-common = %{version}-%{release}
-Requires:	rc-inetd >= 0.8.1
-Provides:	kerberos5-telnetd
-Obsoletes:	kerberos5-telnetd
-Obsoletes:	telnetd
-Conflicts:	krb5-telnetd
-
-%description telnetd
-Telnet is a popular protocol for remote logins across the Internet.
-This package provides a telnet daemon which allows remote logins into
-the machine it is running on.
-
-%description telnetd -l pl.UTF-8
-Telnet jest popularnym protokołem zdalnego logowania. Ten pakiet
-zawiera serwer pozwalający na zdalne logowanie się klientów na maszynę
-na której działa.
-
 %package daemons
 Summary:	Kerberos daemons programs for use on servers
 Summary(pl.UTF-8):	Serwery popularnych usług, autoryzujące przy pomocy Kerberosa
@@ -408,12 +250,10 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-#%patch2 -p1 outdated?
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-#%patch7 -p1
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
@@ -421,8 +261,8 @@ Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 %patch12 -p1
 %patch13 -p1
 
-%{__rm} acinclude.m4
-# cf/{libtool,lt*}.m4
+#%{__rm} acinclude.m4
+## cf/{libtool,lt*}.m4
 
 %build
 install -d our-ld
@@ -443,7 +283,6 @@ cd ../..
 	--enable-hdb-openldap-module \
 	--with-openldap=/usr \
 %endif
-	--with%{!?with_openssl:out}-openssl \
 	--enable-kcm \
 	--enable-pthread-support \
 	--enable-shared \
@@ -451,10 +290,10 @@ cd ../..
 	--enable-static \
 	--with-hdbdir=%{_localstatedir} \
 	--with-ipv6 \
+	--with-openssl%{!?with_openssl:=no} \
 	--with-readline=/usr \
 	%{?with_sqlite:--with-sqlite3=/usr} \
-	--without-hesiod \
-	--with%{!?with_x11:out}-x
+	--without-hesiod
 
 %{__make} -j1
 
@@ -557,30 +396,6 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del kcm
 fi
 
-%post ftpd
-%service -q rc-inetd reload
-
-%postun ftpd
-if [ "$1" = "0" ]; then
-	%service -q rc-inetd reload
-fi
-
-%post rshd
-%service -q rc-inetd reload
-
-%postun rshd
-if [ "$1" = "0" ]; then
-	%service -q rc-inetd reload
-fi
-
-%post telnetd
-%service -q rc-inetd reload
-
-%postun telnetd
-if [ "$1" = "0" ]; then
-	%service -q rc-inetd reload
-fi
-
 %post common
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
@@ -624,7 +439,6 @@ fi
 %attr(755,root,root) %{_bindir}/hxtool
 %attr(755,root,root) %{_bindir}/idn-lookup
 %attr(755,root,root) %{_bindir}/kadmin
-#%attr(755,root,root) %{_bindir}/kcc
 %attr(755,root,root) %{_bindir}/kdestroy
 %attr(755,root,root) %{_bindir}/kf
 %attr(755,root,root) %{_bindir}/kgetcred
@@ -635,19 +449,10 @@ fi
 %attr(755,root,root) %{_bindir}/ktutil
 %attr(755,root,root) %{_bindir}/otpprint
 %attr(755,root,root) %{_bindir}/pagsh
-#%attr(755,root,root) %{_bindir}/pfrom
 %attr(755,root,root) %{_bindir}/string2key
 %attr(755,root,root) %{_bindir}/verify_krb5_conf
 %attr(755,root,root) %{_sbindir}/kdigest
 %attr(755,root,root) %{_sbindir}/kimpersonate
-#%attr(755,root,root) %{_sbindir}/push
-%if %{with x11}
-#%attr(755,root,root) %{_bindir}/kx
-#%attr(755,root,root) %{_bindir}/rxtelnet
-#%attr(755,root,root) %{_bindir}/rxterm
-#%attr(755,root,root) %{_bindir}/tenletxr
-#%attr(755,root,root) %{_bindir}/xnlock
-%endif
 %attr(4755,root,root) %{_bindir}/otp
 %attr(4755,root,root) %{_bindir}/ksu
 %{_mandir}/man1/afslog.1*
@@ -665,17 +470,8 @@ fi
 %{_mandir}/man1/otp.1*
 %{_mandir}/man1/otpprint.1*
 %{_mandir}/man1/pagsh.1*
-#%{_mandir}/man1/pfrom.1*
-%if %{with x11}
-#%{_mandir}/man1/kx.1*
-#%{_mandir}/man1/rxtelnet.1*
-#%{_mandir}/man1/rxterm.1*
-#%{_mandir}/man1/tenletxr.1*
-#%{_mandir}/man1/xnlock.1*
-%endif
 %{_mandir}/man8/kdigest.8*
 %{_mandir}/man8/kimpersonate.8*
-#%{_mandir}/man8/push.8*
 %{_mandir}/man8/string2key.8*
 %{_mandir}/man8/verify_krb5_conf.8*
 
@@ -771,7 +567,42 @@ fi
 %{_libdir}/libroken.la
 %{_libdir}/libsl.la
 %{_libdir}/libwind.la
-%{_includedir}/*.h
+%{_includedir}/asn1*.h
+%{_includedir}/base64.h
+%{_includedir}/cms_asn1.h
+%{_includedir}/crmf_asn1.h
+%{_includedir}/der*.h
+%{_includedir}/digest_asn1.h
+%{_includedir}/getarg.h
+%{_includedir}/gssapi.h
+%{_includedir}/hdb*.h
+%{_includedir}/heim*.h
+%{_includedir}/hex.h
+%{_includedir}/hx509*.h
+%{_includedir}/k524_err.h
+%{_includedir}/kafs.h
+%{_includedir}/kdc*.h
+%{_includedir}/krb5*.h
+%{_includedir}/kx509_asn1.h
+%{_includedir}/ntlm_err.h
+%{_includedir}/ocsp_asn1.h
+%{_includedir}/otp.h
+%{_includedir}/parse_bytes.h
+%{_includedir}/parse_time.h
+%{_includedir}/parse_units.h
+%{_includedir}/pkcs10_asn1.h
+%{_includedir}/pkcs12_asn1.h
+%{_includedir}/pkcs8_asn1.h
+%{_includedir}/pkcs9_asn1.h
+%{_includedir}/pkinit_asn1.h
+%{_includedir}/resolve.h
+%{_includedir}/rfc2459_asn1.h
+%{_includedir}/roken*.h
+%{_includedir}/rtbl.h
+%{_includedir}/sl.h
+%{_includedir}/wind.h
+%{_includedir}/wind_err.h
+%{_includedir}/xdbm.h
 %{_includedir}/gssapi
 %{!?with_openssl:%{_includedir}/hcrypto}
 %{_includedir}/kadm5
@@ -871,7 +702,6 @@ fi
 %attr(755,root,root) %{_sbindir}/kfd
 %attr(755,root,root) %{_sbindir}/kpasswdd
 %attr(755,root,root) %{_sbindir}/kstash
-#%{?with_x11:%attr(755,root,root) %{_sbindir}/kxd}
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
 %attr(754,root,root) /etc/rc.d/init.d/kpasswdd
 %attr(754,root,root) /etc/rc.d/init.d/ipropd
@@ -888,51 +718,8 @@ fi
 %{_mandir}/man8/kfd.8*
 %{_mandir}/man8/kpasswdd.8*
 %{_mandir}/man8/kstash.8*
-#%{?with_x11:%{_mandir}/man8/kxd.8*}
 
 %if 0
-%files login
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/login
-%{_mandir}/man1/login.1*
-%{_mandir}/man5/login.access.5*
-
-%files ftp
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/ftp
-%{_mandir}/man1/ftp.1*
-
-%files rsh
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/rcp
-%attr(755,root,root) %{_bindir}/rsh
-%{_mandir}/man1/rcp.1*
-%{_mandir}/man1/rsh.1*
-
-%files telnet
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/telnet
-%{_mandir}/man1/telnet.1*
-
-%files ftpd
-%defattr(644,root,root,755)
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/ftpd
-%attr(755,root,root) %{_sbindir}/ftpd
-%{_mandir}/man5/ftpusers.5*
-%{_mandir}/man8/ftpd.8*
-
-%files rshd
-%defattr(644,root,root,755)
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/rshd
-%attr(755,root,root) %{_sbindir}/rshd
-%{_mandir}/man8/rshd.8*
-
-%files telnetd
-%defattr(644,root,root,755)
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/telnetd
-%attr(755,root,root) %{_sbindir}/telnetd
-%{_mandir}/man8/telnetd.8*
-
 %files daemons
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/popper
