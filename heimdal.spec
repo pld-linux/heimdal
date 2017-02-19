@@ -71,8 +71,6 @@ Heimdal is a free implementation of Kerberos 5. The goals are to:
   conflict, with RFC 1510 (and any future updated RFC)
 - be reasonably compatible with the M.I.T Kerberos V5 API
 - have support for Kerberos V5 over GSS-API (RFC1964)
-- include the most important and useful application programs (rsh,
-  telnet, popper, etc.)
 - include enough backwards compatibility with Kerberos V4
 - IPv6 support
 
@@ -82,8 +80,6 @@ Heimdal jest darmową implementacją Kerberosa 5. Główne zalety to:
 - kompatybilność na poziomie protokołu z istniejącymi implementacjami
 - racjonalna kompatybilność z M.I.T Kerberos V5 API
 - wsparcie dla Kerberosa 5 poprzez GSS-API (RFC1964)
-- zawiera większość istotnych i użytecznych aplikacji (rsh, telnet,
-  popper, etc.)
 - zawiera wystarczającą kompatybilność z Kerberos V4
 - wsparcie dla IPv6
 
@@ -233,18 +229,6 @@ KCM is a credencial cache daemon for Kerberos tickets.
 %description kcm -l pl.UTF-8
 KCM to demon zapamiętujący dane uwierzytelniające dla biletów
 Kerberosa.
-
-%package daemons
-Summary:	Kerberos daemons programs for use on servers
-Summary(pl.UTF-8):	Serwery popularnych usług, autoryzujące przy pomocy Kerberosa
-Group:		Networking
-Requires:	%{name}-libs-common = %{version}-%{release}
-
-%description daemons
-Kerberos Daemons.
-
-%description daemons -l pl.UTF-8
-Demony korzystające z systemu Kerberos do autoryzacji dostępu.
 
 %prep
 %setup -q
@@ -718,10 +702,3 @@ fi
 %{_mandir}/man8/kfd.8*
 %{_mandir}/man8/kpasswdd.8*
 %{_mandir}/man8/kstash.8*
-
-%if 0
-%files daemons
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_sbindir}/popper
-%{_mandir}/man8/popper.8*
-%endif
