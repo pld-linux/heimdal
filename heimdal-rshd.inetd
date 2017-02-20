@@ -1,8 +1,0 @@
-SERVICE_NAME=shell
-SOCK_TYPE=stream
-PROTOCOL=tcp
-PORT=514
-FLAGS=nowait
-USER=root
-SERVER=tcpd
-DAEMON=/usr/sbin/rshd
