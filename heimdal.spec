@@ -21,11 +21,8 @@ Source3:	%{name}-ipropd.init
 Source4:	%{name}-kcm.init
 Source5:	%{name}.sysconfig
 Source6:	%{name}-kcm.sysconfig
-Source7:	%{name}-krb5.conf
-Source8:	%{name}-ftpd.inetd
-Source9:	%{name}-rshd.inetd
-Source10:	%{name}-telnetd.inetd
-Source11:	%{name}-kadmind.inetd
+Source7:	%{name}-kadmind.inetd
+Source8:	%{name}-krb5.conf
 Patch0:		%{name}-hdb-ldap.patch
 Patch1:		%{name}-am_man_fixes.patch
 Patch3:		%{name}-dbpaths.patch
@@ -299,15 +296,8 @@ install -p %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/ipropd
 install -p %{SOURCE4} $RPM_BUILD_ROOT/etc/rc.d/init.d/kcm
 cp -p %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
 cp -p %{SOURCE6} $RPM_BUILD_ROOT/etc/sysconfig/kcm
-
-cp -p %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
-
-%if 0
-cp -p %{SOURCE8} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/ftpd
-cp -p %{SOURCE9} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/rshd
-cp -p %{SOURCE10} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/telnetd
-%endif
-cp -p %{SOURCE11} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
+cp -p %{SOURCE7} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/kadmind
+cp -p %{SOURCE8} $RPM_BUILD_ROOT%{_sysconfdir}/krb5.conf
 
 for l in $RPM_BUILD_ROOT%{_libdir}/lib{asn1,gssapi,hcrypto,heimbase,heimntlm,hx509,kafs,krb5,roken,wind}.so ; do
 	lib=`basename $l`
@@ -681,9 +671,9 @@ fi
 %attr(755,root,root) %{_sbindir}/kfd
 %attr(755,root,root) %{_sbindir}/kpasswdd
 %attr(755,root,root) %{_sbindir}/kstash
-%attr(754,root,root) /etc/rc.d/init.d/%{name}
-%attr(754,root,root) /etc/rc.d/init.d/kpasswdd
+%attr(754,root,root) /etc/rc.d/init.d/heimdal
 %attr(754,root,root) /etc/rc.d/init.d/ipropd
+%attr(754,root,root) /etc/rc.d/init.d/kpasswdd
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/heimdal
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/kadmind
 %attr(700,root,root) %dir %{_localstatedir}
