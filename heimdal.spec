@@ -9,12 +9,12 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 # see dev-7.3 WIP branch for newer version
 Name:		heimdal
-Version:	7.1.0
+Version:	7.3.0
 Release:	0.1
 License:	Free
 Group:		Networking
 Source0:	https://github.com/heimdal/heimdal/releases/download/heimdal-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	bbeedb8eae6f81b12cbbaada4faaeb47
+# Source0-md5:	bb7516ddcdc174a2964c4c9c248ed629
 Source1:	%{name}.init
 Source2:	%{name}-kpasswdd.init
 Source3:	%{name}-ipropd.init
@@ -37,7 +37,7 @@ Patch12:	%{name}-tinfo.patch
 Patch13:	%{name}-missing-exports.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
-BuildRequires:	automake >= 1:1.10.3
+BuildRequires:	automake >= 1:1.11
 BuildRequires:	bison
 BuildRequires:	db-devel
 BuildRequires:	flex
@@ -51,7 +51,7 @@ BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.268
-%{?with_sqlite:BuildRequires:	sqlite3-devel}
+%{?with_sqlite:BuildRequires:	sqlite3-devel >= 3}
 BuildRequires:	texinfo
 Requires:	%{name}-libs-common = %{version}-%{release}
 Provides:	kerberos5-client
@@ -145,7 +145,7 @@ Requires:	%{name}-libs-server = %{version}-%{release}
 Requires:	db-devel
 Requires:	libcom_err-devel >= 1.41.11
 %{?with_openssl:Requires:	openssl-devel}
-%{?with_sqlite:Requires:	sqlite3-devel}
+%{?with_sqlite:Requires:	sqlite3-devel >= 3}
 Conflicts:	krb5-devel
 Conflicts:	libgssglue-devel
 
