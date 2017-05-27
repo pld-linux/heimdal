@@ -48,6 +48,7 @@ BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
 %{?with_ldap:BuildRequires:	openldap-devel >= 2.3.0}
 %{?with_openssl:BuildRequires:	openssl-devel >= 0.9.7d}
+BuildRequires:	perl-JSON
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.268
