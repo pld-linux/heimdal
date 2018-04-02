@@ -9,7 +9,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	7.5.0
-Release:	1
+Release:	2
 License:	Free
 Group:		Networking
 Source0:	https://github.com/heimdal/heimdal/releases/download/heimdal-%{version}/%{name}-%{version}.tar.gz
@@ -491,10 +491,10 @@ fi
 %attr(755,root,root) %ghost %{_libdir}/libotp.so.0
 %attr(755,root,root) %{_libdir}/libsl.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libsl.so.0
-%dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/asn1_compile
-%attr(755,root,root) %{_libdir}/%{name}/asn1_print
-%attr(755,root,root) %{_libdir}/%{name}/slc
+%dir %{_libexecdir}/%{name}
+%attr(755,root,root) %{_libexecdir}/%{name}/asn1_compile
+%attr(755,root,root) %{_libexecdir}/%{name}/asn1_print
+%attr(755,root,root) %{_libexecdir}/%{name}/slc
 
 %files libs-server
 %defattr(644,root,root,755)
