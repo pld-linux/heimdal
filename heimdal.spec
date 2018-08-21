@@ -333,7 +333,7 @@ install -p lib/krb5/kcm.h $RPM_BUILD_ROOT%{_includedir}/kcm
 %{__mv} $RPM_BUILD_ROOT%{_mandir}/man5/{krb5.conf.5,krb5.conf.5h}
 
 # resolve conflict with openssl 1.1
-for m in $RPM_BUILD_ROOT%{_mandir}/man3/DES_*.3 ; do
+for m in $RPM_BUILD_ROOT%{_mandir}/man3/{DES,DH,EVP,PKCS5,RAND,RSA}_*.3 ; do
 	man=$(basename "$m")
 	%{__mv} "$m" "$RPM_BUILD_ROOT%{_mandir}/man3/hc_$man"
 done
@@ -597,15 +597,15 @@ fi
 %{_pkgconfigdir}/krb5-gssapi.pc
 %{_mandir}/man1/krb5-config.1*
 %{_mandir}/man3/hc_DES_*.3*
-%{_mandir}/man3/DH_*.3*
-%{_mandir}/man3/EVP_*.3*
+%{_mandir}/man3/hc_DH_*.3*
+%{_mandir}/man3/hc_EVP_*.3*
 %{_mandir}/man3/HDB.3*
 %{_mandir}/man3/OSSL_CIPHER_ALGORITHM.3*
 %{_mandir}/man3/OpenSSL_add_all_algorithms*.3*
-%{_mandir}/man3/PKCS5_PBKDF2_HMAC.3*
-%{_mandir}/man3/PKCS5_PBKDF2_HMAC_SHA1.3*
-%{_mandir}/man3/RAND_*.3*
-%{_mandir}/man3/RSA_*.3*
+%{_mandir}/man3/hc_PKCS5_PBKDF2_HMAC.3*
+%{_mandir}/man3/hc_PKCS5_PBKDF2_HMAC_SHA1.3*
+%{_mandir}/man3/hc_RAND_*.3*
+%{_mandir}/man3/hc_RSA_*.3*
 %{_mandir}/man3/WINCNG_CIPHER_ALGORITHM.3*
 %{_mandir}/man3/WINCNG_CIPHER_ALGORITHM_UNAVAILABLE.3*
 %{_mandir}/man3/data.3*
