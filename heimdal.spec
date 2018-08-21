@@ -9,7 +9,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	7.5.0
-Release:	2
+Release:	3
 License:	Free
 Group:		Networking
 Source0:	https://github.com/heimdal/heimdal/releases/download/heimdal-%{version}/%{name}-%{version}.tar.gz
@@ -323,12 +323,20 @@ install -p lib/krb5/kcm.h $RPM_BUILD_ROOT%{_includedir}/kcm
 
 # just a test plugin
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/windc.*
+
 %if %{with ldap}
 # not needed for plugin
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/hdb_ldap.{la,a}
 %endif
+
 # resolve heimdal-libs/krb5-libs conflict
 %{__mv} $RPM_BUILD_ROOT%{_mandir}/man5/{krb5.conf.5,krb5.conf.5h}
+
+# resolve conflict with openssl 1.1
+for m in $RPM_BUILD_ROOT%{_mandir}/man3/DES_*.3 ; do
+	man=$(basename "$m")
+	%{__mv} "$m" "$RPM_BUILD_ROOT%{_mandir}/man3/hc_$man"
+done
 
 touch $RPM_BUILD_ROOT{%{_sysconfdir}/krb5.keytab,%{_localstatedir}/kadmind.acl}
 
@@ -588,7 +596,7 @@ fi
 %{_pkgconfigdir}/krb5.pc
 %{_pkgconfigdir}/krb5-gssapi.pc
 %{_mandir}/man1/krb5-config.1*
-%{_mandir}/man3/DES_*.3*
+%{_mandir}/man3/hc_DES_*.3*
 %{_mandir}/man3/DH_*.3*
 %{_mandir}/man3/EVP_*.3*
 %{_mandir}/man3/HDB.3*
