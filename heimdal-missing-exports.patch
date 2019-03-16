@@ -43,3 +43,18 @@
  		krb5_get_warn_dest;
  		krb5_get_wrapped_length;
  		krb5_getportbyname;
+--- heimdal-7.5.0/lib/gssapi/version-script.map.orig	2016-12-20 15:23:06.000000000 +0100
++++ heimdal-7.5.0/lib/gssapi/version-script.map	2019-03-15 22:04:34.482390331 +0100
+@@ -162,6 +162,12 @@
+ 		__gss_c_ma_mech_name_oid_desc;
+ 		__gss_c_ma_mech_description_oid_desc;
+ 		__gss_sasl_digest_md5_mechanism_oid_desc;
++		__gss_netlogon_mechanism_oid_desc;
++		__gss_netlogon_set_session_key_x_oid_desc;
++		__gss_netlogon_set_sign_algorithm_x_oid_desc;
++		__gss_netlogon_nt_netbios_dns_name_oid_desc;
++		__gss_c_inq_win2k_pac_x_oid_desc;
++		__gss_c_inq_sspi_session_key_oid_desc;
+ 		__gss_krb5_mechanism_oid_desc;
+ 		__gss_ntlm_mechanism_oid_desc;
+ 		__gss_spnego_mechanism_oid_desc;
