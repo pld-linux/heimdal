@@ -24,6 +24,7 @@ Source7:	%{name}-kadmind.inetd
 Source8:	%{name}-krb5.conf
 Patch0:		%{name}-hdb-ldap.patch
 Patch1:		%{name}-am_man_fixes.patch
+Patch2:		%{name}-includedirs.patch
 Patch3:		%{name}-dbpaths.patch
 Patch4:		%{name}-db4.patch
 Patch5:		%{name}-libadd.patch
@@ -232,6 +233,7 @@ Kerberosa.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
