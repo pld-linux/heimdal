@@ -188,9 +188,7 @@ Summary(pl.UTF-8):	Schemat LDAP Kerberosa Heimdal
 Group:		Networking/Daemons
 Requires(post,postun):	sed >= 4.0
 Requires:	openldap-servers
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description -n openldap-schema-heimdal
 This package contains Heimdal Kerberos LDAP schema for openldap.
