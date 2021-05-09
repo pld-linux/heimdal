@@ -1,7 +1,8 @@
---- heimdal-0.8.1/doc/heimdal.texi.orig	2007-04-23 18:23:41.000000000 +0200
-+++ heimdal-0.8.1/doc/heimdal.texi	2007-07-06 07:42:15.047585047 +0200
+diff -urNp -x '*.orig' heimdal-7.7.0.org/doc/heimdal.texi heimdal-7.7.0/doc/heimdal.texi
+--- heimdal-7.7.0.org/doc/heimdal.texi	2016-12-20 15:23:06.000000000 +0100
++++ heimdal-7.7.0/doc/heimdal.texi	2021-05-10 00:32:41.531798762 +0200
 @@ -20,9 +20,9 @@
- @set VERSION 1.0
+ @set EDITION 1.0
  
  @ifinfo
 -@dircategory Security
@@ -12,9 +13,10 @@
  @end direntry
  @end ifinfo
  
---- heimdal-0.8.1/doc/hx509.texi.orig	2007-04-23 18:23:41.000000000 +0200
-+++ heimdal-0.8.1/doc/hx509.texi	2007-07-06 07:42:27.984322270 +0200
-@@ -21,9 +21,9 @@
+diff -urNp -x '*.orig' heimdal-7.7.0.org/doc/hx509.texi heimdal-7.7.0/doc/hx509.texi
+--- heimdal-7.7.0.org/doc/hx509.texi	2016-12-20 15:23:06.000000000 +0100
++++ heimdal-7.7.0/doc/hx509.texi	2021-05-10 00:32:41.532798762 +0200
+@@ -20,9 +20,9 @@
  @set EDITION 1.0
  
  @ifinfo

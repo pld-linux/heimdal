@@ -1,7 +1,7 @@
-diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
---- heimdal-0.7/configure.ac	2005-06-16 18:29:14.000000000 +0200
-+++ heimdal-0.7.org/configure.ac	2005-07-03 18:58:54.158074120 +0200
-@@ -16,7 +16,7 @@
+diff -urNp -x '*.orig' heimdal-7.7.0.org/configure.ac heimdal-7.7.0/configure.ac
+--- heimdal-7.7.0.org/configure.ac	2019-06-07 08:21:39.000000000 +0200
++++ heimdal-7.7.0/configure.ac	2021-05-10 00:31:52.351798762 +0200
+@@ -24,7 +24,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_R
  AC_PREFIX_DEFAULT(/usr/heimdal)
  
  test "$sysconfdir" = '${prefix}/etc' && sysconfdir='/etc'
@@ -10,9 +10,10 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  
  AC_CANONICAL_HOST
  CANONICAL_HOST=$host
---- heimdal-1.7.old/doc/setup.texi	2016-11-15 05:29:47.000000000 +0200
-+++ heimdal-1.7.old/doc/setup.texi	2016-11-19 00:47:14.126318922 +0200
-@@ -122,8 +122,8 @@
+diff -urNp -x '*.orig' heimdal-7.7.0.org/doc/setup.texi heimdal-7.7.0/doc/setup.texi
+--- heimdal-7.7.0.org/doc/setup.texi	2019-06-07 08:21:35.000000000 +0200
++++ heimdal-7.7.0/doc/setup.texi	2021-05-10 00:31:52.352798762 +0200
+@@ -122,8 +122,8 @@ The database library will look for the d
  Make sure the directory has restrictive permissions.
  
  @example
@@ -23,7 +24,7 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  @end example
  
  Heimdal supports various database backends: lmdb (LMDB), db3 (Berkeley
-@@ -150,7 +150,7 @@
+@@ -150,7 +150,7 @@ To use LDAP, see @xref{Using LDAP to sto
  The keys of all the principals are stored in the database.  If you
  choose to, these can be encrypted with a master key.  You do not have to
  remember this key (or password), but just to enter it once and it will
@@ -32,7 +33,7 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  master key, run @samp{kstash} to create this master key:
  
  @example
-@@ -335,14 +335,14 @@
+@@ -335,14 +335,14 @@ want to start it from @command{inetd} yo
  one below to your @file{/etc/inetd.conf}.
  
  @example
@@ -49,7 +50,7 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  syntax:
  @smallexample
  principal       [priv1,priv2,...]       [glob-pattern]
-@@ -518,7 +518,7 @@
+@@ -518,7 +518,7 @@ for the database) and a keytab with the
  
  @example
  slave# ktutil get -p foo/admin hprop/`hostname`
@@ -58,7 +59,7 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  slave# hpropd
  @end example
  
-@@ -578,7 +578,7 @@
+@@ -578,7 +578,7 @@ checked after 30 seconds of no event.
  The program that runs on the master is @command{ipropd-master} and all
  clients run @command{ipropd-slave}.
  
@@ -67,7 +68,7 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  the slaves that the database should be propagated to.  Each line contains
  the full name of the principal (for example
  @samp{iprop/hemligare.foo.se@@FOO.SE}).
-@@ -594,25 +594,25 @@
+@@ -594,25 +594,25 @@ for every slave.
  
  
  @example
@@ -98,7 +99,7 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  @end example
  
  To manage the iprop log file you should use the @command{iprop-log}
-@@ -623,9 +623,9 @@
+@@ -623,9 +623,9 @@ command. With it you can dump, truncate
  Both the master and slave provides status of the world as they see it.
  
  The master write outs the current status of the slaves, last seen and
@@ -110,7 +111,7 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  
  These locations can be changed with command line options, and in the
  case of @command{ipropd_master}, the configuration file.
-@@ -1567,7 +1567,7 @@
+@@ -1567,7 +1567,7 @@ mapping between a certificate and princi
  Note that the file contents are space sensitive.
  
  @example
@@ -119,10 +120,10 @@ diff -urbB heimdal-0.7/configure.ac heimdal-0.7.org/configure.ac
  # comments starts with #
  lha@@EXAMPLE.ORG:C=SE,O=Stockholm universitet,CN=Love,UID=lha
  lha@@EXAMPLE.ORG:CN=Love,UID=lha
-diff -urbB heimdal-0.7/kadmin/kadmind.8 heimdal-0.7.org/kadmin/kadmind.8
---- heimdal-0.7/kadmin/kadmind.8	2005-06-16 18:27:56.000000000 +0200
-+++ heimdal-0.7.org/kadmin/kadmind.8	2005-07-03 18:58:54.160073816 +0200
-@@ -85,7 +85,7 @@
+diff -urNp -x '*.orig' heimdal-7.7.0.org/kadmin/kadmind.8 heimdal-7.7.0/kadmin/kadmind.8
+--- heimdal-7.7.0.org/kadmin/kadmind.8	2019-06-07 08:21:39.000000000 +0200
++++ heimdal-7.7.0/kadmin/kadmind.8	2021-05-10 00:31:52.352798762 +0200
+@@ -84,7 +84,7 @@ slaves.
  Principals are always allowed to change their own password and list
  their own principal.  Apart from that, doing any operation requires
  permission explicitly added in the ACL file
@@ -131,7 +132,7 @@ diff -urbB heimdal-0.7/kadmin/kadmind.8 heimdal-0.7.org/kadmin/kadmind.8
  The format of this file is:
  .Bd -ragged
  .Va principal
-@@ -155,7 +155,7 @@
+@@ -139,7 +139,7 @@ representing the default port.
  .El
  .\".Sh ENVIRONMENT
  .Sh FILES
@@ -140,22 +141,22 @@ diff -urbB heimdal-0.7/kadmin/kadmind.8 heimdal-0.7.org/kadmin/kadmind.8
  .Sh EXAMPLES
  This will cause
  .Nm
-diff -urbB heimdal-0.7/kdc/kdc.8 heimdal-0.7.org/kdc/kdc.8
---- heimdal-0.7/kdc/kdc.8	2005-06-16 18:27:58.000000000 +0200
-+++ heimdal-0.7.org/kdc/kdc.8	2005-07-03 18:58:54.161073664 +0200
-@@ -77,7 +77,7 @@
- .Fl -config-file= Ns Ar file
- .Xc
+diff -urNp -x '*.orig' heimdal-7.7.0.org/kdc/kdc.8 heimdal-7.7.0/kdc/kdc.8
+--- heimdal-7.7.0.org/kdc/kdc.8	2016-12-20 15:23:06.000000000 +0100
++++ heimdal-7.7.0/kdc/kdc.8	2021-05-10 00:31:52.352798762 +0200
+@@ -70,7 +70,7 @@ Options supported:
+ .Bl -tag -width Ds
+ .It Fl c Ar file , Fl Fl config-file= Ns Ar file
  Specifies the location of the config file, the default is
 -.Pa /var/heimdal/kdc.conf .
 +.Pa /var/lib/heimdal/kdc.conf .
  This is the only value that can't be specified in the config file.
- .It Xo
- .Fl p ,
-diff -urbB heimdal-0.7/lib/krb5/krb5.conf.5 heimdal-0.7.org/lib/krb5/krb5.conf.5
---- heimdal-0.7/lib/krb5/krb5.conf.5	2005-06-16 18:28:09.000000000 +0200
-+++ heimdal-0.7.org/lib/krb5/krb5.conf.5	2005-07-03 18:58:54.162073512 +0200
-@@ -490,7 +490,7 @@
+ .It Fl p , Fl Fl no-require-preauth
+ Turn off the requirement for pre-autentication in the initial AS-REQ
+diff -urNp -x '*.orig' heimdal-7.7.0.org/lib/krb5/krb5.conf.5 heimdal-7.7.0/lib/krb5/krb5.conf.5
+--- heimdal-7.7.0.org/lib/krb5/krb5.conf.5	2019-06-07 08:21:35.000000000 +0200
++++ heimdal-7.7.0/lib/krb5/krb5.conf.5	2021-05-10 00:31:52.352798762 +0200
+@@ -783,7 +783,7 @@ configuration file for Kerberos 5.
  		default_domain = foo.se
  	}
  [logging]
@@ -163,4 +164,4 @@ diff -urbB heimdal-0.7/lib/krb5/krb5.conf.5 heimdal-0.7.org/lib/krb5/krb5.conf.5
 +	kdc = FILE:/var/lib/heimdal/kdc.log
  	kdc = SYSLOG:INFO
  	default = SYSLOG:INFO:USER
- .Ed
+ [kadmin]
