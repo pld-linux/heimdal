@@ -245,7 +245,7 @@ Kerberosa.
 
 %build
 install -d our-ld
-ln -s %{_bindir}/ld.bfd our-ld/ld
+ln -sf %{_bindir}/ld.bfd our-ld/ld
 export PATH=$(pwd)/our-ld:$PATH
 
 %{__libtoolize}
