@@ -84,10 +84,9 @@ diff -urNp -x '*.orig' heimdal-7.7.0.org/kuser/Makefile.am heimdal-7.7.0/kuser/M
  
  noinst_PROGRAMS = kverify kdecode_ticket generate-requests
  
-diff -urNp -x '*.orig' heimdal-7.7.0.org/lib/kadm5/Makefile.am heimdal-7.7.0/lib/kadm5/Makefile.am
---- heimdal-7.7.0.org/lib/kadm5/Makefile.am	2019-06-07 08:21:35.000000000 +0200
-+++ heimdal-7.7.0/lib/kadm5/Makefile.am	2021-05-10 00:32:51.412798762 +0200
-@@ -13,7 +13,7 @@ libkadm5clnt_la_LDFLAGS += $(LDFLAGS_VER
+--- heimdal-7.8.0/lib/kadm5/Makefile.am.orig	2022-11-15 18:06:45.000000000 +0100
++++ heimdal-7.8.0/lib/kadm5/Makefile.am	2023-06-30 06:24:43.766564269 +0200
+@@ -14,7 +14,7 @@ libkadm5clnt_la_LDFLAGS += $(LDFLAGS_VER
  libkadm5srv_la_LDFLAGS += $(LDFLAGS_VERSION_SCRIPT)$(srcdir)/version-script.map
  endif
  
@@ -96,12 +95,12 @@ diff -urNp -x '*.orig' heimdal-7.7.0.org/lib/kadm5/Makefile.am heimdal-7.7.0/lib
  check_PROGRAMS = default_keys
  noinst_PROGRAMS = test_pw_quality
  
-@@ -28,8 +28,6 @@ libkadm5srv_la_LIBADD = \
+@@ -29,8 +29,6 @@ libkadm5srv_la_LIBADD = \
  libkadm5clnt_la_LIBADD = \
  	$(LIB_com_err) ../krb5/libkrb5.la $(LIBADD_roken)
  
 -libexec_PROGRAMS = ipropd-master ipropd-slave
 -
  default_keys_SOURCES = default_keys.c
+ default_keys_CPPFLAGS = -I$(srcdir)/../krb5
  
- kadm5includedir = $(includedir)/kadm5

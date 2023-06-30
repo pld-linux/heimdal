@@ -1,8 +1,8 @@
---- heimdal-7.1.0/cf/Makefile.am.common.orig	2017-01-25 20:23:32.137466687 +0100
-+++ heimdal-7.1.0/cf/Makefile.am.common	2017-01-25 20:23:36.384133306 +0100
-@@ -149,99 +149,7 @@
+--- heimdal-7.8.0/cf/Makefile.am.common.orig	2023-06-30 06:05:05.966564794 +0200
++++ heimdal-7.8.0/cf/Makefile.am.common	2023-06-30 06:09:39.754083816 +0200
+@@ -158,98 +158,7 @@ SUFFIXES += .x .z .hx
  .hx.h:
- 	@cmp -s $< $@ 2> /dev/null || cp $< $@
+ 	@cmp -s $< $@ 2> /dev/null || cp $< $@;
  
 -SUFFIXES += .1 .3 .5 .7 .8 .cat1 .cat3 .cat5 .cat7 .cat8
 -
@@ -96,8 +96,7 @@
 -
 -install-data-hook: install-cat-mans
 -uninstall-hook: uninstall-cat-mans
--
 +SUFFIXES += .1 .3 .5 .7 .8
  
+ 
  .et.h:
- 	$(COMPILE_ET) $<
