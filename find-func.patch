@@ -1,0 +1,37 @@
+From 323d555c82f16f8ace3dce45c91cc8a2d25ea0aa Mon Sep 17 00:00:00 2001
+From: Florian Weimer <fweimer@redhat.com>
+Date: Thu, 13 Apr 2023 13:26:29 +0200
+Subject: [PATCH] cf: Do not use headers and argument lists in
+ AC_FIND_FUNC_NO_LIBS2
+
+The callers of this macro generally do not supply this information.
+Without it, the checks rely on compiler support for implicit function
+declarations.  It would be possible to supply this information in
+the callers.  But even then, with the existing macro interface, it
+would be necessary to pass eg. null pointers where they trigger
+undefined behavior.  Therefore, use the same kludge that autoconf
+uses to make up prototypes, avoiding those implicit function
+declarations.
+
+The includes/arguments macro parameters are now ignored, but preserved
+for interface compatibility.
+---
+ cf/find-func-no-libs2.m4 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cf/find-func-no-libs2.m4 b/cf/find-func-no-libs2.m4
+index 5e5ed0e69..a6b3ad6d3 100644
+--- a/cf/find-func-no-libs2.m4
++++ b/cf/find-func-no-libs2.m4
+@@ -21,7 +21,7 @@ if eval "test \"\$ac_cv_func_$1\" != yes" ; then
+ 		*) ac_lib="-l$ac_lib" ;;
+ 		esac
+ 		LIBS="$6 $ac_lib $5 $ac_save_LIBS"
+-		AC_LINK_IFELSE([AC_LANG_PROGRAM([[$3]],[[$1($4)]])],[eval "if test -n \"$ac_lib\";then ac_cv_funclib_$1=$ac_lib; else ac_cv_funclib_$1=yes; fi";break])
++		AC_LINK_IFELSE([AC_LANG_PROGRAM([[char $1 (void);]],[[$1()]])],[eval "if test -n \"$ac_lib\";then ac_cv_funclib_$1=$ac_lib; else ac_cv_funclib_$1=yes; fi";break])
+ 	done
+ 	eval "ac_cv_funclib_$1=\${ac_cv_funclib_$1-no}"
+ 	LIBS="$ac_save_LIBS"
+-- 
+2.48.1
+

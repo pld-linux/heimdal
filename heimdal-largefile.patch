@@ -1,19 +1,73 @@
-Fixes build with autoconf 2.72
---- heimdal-7.8.0/cf/largefile.m4.orig	2022-09-16 00:59:25.000000000 +0200
-+++ heimdal-7.8.0/cf/largefile.m4	2025-01-18 20:25:44.416477334 +0100
-@@ -7,10 +7,13 @@ AC_DEFUN([rk_SYS_LARGEFILE],[
- AC_REQUIRE([AC_SYS_LARGEFILE])dnl
- dnl need to set this on the command line, since it might otherwise break
- dnl with generated code, such as lex
--if test "$enable_largefile" != no -a "$ac_cv_sys_large_files" != no; then
-+if test "$enable_largefile" != no -a "$ac_cv_sys_large_files" != no && test -n "$ac_cv_sys_large_files"; then
+From 1b57b62d82a478c1fade350f0fb1d57031a8734e Mon Sep 17 00:00:00 2001
+From: Bernd Kuhls <bernd@kuhls.net>
+Date: Sat, 10 Feb 2024 09:33:48 +0100
+Subject: [PATCH] cf/largefile.m4: Fix build with autoconf-2.72
+
+Fixes https://github.com/heimdal/heimdal/issues/1201
+---
+ cf/largefile.m4 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cf/largefile.m4 b/cf/largefile.m4
+index 5c54897be..cdbbc5543 100644
+--- a/cf/largefile.m4
++++ b/cf/largefile.m4
+@@ -10,7 +10,7 @@ dnl with generated code, such as lex
+ if test "$enable_largefile" != no -a "$ac_cv_sys_large_files" != no; then
  	CPPFLAGS="$CPPFLAGS -D_LARGE_FILES=$ac_cv_sys_large_files"
  fi
 -if test "$enable_largefile" != no -a "$ac_cv_sys_file_offset_bits" != no; then
 +if test "$enable_largefile" != no -a "$ac_cv_sys_file_offset_bits" != no && test -n "$ac_cv_sys_file_offset_bits"; then
  	CPPFLAGS="$CPPFLAGS -D_FILE_OFFSET_BITS=$ac_cv_sys_file_offset_bits"
  fi
-+if test "$enable_largefile" != no -a -n "$ac_cv_sys_largefile_opts"; then
-+	CPPFLAGS="$CPPFLAGS $ac_cv_sys_largefile_opts"
-+fi
  ])
+-- 
+2.48.1
+
+From d9840a3a796c907644ab4e4427d4b3f7d8cfa5c6 Mon Sep 17 00:00:00 2001
+From: Jan Palus <jpalus@fastmail.com>
+Date: Thu, 16 Jan 2025 18:34:28 +0100
+Subject: [PATCH] cf/largefile.m4: improve compatibility with autoconf 2.72
+
+as of autoconf 2.72 neither ac_cv_sys_large_files nor
+ac_cv_sys_file_offset_bits are populated. 1b57b62 introduced a
+workaround just for ac_cv_sys_file_offset_bits by checking if it's not
+empty.
+
+expand fix to cover ac_cv_sys_large_files as well and check
+ac_cv_sys_largefile_opts which is populated in autoconf 2.72 [1]
+
+1. https://git.savannah.gnu.org/cgit/autoconf.git/commit/?id=cf09f48841b66fe76f606dd6018bb3a93242a7c9
+---
+ cf/largefile.m4 | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
+
+diff --git a/cf/largefile.m4 b/cf/largefile.m4
+index cdbbc5543..6f20fc83c 100644
+--- a/cf/largefile.m4
++++ b/cf/largefile.m4
+@@ -7,10 +7,16 @@ AC_DEFUN([rk_SYS_LARGEFILE],[
+ AC_REQUIRE([AC_SYS_LARGEFILE])dnl
+ dnl need to set this on the command line, since it might otherwise break
+ dnl with generated code, such as lex
+-if test "$enable_largefile" != no -a "$ac_cv_sys_large_files" != no; then
+-	CPPFLAGS="$CPPFLAGS -D_LARGE_FILES=$ac_cv_sys_large_files"
+-fi
+-if test "$enable_largefile" != no -a "$ac_cv_sys_file_offset_bits" != no && test -n "$ac_cv_sys_file_offset_bits"; then
+-	CPPFLAGS="$CPPFLAGS -D_FILE_OFFSET_BITS=$ac_cv_sys_file_offset_bits"
++if test "$enable_largefile" != no; then
++	if test -n "$ac_cv_sys_large_files" && test "$ac_cv_sys_large_files" != no; then
++		CPPFLAGS="$CPPFLAGS -D_LARGE_FILES=$ac_cv_sys_large_files"
++	fi
++	if test -n "$ac_cv_sys_file_offset_bits" && test "$ac_cv_sys_file_offset_bits" != no; then
++		CPPFLAGS="$CPPFLAGS -D_FILE_OFFSET_BITS=$ac_cv_sys_file_offset_bits"
++	fi
++	if test -n "$ac_cv_sys_largefile_opts"; then
++		AS_CASE([$ac_cv_sys_largefile_opts],[-D_FILE_OFFSET_BITS=*|-D_LARGE_FILES=*],
++			[CPPFLAGS="$CPPFLAGS $ac_cv_sys_largefile_opts"])
++	fi
+ fi
+ ])
+-- 
+2.48.1
+

@@ -37,6 +37,7 @@ Patch10:	%{name}-ntlm-digest.patch
 Patch11:	%{name}-krb5config-nosysdirs.patch
 Patch12:	%{name}-tinfo.patch
 Patch13:	%{name}-missing-exports.patch
+Patch14:	find-func.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
@@ -245,6 +246,7 @@ Kerberosa.
 %patch -P11 -p1
 %patch -P12 -p1
 %patch -P13 -p1
+%patch -P14 -p1
 
 %build
 install -d our-ld
