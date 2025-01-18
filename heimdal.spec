@@ -30,6 +30,7 @@ Patch3:		%{name}-dbpaths.patch
 Patch4:		%{name}-db4.patch
 Patch5:		%{name}-libadd.patch
 Patch6:		%{name}-signal.patch
+Patch7:		%{name}-largefile.patch
 Patch8:		%{name}-info.patch
 Patch9:		%{name}-sbindir.patch
 Patch10:	%{name}-ntlm-digest.patch
@@ -237,6 +238,7 @@ Kerberosa.
 %patch -P4 -p1
 %patch -P5 -p1
 %patch -P6 -p1
+%patch -P7 -p1
 %patch -P8 -p1
 %patch -P9 -p1
 %patch -P10 -p1
