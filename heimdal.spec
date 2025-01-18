@@ -10,7 +10,7 @@ Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	7.8.0
 Release:	1
-License:	Free
+License:	BSD
 Group:		Networking
 #Source0Download: https://github.com/heimdal/heimdal/releases
 Source0:	https://github.com/heimdal/heimdal/releases/download/heimdal-%{version}/%{name}-%{version}.tar.gz
