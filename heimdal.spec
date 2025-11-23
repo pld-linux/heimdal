@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	ldap			# LDAP plugin
+%bcond_without	lmdb			# lmdb support
 %bcond_without	sqlite			# Sqlite3 support
 %bcond_without	openssl			# OpenSSL as default hcrypto backend (for ECDSA support)
 %bcond_with	expose_internals	# install internal KCM headers
@@ -9,7 +10,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	7.8.0
-Release:	3
+Release:	4
 License:	BSD
 Group:		Networking
 #Source0Download: https://github.com/heimdal/heimdal/releases
@@ -47,6 +48,7 @@ BuildRequires:	flex
 BuildRequires:	libcap-ng-devel >= 0.4.0
 BuildRequires:	libcom_err-devel >= 1.41.11
 BuildRequires:	libtool >= 2:2.2
+%{?with_lmdb:BuildRequires:	lmdb-devel}
 BuildRequires:	mawk
 BuildRequires:	ncurses-devel >= 5.1
 %{?with_ldap:BuildRequires:	openldap-devel >= 2.3.0}
@@ -54,7 +56,7 @@ BuildRequires:	ncurses-devel >= 5.1
 BuildRequires:	perl-JSON
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel >= 5.0
-BuildRequires:	rpmbuild(macros) >= 1.268
+BuildRequires:	rpmbuild(macros) >= 1.527
 %{?with_sqlite:BuildRequires:	sqlite3-devel >= 3}
 BuildRequires:	texinfo
 Requires:	%{name}-libs-common = %{version}-%{release}
@@ -148,6 +150,7 @@ Requires:	%{name}-libs-common = %{version}-%{release}
 Requires:	%{name}-libs-server = %{version}-%{release}
 Requires:	db-devel
 Requires:	libcom_err-devel >= 1.41.11
+%{?with_lmdb:Requires:	lmdb-devel}
 %{?with_openssl:Requires:	openssl-devel}
 %{?with_sqlite:Requires:	sqlite3-devel >= 3}
 Conflicts:	krb5-devel
@@ -276,7 +279,8 @@ cd ../..
 	--with-ipv6 \
 	--with-openssl%{!?with_openssl:=no} \
 	--with-readline=/usr \
-	%{?with_sqlite:--with-sqlite3=/usr}
+	%{?with_sqlite:--with-sqlite3=/usr} \
+	%{__enable_disable lmdb mdb-db}
 
 %{__make} -j1
 
