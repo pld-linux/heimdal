@@ -1,5 +1,6 @@
 #
 # Conditional build:
+%bcond_without	bdb			# Berkeley DB support
 %bcond_without	ldap			# LDAP plugin
 %bcond_without	lmdb			# lmdb support
 %bcond_without	sqlite			# Sqlite3 support
@@ -43,7 +44,7 @@ URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	bison
-BuildRequires:	db-devel
+%{?with_bdb:BuildRequires:	db-devel}
 BuildRequires:	flex
 BuildRequires:	libcap-ng-devel >= 0.4.0
 BuildRequires:	libcom_err-devel >= 1.41.11
@@ -148,7 +149,7 @@ Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-libs-common = %{version}-%{release}
 Requires:	%{name}-libs-server = %{version}-%{release}
-Requires:	db-devel
+%{?with_bdb:Requires:	db-devel}
 Requires:	libcom_err-devel >= 1.41.11
 %{?with_lmdb:Requires:	lmdb-devel}
 %{?with_openssl:Requires:	openssl-devel}
@@ -280,6 +281,8 @@ cd ../..
 	--with-openssl%{!?with_openssl:=no} \
 	--with-readline=/usr \
 	%{?with_sqlite:--with-sqlite3=/usr} \
+	%{__with_without bdb berkeley-db} \
+	%{!?with_bdb:--disable-otp} \
 	%{__enable_disable lmdb mdb-db}
 
 %{__make} -j1
@@ -433,16 +436,18 @@ fi
 %attr(755,root,root) %{_bindir}/kinit
 %attr(755,root,root) %{_bindir}/klist
 %attr(755,root,root) %{_bindir}/kpasswd
+%attr(4755,root,root) %{_bindir}/ksu
 %attr(755,root,root) %{_bindir}/kswitch
 %attr(755,root,root) %{_bindir}/ktutil
+%if %{with bdb}
+%attr(4755,root,root) %{_bindir}/otp
 %attr(755,root,root) %{_bindir}/otpprint
+%endif
 %attr(755,root,root) %{_bindir}/pagsh
 %attr(755,root,root) %{_bindir}/string2key
 %attr(755,root,root) %{_bindir}/verify_krb5_conf
 %attr(755,root,root) %{_sbindir}/kdigest
 %attr(755,root,root) %{_sbindir}/kimpersonate
-%attr(4755,root,root) %{_bindir}/otp
-%attr(4755,root,root) %{_bindir}/ksu
 %{_mandir}/man1/afslog.1*
 %{_mandir}/man1/bsearch.1*
 %{_mandir}/man1/kadmin.1*
@@ -455,8 +460,10 @@ fi
 %{_mandir}/man1/ksu.1*
 %{_mandir}/man1/kswitch.1*
 %{_mandir}/man1/ktutil.1*
+%if %{with bdb}
 %{_mandir}/man1/otp.1*
 %{_mandir}/man1/otpprint.1*
+%endif
 %{_mandir}/man1/pagsh.1*
 %{_mandir}/man8/kdigest.8*
 %{_mandir}/man8/kimpersonate.8*
@@ -504,8 +511,10 @@ fi
 %attr(755,root,root) %ghost %{_libdir}/libkadm5clnt.so.7
 %attr(755,root,root) %{_libdir}/libkadm5srv.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkadm5srv.so.8
+%if %{with bdb}
 %attr(755,root,root) %{_libdir}/libotp.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libotp.so.0
+%endif
 %attr(755,root,root) %{_libdir}/libsl.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libsl.so.0
 %dir %{_libexecdir}/%{name}
@@ -533,7 +542,9 @@ fi
 %attr(755,root,root) %{_libdir}/libkafs.so
 %attr(755,root,root) %{_libdir}/libkdc.so
 %attr(755,root,root) %{_libdir}/libkrb5.so
+%if %{with bdb}
 %attr(755,root,root) %{_libdir}/libotp.so
+%endif
 %attr(755,root,root) %{_libdir}/libroken.so
 %attr(755,root,root) %{_libdir}/libsl.so
 %attr(755,root,root) %{_libdir}/libwind.so
@@ -549,7 +560,9 @@ fi
 %{_libdir}/libkafs.la
 %{_libdir}/libkdc.la
 %{_libdir}/libkrb5.la
+%if %{with bdb}
 %{_libdir}/libotp.la
+%endif
 %{_libdir}/libroken.la
 %{_libdir}/libsl.la
 %{_libdir}/libwind.la
@@ -572,7 +585,9 @@ fi
 %{_includedir}/kx509_asn1.h
 %{_includedir}/ntlm_err.h
 %{_includedir}/ocsp_asn1.h
+%if %{with bdb}
 %{_includedir}/otp.h
+%endif
 %{_includedir}/parse_bytes.h
 %{_includedir}/parse_time.h
 %{_includedir}/parse_units.h
@@ -653,7 +668,9 @@ fi
 %{_libdir}/libkafs.a
 %{_libdir}/libkdc.a
 %{_libdir}/libkrb5.a
+%if %{with bdb}
 %{_libdir}/libotp.a
+%endif
 %{_libdir}/libroken.a
 %{_libdir}/libsl.a
 %{_libdir}/libwind.a
