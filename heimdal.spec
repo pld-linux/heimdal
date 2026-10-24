@@ -11,7 +11,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	7.8.0
-Release:	4
+Release:	5
 License:	BSD
 Group:		Networking
 #Source0Download: https://github.com/heimdal/heimdal/releases
@@ -60,7 +60,7 @@ BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.527
 %{?with_sqlite:BuildRequires:	sqlite3-devel >= 3}
 BuildRequires:	texinfo
-Requires:	%{name}-libs-common = %{version}-%{release}
+Requires:	%{name}-libs-common%{?_isa} = %{version}-%{release}
 Provides:	kerberos5-client
 Obsoletes:	kerberos5-client
 Conflicts:	krb5-client
@@ -119,8 +119,8 @@ innych pakietów składowych Heimdala.
 Summary:	Common libraries used by Heimdal programs
 Summary(pl.UTF-8):	Wspólne biblioteki używane przez programy z Heimdala
 Group:		Libraries
-Requires:	%{name}-common = %{version}-%{release}
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-common%{?_isa} = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description libs-common
 Common libraries used by Heimdal programs.
@@ -132,7 +132,7 @@ Wspólne biblioteki używane przez programy z projektu Heimdal.
 Summary:	Libraries used by Heimdal KDC server
 Summary(pl.UTF-8):	Biblioteki używane przez serwer Heimdal KDC
 Group:		Libraries
-Requires:	%{name}-libs-common = %{version}-%{release}
+Requires:	%{name}-libs-common%{?_isa} = %{version}-%{release}
 
 %description libs-server
 This package contains shared libraries required to run Heimdal KDC
@@ -146,9 +146,9 @@ serwera KDC z projektu Heimdal.
 Summary:	Header files for Heimdal
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja do bibliotek Heimdal
 Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
-Requires:	%{name}-libs-common = %{version}-%{release}
-Requires:	%{name}-libs-server = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Requires:	%{name}-libs-common%{?_isa} = %{version}-%{release}
+Requires:	%{name}-libs-server%{?_isa} = %{version}-%{release}
 %{?with_bdb:Requires:	db-devel}
 Requires:	libcom_err-devel >= 1.41.11
 %{?with_lmdb:Requires:	lmdb-devel}
@@ -169,7 +169,7 @@ Heimdal.
 Summary:	Static Heimdal libraries
 Summary(pl.UTF-8):	Biblioteki statyczne Heimdal
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 
 %description static
 Satatic Heimdal libraries.
@@ -181,7 +181,7 @@ Biblioteki statyczne Heimdal.
 Summary:	LDAP HDB plugin
 Summary(pl.UTF-8):	Wtyczka HDB LDAP
 Group:		Libraries
-Requires:	%{name}-libs-common = %{version}-%{release}
+Requires:	%{name}-libs-common%{?_isa} = %{version}-%{release}
 
 %description ldap
 LDAP HDB plugin.
@@ -208,7 +208,7 @@ Summary:	Kerberos Server
 Summary(pl.UTF-8):	Serwer Kerberosa
 Group:		Networking
 Requires(post,preun):	/sbin/chkconfig
-Requires:	%{name}-libs-server = %{version}-%{release}
+Requires:	%{name}-libs-server%{?_isa} = %{version}-%{release}
 Requires:	rc-scripts
 Provides:	kerberos5-server
 # probably not a good idea
@@ -225,7 +225,7 @@ Główne centrum dystrybucji kluczy (KDC).
 Summary:	KCM - credencial cache daemon for Kerberos tickets
 Summary(pl.UTF-8):	KCM - demon zapamiętujący dane uwierzytelniające dla biletów Kerberosa
 Group:		Daemons
-Requires:	%{name}-libs-common = %{version}-%{release}
+Requires:	%{name}-libs-common%{?_isa} = %{version}-%{release}
 
 %description kcm
 KCM is a credencial cache daemon for Kerberos tickets.
@@ -293,7 +293,8 @@ install -d $RPM_BUILD_ROOT{%{_localstatedir},%{_sysconfdir},%{schemadir},/sbin,/
 	$RPM_BUILD_ROOT/etc/{sysconfig/rc-inetd,rc.d/init.d}
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT \
+	AM_UPDATE_INFO_DIR=no
 
 cp -p lib/hdb/hdb.schema $RPM_BUILD_ROOT%{schemadir}
 
