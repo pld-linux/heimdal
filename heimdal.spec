@@ -11,7 +11,7 @@ Summary:	Heimdal implementation of Kerberos V5 system
 Summary(pl.UTF-8):	Implementacja Heimdal systemu Kerberos V5
 Name:		heimdal
 Version:	7.8.0
-Release:	5
+Release:	6
 License:	BSD
 Group:		Networking
 #Source0Download: https://github.com/heimdal/heimdal/releases
@@ -40,6 +40,9 @@ Patch11:	%{name}-krb5config-nosysdirs.patch
 Patch12:	%{name}-tinfo.patch
 Patch13:	%{name}-missing-exports.patch
 Patch14:	find-func.patch
+# https://sources.debian.org/src/heimdal/7.8.git20221117.28daf24%2Bdfsg-9%2Bdeb13u1/debian/patches/CVE-2022-45142-gsskrb5-fix-accidental-logic-inversio.patch
+Patch15:	%{name}-CVE-2022-45142.patch
+Patch16:	%{name}-underlinking.patch
 URL:		http://www.h5l.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
@@ -251,6 +254,8 @@ Kerberosa.
 %patch -P12 -p1
 %patch -P13 -p1
 %patch -P14 -p1
+%patch -P15 -p1
+%patch -P16 -p1
 
 %build
 install -d our-ld

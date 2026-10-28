@@ -1,0 +1,60 @@
+libtool >= 2.6 no longer adds dependency_libs of .la files to the link line,
+so libraries must list every library whose symbols they use directly.
+
+diff -urNp -x '*.orig' heimdal-7.8.0.org/kdc/Makefile.am heimdal-7.8.0/kdc/Makefile.am
+--- heimdal-7.8.0.org/kdc/Makefile.am	2022-09-16 01:54:19.000000000 +0200
++++ heimdal-7.8.0/kdc/Makefile.am	2026-10-29 00:17:34.194133308 +0100
+@@ -111,6 +111,7 @@ libkdc_la_LIBADD = \
+ 	$(LIB_hcrypto) \
+ 	$(LIB_openssl_crypto) \
+ 	$(top_builddir)/lib/asn1/libasn1.la \
++	$(top_builddir)/lib/base/libheimbase.la \
+ 	$(LIB_roken) \
+ 	$(DB3LIB) $(DB1LIB) $(LMDBLIB) $(NDBMLIB)
+ 
+diff -urNp -x '*.orig' heimdal-7.8.0.org/lib/gssapi/Makefile.am heimdal-7.8.0/lib/gssapi/Makefile.am
+--- heimdal-7.8.0.org/lib/gssapi/Makefile.am	2022-09-16 01:54:19.000000000 +0200
++++ heimdal-7.8.0/lib/gssapi/Makefile.am	2026-10-29 00:03:08.848151251 +0100
+@@ -223,6 +223,7 @@ libgssapi_la_LIBADD = \
+ 	$(top_builddir)/lib/ntlm/libheimntlm.la \
+ 	$(top_builddir)/lib/krb5/libkrb5.la \
+ 	$(top_builddir)/lib/asn1/libasn1.la \
++	$(top_builddir)/lib/base/libheimbase.la \
+ 	$(LIB_com_err) \
+ 	$(LIB_hcrypto) \
+ 	$(LIBADD_roken)
+diff -urNp -x '*.orig' heimdal-7.8.0.org/lib/hdb/Makefile.am heimdal-7.8.0/lib/hdb/Makefile.am
+--- heimdal-7.8.0.org/lib/hdb/Makefile.am	2022-09-16 01:54:19.000000000 +0200
++++ heimdal-7.8.0/lib/hdb/Makefile.am	2026-10-29 00:03:08.852181455 +0100
+@@ -106,6 +106,7 @@ libhdb_la_LIBADD = \
+ 	$(LIB_com_err) \
+ 	../krb5/libkrb5.la \
+ 	../asn1/libasn1.la \
++	../base/libheimbase.la \
+ 	$(LIB_sqlite3) \
+ 	$(LIBADD_roken) \
+ 	$(ldap_lib) \
+diff -urNp -x '*.orig' heimdal-7.8.0.org/lib/kadm5/Makefile.am heimdal-7.8.0/lib/kadm5/Makefile.am
+--- heimdal-7.8.0.org/lib/kadm5/Makefile.am	2022-11-15 18:06:45.000000000 +0100
++++ heimdal-7.8.0/lib/kadm5/Makefile.am	2026-10-29 00:03:08.856115628 +0100
+@@ -25,7 +25,7 @@ sample_passwd_check_la_LDFLAGS = -module
+ 
+ libkadm5srv_la_LIBADD = \
+ 	$(LIB_com_err) ../krb5/libkrb5.la \
+-	../hdb/libhdb.la $(LIBADD_roken)
++	../hdb/libhdb.la ../base/libheimbase.la $(LIBADD_roken)
+ libkadm5clnt_la_LIBADD = \
+ 	$(LIB_com_err) ../krb5/libkrb5.la $(LIBADD_roken)
+ 
+diff -urNp -x '*.orig' heimdal-7.8.0.org/lib/kafs/Makefile.am heimdal-7.8.0/lib/kafs/Makefile.am
+--- heimdal-7.8.0.org/lib/kafs/Makefile.am	2022-09-16 01:54:19.000000000 +0200
++++ heimdal-7.8.0/lib/kafs/Makefile.am	2026-10-29 00:03:08.863758089 +0100
+@@ -5,7 +5,7 @@ include $(top_srcdir)/Makefile.am.common
+ AM_CPPFLAGS += $(AFS_EXTRA_DEFS) $(ROKEN_RENAME)
+ 
+ if KRB5
+-DEPLIB_krb5 = ../krb5/libkrb5.la $(LIB_hcrypto)
++DEPLIB_krb5 = ../krb5/libkrb5.la ../asn1/libasn1.la $(LIB_hcrypto)
+ krb5_am_workaround = -I$(top_srcdir)/lib/krb5
+ else
+ DEPLIB_krb5  =
